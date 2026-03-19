@@ -1,0 +1,15 @@
+[user]
+	name = Y. Meyer-Norwood
+	email = 106889957+norwd@users.noreply.github.com
+[include]
+	path = ~/.config/git/signingkey.gitconfig
+[credential "https://github.com"]
+	helper = 
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !gh auth git-credential
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
