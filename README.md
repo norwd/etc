@@ -1,2 +1,1 @@
-# etc
-~/etc - dotfiles, configs, settings
+# ~/etc - dotfiles, configs, settings
