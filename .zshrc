@@ -12,3 +12,15 @@ PS1="%1~ %B%#%b "
 # Talk to dotfiles repo
 alias dotfiles='/usr/bin/git --git-dir="${HOME}/etc/" --work-tree="${HOME}"'
 
+# Setup completion
+USER_FPATH="${HOME}/.local/share/zsh/site-functions"
+
+fpath=(${USER_FPATH} ${fpath})
+
+[ ! -d "${USER_FPATH}" ] && mkdir -p "${USER_FPATH}"
+
+[ -x "$(command -v gh)" ] && gh completion -s zsh > "${USER_FPATH}/_gh"
+
+autoload -U compinit
+compinit -i
+
