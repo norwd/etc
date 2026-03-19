@@ -24,3 +24,5 @@ fpath=(${USER_FPATH} ${fpath})
 autoload -U compinit
 compinit -i
 
+export GPG_TTY=$(tty)
+
