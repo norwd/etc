@@ -15,4 +15,11 @@ git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
 
 Note, after installation, the `dotfiles` alias will be available instead of specifying the `--git-dir` flag.
 
+```shell
+dotfiles pull
+dotfiles add ~/.vimrc
+dotfiles commit -m "Update vimrc"
+dotfiles push
+```
+
 [archwiki-dotfiles]: https://wiki.archlinux.org/title/Dotfiles
