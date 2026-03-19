@@ -15,5 +15,8 @@
 	gpgSign = true
 [credential]
 	helper = 
+	helper = store
 	helper = /usr/local/share/gcm-core/git-credential-manager
 
+[help]
+	autocorrect = 5
