@@ -26,5 +26,6 @@ compinit -i
 
 export GPG_TTY=$(tty)
 
-[ -x "$(command -v thefuck)" ] && eval "$(thefuck --alias)"
+[ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
+[ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
 
