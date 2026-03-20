@@ -4,6 +4,12 @@ unsetopt BEEP
 # Import aliases
 source ~/.config/profile/aliases.sh
 
+# Set XDG directories
+source ~/.config/profile/xdg-base-dirs.sh
+
+export W3M_DIR="${XDG_STATE_HOME}/w3m"
+export GNUPGHOME="${XDG_DATA_HOME}/gnupg"
+
 # Save command history
 HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
 HISTSIZE=2000
