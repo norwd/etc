@@ -3,6 +3,7 @@ filetype indent on
 
 syntax enable
 
+set nocompatible
 set noerrorbells
 set novisualbell
 set belloff=all
@@ -13,4 +14,12 @@ set hlsearch
 set nobackup
 set nowb
 set noswapfile
-
+set noshowmatch
+set mouse=a
+set viminfofile=NONE
+set number
+"set relativenumber
+set incsearch
+set hlsearch
+set backspace=indent,eol,start
+set wildmenu
