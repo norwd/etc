@@ -12,3 +12,8 @@ alias la='ll -A'
 
 # Fuzz
 alias fvim='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}" --bind "enter:become(vim {})"'
+
+# Drop in replacements
+alias cat=bat
+alias man=batman
+
