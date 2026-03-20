@@ -26,3 +26,5 @@ compinit -i
 
 export GPG_TTY=$(tty)
 
+[ -x "$(command -v thefuck)" ] && eval "$(thefuck --alias)"
+
