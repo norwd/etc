@@ -16,4 +16,5 @@ alias fvim='fzf --preview "bat --color=always --style=numbers --line-range=:500 
 # Drop in replacements
 alias cat=bat
 alias man=batman
+alias find=bfs
 
