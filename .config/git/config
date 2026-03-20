@@ -1,25 +1,31 @@
 [user]
 	name = Y. Meyer-Norwood
 	email = 106889957+norwd@users.noreply.github.com
+
 [include]
 	path = ~/.config/git/signingkey.gitconfig
-[credential "https://github.com"]
-	helper = 
-	helper = !gh auth git-credential
-[credential "https://gist.github.com"]
-	helper = 
-	helper = !gh auth git-credential
-[commit]
-	gpgsign = true
-[tag]
-	gpgSign = true
+
 [credential]
 	helper = 
 	helper = store
 	helper = /usr/local/share/gcm-core/git-credential-manager
 
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential
+
+[commit]
+	gpgsign = true
+
+[tag]
+	gpgSign = true
+
 [help]
 	autocorrect = 5
+
 [alias]
 	yolo = !git commit --no-gpg-sign --no-signoff --all --message \"$(curl --silent programmingexcuses.com | pandoc --from=html --to=plain)\"
-
