@@ -3,7 +3,7 @@
 ## Usage
 
 This repo is loosely based on the strategy described on the [Arch Linux Wiki][archwiki-dotfiles],
-althought it is not Arch- (or even Linux-) specific.
+althought it is not Arch-specific, I also use this on MacOS.
 
 ### Installation
 
