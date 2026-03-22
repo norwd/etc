@@ -1,6 +1,14 @@
 # Do not beep on error
 unsetopt BEEP
 
+# Cure spelling
+setopt CORRECT_ALL
+setopt CORRECT
+setopt DVORAK
+
+# Navigation
+setopt AUTO_CD
+
 # Import aliases
 source ~/.config/profile/aliases.sh
 
@@ -23,6 +31,9 @@ PS1="%1~ %B%#%b "
 # Setup completion
 autoload -U compinit
 compinit -i
+
+setopt AUTO_LIST
+setopt AUTO_MENU
 
 [ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
 [ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
