@@ -18,8 +18,8 @@ set noshowmatch
 set mouse=a
 set viminfofile=NONE
 set number
-"set relativenumber
 set incsearch
 set hlsearch
 set backspace=indent,eol,start
 set wildmenu
+
