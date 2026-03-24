@@ -9,3 +9,16 @@ export XDG_DATA_HOME="$HOME/.local/share"
 
 # Where user-specific state files should be written (analogous to /var/lib).
 export XDG_STATE_HOME="$HOME/.local/state"
+
+# Hack XDG support where not already automatic
+# See also: https://wiki.archlinux.org/title/XDG_Base_Directory
+export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+export W3M_DIR="${XDG_STATE_HOME}/w3m"
+export WGETRC="${XDG_CONFIG_HOME}/wgetrc"
+export GNUPGHOME="${XDG_DATA_HOME}/gnupg"
+export NUGET_PACKAGES="${XDG_CACHE_HOME}/NuGetPackages"
+export GOPATH="${XDG_DATA_HOME}/go"
+export GOMODCACHE="${XDG_CACHE_HOME}/go/mod"
+export PYTHON_HISTORY="${XDG_STATE_HOME}/python_history"
+export PYTHONPYCACHEPREFIX="${XDG_CACHE_HOME}/python"
+export PYTHONUSERBASE="${XDG_DATA_HOME}/python"
