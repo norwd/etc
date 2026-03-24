@@ -35,6 +35,8 @@ set title
 set showcmd
 set showmode
 set cursorline
+set spell
+set spelllang=en_gb
 
 syntax enable
 colorscheme gruvbox8
