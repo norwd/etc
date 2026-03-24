@@ -30,6 +30,7 @@ set incsearch
 set hlsearch
 set backspace=indent,eol,start
 set wildmenu
+set scrolloff=3
 
 syntax enable
 colorscheme gruvbox8
