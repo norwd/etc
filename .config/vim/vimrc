@@ -1,8 +1,6 @@
 filetype plugin on
 filetype indent on
 
-syntax enable
-
 if empty($XDG_CACHE_HOME)  | let $XDG_CACHE_HOME  = $HOME."/.cache"       | endif
 if empty($XDG_CONFIG_HOME) | let $XDG_CONFIG_HOME = $HOME."/.config"      | endif
 if empty($XDG_DATA_HOME)   | let $XDG_DATA_HOME   = $HOME."/.local/share" | endif
@@ -33,11 +31,14 @@ set hlsearch
 set backspace=indent,eol,start
 set wildmenu
 
+syntax enable
+colorscheme gruvbox8
+
 if has("unix")
 	let s:uname = system("uname -s")
 	if s:uname == "Darwin"
-		let theme = system('defaults read -g AppleInterfaceStyle')
-		if theme =~ 'Dark'
+		let isDark = system("osascript -e 'tell application \"System Events\" to tell appearance preferences to get dark mode'")
+		if isDark == 'true'
 			set background = dark
 		else
 			set background = light
