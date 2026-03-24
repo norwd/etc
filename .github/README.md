@@ -89,7 +89,7 @@ None of these are escential, but all are highly recommended.
 
 An up-to-date list of the terminal tools and software I use can be found on GitHub:
 
-[Install](https://github.com/stars/norwd/lists/terminal)
+https://github.com/stars/norwd/lists/terminal
 
 #### gh
 
@@ -191,3 +191,34 @@ _From the README_
 > * macOS
 
 [Install](https://github.com/tavianator/bfs#installation)
+
+### Recommended (MacOS)
+
+There are some MacOS-specific tools that are not part of these dotfiles,
+but are an important part of the setup and user experience,
+cheifly in managing dark mode.
+
+An up-to-date list of the MacOS tools and software I use can be found on GitHub:
+
+https://github.com/stars/norwd/lists/macos
+
+#### Auto Terminal Profile
+
+_From the README_
+
+> Automatically switch
+> [Terminal](https://en.wikipedia.org/wiki/Terminal_%28macOS%29)
+> profiles when macOS
+> [dark/light mode](https://support.apple.com/guide/mac-help/use-a-light-or-dark-appearance-mchl52e1c2d2/mac)
+> changes
+
+[Install](https://github.com/patrik-csak/auto-terminal-profile#installation)
+
+#### Dark Notify
+
+_From the README_
+
+> It's a program for watching when macOS switches to dark mode.
+> Useful for making your text editor switch to a dark theme.
+
+[Install](https://github.com/cormacrelf/dark-notify#install)
