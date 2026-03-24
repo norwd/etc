@@ -31,6 +31,10 @@ set hlsearch
 set backspace=indent,eol,start
 set wildmenu
 set scrolloff=3
+set title
+set showcmd
+set showmode
+set cursorline
 
 syntax enable
 colorscheme gruvbox8
