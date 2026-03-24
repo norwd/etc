@@ -32,13 +32,16 @@ PS1="%1~ %B%#%b "
 autoload -U compinit
 compinit -i
 
+zstyle ':completion:*' menu select
+zstyle ':completion:*' rehash true
+
 setopt AUTO_LIST
 setopt AUTO_MENU
 
 [ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
 [ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
 [ -x "$(command -v gh)"      ] && source <(gh completion --shell zsh)
+[ -x "$(command -v pkgfile)" ] && source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # Misc
 export GPG_TTY=$(tty)
-
