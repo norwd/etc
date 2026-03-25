@@ -38,6 +38,7 @@ set showmode
 set cursorline
 set spell
 set spelllang=en_gb
+set dictionary+=/usr/share/dict/words
 
 syntax enable
 colorscheme gruvbox8
