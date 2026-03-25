@@ -29,6 +29,7 @@ set number
 set incsearch
 set hlsearch
 set backspace=indent,eol,start
+set whichwrap+=b,s,h,l,<,>,[,]
 set wildmenu
 set scrolloff=3
 set title
