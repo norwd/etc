@@ -24,20 +24,21 @@ export SAVEHIST=1000
 PS1="%1~ %B%#%b "
 
 # Setup completion
-autoload -U compinit
+setopt AUTO_LIST
+setopt AUTO_MENU
+
+[ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
+[ -x "$(command -v brew)"    ] && source <(brew shellenv)
+[ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
+[ -x "$(command -v gh)"      ] && source <(gh completion --shell zsh)
+[ -x "$(command -v pkgfile)" ] && source /usr/share/doc/pkgfile/command-not-found.zsh
+
+autoload -Uz compinit
 compinit -i -d "${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}"
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' rehash true
 zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
-
-setopt AUTO_LIST
-setopt AUTO_MENU
-
-[ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
-[ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
-[ -x "$(command -v gh)"      ] && source <(gh completion --shell zsh)
-[ -x "$(command -v pkgfile)" ] && source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # Misc
 export GPG_TTY=$(tty)
