@@ -30,7 +30,7 @@ setopt AUTO_MENU
 [ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
 [ -x "$(command -v brew)"    ] && source <(brew shellenv)
 [ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
-[ -x "$(command -v gh)"      ] && source <(gh completion --shell zsh)
+#[ -x "$(command -v gh)"      ] && source <(gh completion --shell zsh)
 #[ -x "$(command -v bat)"     ] && source <(bat --completion zsh)
 [ -x "$(command -v pkgfile)" ] && source /usr/share/doc/pkgfile/command-not-found.zsh
 
