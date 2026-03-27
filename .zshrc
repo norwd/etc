@@ -31,10 +31,14 @@ setopt AUTO_MENU
 [ -x "$(command -v brew)"    ] && source <(brew shellenv)
 [ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
 #[ -x "$(command -v gh)"      ] && source <(gh completion --shell zsh)
-#[ -x "$(command -v bat)"     ] && source <(bat --completion zsh)
 [ -x "$(command -v pkgfile)" ] && source /usr/share/doc/pkgfile/command-not-found.zsh
 
-fpath=("${XDG_SHARE_HOME}/zsh/site-functions" $fpath)
+fpath=("${XDG_DATA_HOME}/zsh/site-functions" $fpath)
+
+if [ -x "$(command -v bat)" ] && [ ! -f "${XDG_DATA_HOME}/zsh/site-functions/_bat" ]
+then
+	bat --completion zsh > "${XDG_DATA_HOME}/zsh/site-functions/_bat"
+fi
 
 autoload -Uz compinit
 compinit -i -d "${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}"
