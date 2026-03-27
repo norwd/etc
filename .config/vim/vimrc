@@ -41,7 +41,7 @@ set spelllang=en_gb
 set dictionary+=/usr/share/dict/words
 
 syntax enable
-colorscheme gruvbox8
+colorscheme one
 
 if has("unix")
 	let s:uname = system("uname -s")
