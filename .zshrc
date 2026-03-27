@@ -30,10 +30,14 @@ setopt AUTO_MENU
 [ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
 [ -x "$(command -v brew)"    ] && source <(brew shellenv)
 [ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
-#[ -x "$(command -v gh)"      ] && source <(gh completion --shell zsh)
 [ -x "$(command -v pkgfile)" ] && source /usr/share/doc/pkgfile/command-not-found.zsh
 
 fpath=("${XDG_DATA_HOME}/zsh/site-functions" $fpath)
+
+if [ -x "$(command -v gh)" ] && [ ! -f "${XDG_DATA_HOME}/zsh/site-functions/_gh" ]
+then
+	gh completion --shell zsh > "${XDG_DATA_HOME}/zsh/site-functions/_gh"
+fi
 
 if [ -x "$(command -v bat)" ] && [ ! -f "${XDG_DATA_HOME}/zsh/site-functions/_bat" ]
 then
