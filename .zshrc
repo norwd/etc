@@ -34,7 +34,7 @@ setopt AUTO_MENU
 #[ -x "$(command -v bat)"     ] && source <(bat --completion zsh)
 [ -x "$(command -v pkgfile)" ] && source /usr/share/doc/pkgfile/command-not-found.zsh
 
-fpath=("$XDG_CONFIG_HOME/zsh/completions" $fpath)
+fpath=("${XDG_STATE_HOME}/zsh/completions" $fpath)
 
 autoload -Uz compinit
 compinit -i -d "${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}"
