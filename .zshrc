@@ -16,6 +16,9 @@ source ~/.config/profile/aliases.sh
 source ~/.config/profile/xdg-base-dirs.sh
 
 # Save command history
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+
 export HISTFILE="${XDG_STATE_HOME}/zsh/history"
 export HISTSIZE=2000
 export SAVEHIST=1000
