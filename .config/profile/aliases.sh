@@ -1,17 +1,18 @@
 # Dotfiles
 alias dotfiles='/usr/bin/git --git-dir="${HOME}/etc/" --work-tree="${HOME}"'
 
-# Stardard UNIX utils
+# Standard UNIX utils
 alias grep='grep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -l'
 alias la='ll -A'
 
 # Drop in replacements
-[ -x "$(command -v bat)"    ] && alias cat=bat
-[ -x "$(command -v batman)" ] && alias man=batman
-[ -x "$(command -v bfs)"    ] && alias find=bfs
-[ -x "$(command -v btop)"   ] && alias htop=btop
+[ -x "$(command -v bat)"       ] && alias cat=bat
+[ -x "$(command -v batman)"    ] && alias man=batman
+[ -x "$(command -v bfs)"       ] && alias find=bfs
+[ -x "$(command -v btop)"      ] && alias htop=btop
+[ -x "$(command -v fastfetch)" ] && alias neofetch='fastfetch --config neofetch.jsonc'
 
 # Drop in replacement for grep is more complex
 if [ -x "$(command -v ug)" ]
