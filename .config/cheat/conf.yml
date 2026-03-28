@@ -43,20 +43,20 @@ cheatpaths:
 
   # Cheatsheets that are tagged "personal" are stored here by default:
   - name: personal
-    path: /Users/norwd/.config/cheat/cheatsheets/personal
+    path: ~/.config/cheat/cheatsheets/personal
     tags: [ personal ]
     readonly: false
 
   # Cheatsheets that are tagged "work" are stored here by default:
   - name: work
-    path: /Users/norwd/.config/cheat/cheatsheets/work
+    path: ~/.config/cheat/cheatsheets/work
     tags: [ work ]
     readonly: false
 
   # Community cheatsheets (https://github.com/cheat/cheatsheets):
-  # To install: git clone https://github.com/cheat/cheatsheets /Users/norwd/.config/cheat/cheatsheets/community
+  # To install: git clone https://github.com/cheat/cheatsheets ~/.config/cheat/cheatsheets/community
   - name: community
-    path: /Users/norwd/.config/cheat/cheatsheets/community
+    path: ~/.config/cheat/cheatsheets/community
     tags: [ community ]
     readonly: true
 
