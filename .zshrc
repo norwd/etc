@@ -34,15 +34,17 @@ setopt AUTO_MENU
 
 fpath=("${XDG_DATA_HOME}/zsh/site-functions" $fpath)
 
-if [ -x "$(command -v gh)" ] && [ ! -f "${XDG_DATA_HOME}/zsh/site-functions/_gh" ]
-then
-	gh completion --shell zsh > "${XDG_DATA_HOME}/zsh/site-functions/_gh"
-fi
+function create-site-functions() {
+	if [ -x "$(command -v $1)" ] && [ ! -f "${XDG_DATA_HOME}/zsh/site-functions/_$1" ]
+	then
+		$@ > "${XDG_DATA_HOME}/zsh/site-functions/_$1"
+	fi
+}
 
-if [ -x "$(command -v bat)" ] && [ ! -f "${XDG_DATA_HOME}/zsh/site-functions/_bat" ]
-then
-	bat --completion zsh > "${XDG_DATA_HOME}/zsh/site-functions/_bat"
-fi
+create-site-functions gh completion --shell zsh
+create-site-functions bat --completion zsh
+
+unfunction create-site-functions
 
 autoload -Uz compinit
 compinit -i -d "${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}"
