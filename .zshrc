@@ -24,6 +24,7 @@ export SAVEHIST=1000
 PS1="%1~ %B%#%b "
 
 # Setup completion
+setopt COMPLETE_ALIASES
 setopt AUTO_LIST
 setopt AUTO_MENU
 
@@ -41,6 +42,7 @@ function create-site-functions() {
 	fi
 }
 
+create-site-functions hexyl --completion zsh
 create-site-functions gh completion --shell zsh
 create-site-functions bat --completion zsh
 
