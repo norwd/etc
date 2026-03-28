@@ -36,9 +36,12 @@ setopt AUTO_MENU
 fpath=("${XDG_DATA_HOME}/zsh/site-functions" $fpath)
 
 function create-site-functions() {
-	if [ -x "$(command -v $1)" ] && [ ! -f "${XDG_DATA_HOME}/zsh/site-functions/_$1" ]
+	if [ -x "$(command -v $1)" ]
 	then
-		$@ > "${XDG_DATA_HOME}/zsh/site-functions/_$1"
+		if [ ! -f "${HOMEBREW_PREFIX}/share/zsh/site-functions/_$1" ] || [ ! -f "${XDG_DATA_HOME}/zsh/site-functions/_$1" ]
+		then
+			$@ > "${XDG_DATA_HOME}/zsh/site-functions/_$1"
+		fi
 	fi
 }
 
