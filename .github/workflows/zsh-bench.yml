@@ -16,6 +16,9 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
+      - name: "Install Zsh"
+        run: sudo apt install -y zsh
+
       - name: "Install Zsh-Bench"
         run: |
           mkdir -p ~/.local/bin
