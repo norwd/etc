@@ -1,0 +1,26 @@
+---
+
+name: "Zsh Benchmark"
+run-name: "Zsh Benchmark"
+on: push
+
+permissions:
+  contents: read
+
+jobs:
+  zsh-bench:
+    name: "Zsh Benchmark"
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - name: "Install Zsh-Bench"
+        run: |
+          mkdir -p ~/.local/bin
+          echo "~/.local/bin" >> "$GITHUB_PATH"
+          git clone https://github.com/romkatv/zsh-bench ~/.local/bin/
+
+      - name: "Run Zsh Benchmark"
+        run: zsh-bench
