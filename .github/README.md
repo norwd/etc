@@ -17,7 +17,7 @@ Note, after installation, the `dotfiles` alias will be available instead of spec
 
 ```shell
 dotfiles pull
-dotfiles add ~/.vimrc
+dotfiles add ~/.config/vim/vimrc
 dotfiles commit -m "Update vimrc"
 dotfiles push
 ```
