@@ -26,4 +26,4 @@ jobs:
           git clone https://github.com/romkatv/zsh-bench ~/.local/bin/
 
       - name: "Run Zsh Benchmark"
-        run: zsh-bench --isolation user
+        run: zsh-bench --standalone
