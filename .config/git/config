@@ -2,6 +2,10 @@
 	name = Y. Meyer-Norwood
 	email = 106889957+norwd@users.noreply.github.com
 
+# Set `user.signingkey` in `signingkey.gitconfig`
+# ```shell
+# git config --file ~/.config/git/signingkey.gitconfig user.signingkey <gpg-key-id>
+# ```
 [include]
 	path = ~/.config/git/signingkey.gitconfig
 
