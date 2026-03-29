@@ -5,3 +5,4 @@ do
         source $profile
     fi
 done
+unset profile
