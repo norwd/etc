@@ -1,0 +1,5 @@
+# https://github.com/github-linguist/linguist/blob/main/docs/overrides.md
+# https://github.com/github-linguist/linguist/blob/main/lib/linguist/languages.yml
+attributes linguist-language=gitattributes
+config linguist-language=gitconfig
+ignore linguist-language=gitignore
