@@ -1,21 +1,18 @@
+# Setup login shell
+source ~/.config/profile
+
 # Do not beep on error
 unsetopt BEEP
 
-# Cure spelling
+# Setup spelling
 setopt CORRECT_ALL
 setopt CORRECT
 setopt DVORAK
 
-# Navigation
+# Setup navigation
 setopt AUTO_CD
 
-# Import aliases
-source ~/.config/profile/aliases.sh
-
-# Set XDG directories
-source ~/.config/profile/xdg-base-dirs.sh
-
-# Save command history
+# Setup history
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
@@ -23,7 +20,7 @@ export HISTFILE="${XDG_STATE_HOME}/zsh/history"
 export HISTSIZE=2000
 export SAVEHIST=1000
 
-# Set prompt
+# Setup prompt
 PS1="%1~ %B%#%b "
 
 # Setup completion
