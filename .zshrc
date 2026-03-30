@@ -1,15 +1,6 @@
 # Setup login shell
 source ~/.config/profile
 
-for profile in ~/.config/zsh/*.zshrc
-do
-    if [ -r "$profile" ]
-    then
-        source $profile
-    fi
-done
-unset profile
-
 # Do not beep on error
 unsetopt BEEP
 
