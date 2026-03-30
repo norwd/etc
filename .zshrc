@@ -1,5 +1,14 @@
+#!/usr/bin/env zsh
+
 # Setup login shell
 source ~/.config/profile
+
+# Setup zsh specific sub-configs
+for _zshrc in ${XDG_CONFIG_HOME}/zsh/*.zsh
+do
+    [ -r "$_zshrc" ] && source $_zshrc
+done
+unset _zshrc
 
 # Do not beep on error
 unsetopt BEEP
