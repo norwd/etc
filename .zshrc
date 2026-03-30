@@ -40,7 +40,6 @@ setopt AUTO_MENU
 [ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
 [ -x "$(command -v brew)"    ] && source <(brew shellenv)
 [ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
-[ -x "$(command -v pkgfile)" ] && source /usr/share/doc/pkgfile/command-not-found.zsh
 
 fpath=("${XDG_DATA_HOME}/zsh/site-functions" $fpath)
 
@@ -67,26 +66,3 @@ zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
 
 # Misc
 export GPG_TTY=$(tty)
-
-if [ -x "$(command -v brew)" ]
-then
-	command_not_found_handler() {
-		local cmd="$1"
-
-		if brew install --dry-run "$cmd" 1>/dev/null 2>&1
-		then
-			if read -q "?zsh: command not found, install ${cmd} with homebrew [nyae]? "
-			then
-				printf '\nzsh: installing %s...\n' "$cmd"
-				brew install "$cmd"
-				return 0
-			else
-				printf '\nzsh: not installing %s\n' "$cmd"
-			fi
-		else
-			printf 'zsh: command not found: %s\n' "$cmd" 1>&2
-		fi
-
-		return 127
-	}
-fi
