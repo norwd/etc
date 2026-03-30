@@ -9,8 +9,8 @@ althought it is not Arch-specific, I also use this on MacOS.
 
 ```shell
 git clone --bare https://github.com/norwd/etc ~/etc
-git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout
 git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout # re-run if necessary
 ```
 
 Note, after installation, the `dotfiles` alias will be available instead of specifying the `--git-dir` flag.
