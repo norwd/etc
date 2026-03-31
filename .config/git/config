@@ -34,13 +34,5 @@
 	rebase = false
 	autoSetupRemote = true
 
-# See also
-# * https://github.com/odomojuli/regextokens
-# * https://gist.github.com/magnetikonline/073afe7909ffdd6f10ef06a00bc3bc88
-# * https://github.blog/changelog/2021-03-31-authentication-token-format-updates-are-generally-available
-[filter "github_secrets"]
-	clean = sed -e 's/gh[pousr]_[A-Za-z0-9_]\\+/xxxxx/g'
-	smudge = cat
-
 [alias]
 	yolo = !git commit --no-gpg-sign --no-signoff --all --message \"$(curl --silent programmingexcuses.com | pandoc --from=html --to=plain)\"
