@@ -30,7 +30,9 @@
 [help]
 	autocorrect = 5
 
+[push]
+	rebase = false
+	autoSetupRemote = true
+
 [alias]
 	yolo = !git commit --no-gpg-sign --no-signoff --all --message \"$(curl --silent programmingexcuses.com | pandoc --from=html --to=plain)\"
-[push]
-	autoSetupRemote = true
