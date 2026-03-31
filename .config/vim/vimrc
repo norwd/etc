@@ -1,11 +1,6 @@
 filetype plugin on
 filetype indent on
 
-if empty($XDG_CACHE_HOME)  | let $XDG_CACHE_HOME  = $HOME."/.cache"       | endif
-if empty($XDG_CONFIG_HOME) | let $XDG_CONFIG_HOME = $HOME."/.config"      | endif
-if empty($XDG_DATA_HOME)   | let $XDG_DATA_HOME   = $HOME."/.local/share" | endif
-if empty($XDG_STATE_HOME)  | let $XDG_STATE_HOME  = $HOME."/.local/state" | endif
-
 set runtimepath^=$XDG_CONFIG_HOME/vim
 set runtimepath+=$XDG_DATA_HOME/vim
 set runtimepath+=$XDG_CONFIG_HOME/vim/after
@@ -39,18 +34,20 @@ set cursorline
 set spell
 set spelllang=en_gb
 set dictionary+=/usr/share/dict/words
+set colorcolumn=80
 
 syntax enable
-colorscheme gruvbox8
+
+set background=dark
+colorscheme vimdark
 
 if has("unix")
 	let s:uname = system("uname -s")
 	if s:uname == "Darwin"
 		let isDark = system("osascript -e 'tell application \"System Events\" to tell appearance preferences to get dark mode'")
-		if isDark == 'true'
-			set background = dark
-		else
-			set background = light
+		if isDark != 'true'
+			set background=light
+			colorscheme vimlight
 		endif
 	endif
 endif

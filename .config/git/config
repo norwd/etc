@@ -28,3 +28,5 @@
 
 [alias]
 	yolo = !git commit --no-gpg-sign --no-signoff --all --message \"$(curl --silent programmingexcuses.com | pandoc --from=html --to=plain)\"
+[push]
+	autoSetupRemote = true
