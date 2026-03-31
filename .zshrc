@@ -4,9 +4,9 @@
 source ~/.config/profile
 
 # Setup zsh specific sub-configs
-for _zshrc in ${XDG_CONFIG_HOME}/zsh/*.zsh
+for _zshrc_path in ${XDG_CONFIG_HOME}/zsh/*.zsh
 do
-    [ -r "$_zshrc" ] && source $_zshrc
+    [ -r "$_zshrc_path" ] && source $_zshrc_path
 done
 unset _zshrc
 

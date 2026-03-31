@@ -5,7 +5,6 @@ setopt AUTO_LIST
 setopt AUTO_MENU
 
 [ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
-[ -x "$(command -v brew)"    ] && source <(brew shellenv)
 [ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
 
 fpath=("${XDG_DATA_HOME}/zsh/site-functions" $fpath)
