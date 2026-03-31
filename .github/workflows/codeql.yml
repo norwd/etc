@@ -1,0 +1,65 @@
+---
+
+name: "CodeQL"
+run-name: "CodeQL"
+
+on:
+  push:
+  schedule:
+    - cron: '33 9 * * 2'
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language:
+          - actions
+          # - c-cpp
+          # - csharp
+          # - go
+          # - java-kotlin
+          # - javascript-typescript
+          - python
+          # - ruby
+          # - rust
+          # - swift
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: |
+            ${{
+              case(
+                matrix.language == 'actions', 'none',
+                matrix.language == 'c-cpp', 'autobuild',
+                matrix.language == 'csharp', 'autobuild',
+                matrix.language == 'go', 'autobuild',
+                matrix.language == 'java-kotlin', 'autobuild',
+                matrix.language == 'javascript-typescript', 'none',
+                matrix.language == 'python', 'none',
+                matrix.language == 'ruby', 'none',
+                matrix.language == 'rust', 'none',
+                matrix.language == 'swift', 'autobuild',
+                'none'
+              )
+            }}
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: /language:${{ matrix.language }}
