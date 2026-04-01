@@ -6,3 +6,9 @@ updates:
     directory: /
     schedule:
       interval: daily
+
+  - package-ecosystem: gitsubmodule
+    open-pull-requests-limit: 10
+    directory: /
+    schedule:
+      interval: daily
