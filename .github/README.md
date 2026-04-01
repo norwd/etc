@@ -24,6 +24,22 @@ dotfiles push
 
 [archwiki-dotfiles]: https://wiki.archlinux.org/title/Dotfiles
 
+### Troubleshooting
+
+#### `gpg: unsafe permissions on homedir '~/.config/gnupg'`
+
+This can happen because git doesn't clone the file permisions, other than the executable bit.
+To correct the error, the `~/.config/gnupg` needs to have read/write[^gnupg-homedir] for only the owner:
+
+```shell
+chown -R "$(whoami)" "$GNUPGHOME"
+find "$GNUPGHOME" -type f -exec chmod 600 {} \;
+find "$GNUPGHOME" -type d -exec chmod 700 {} \;
+```
+
+[^gnupg-homedir]: Specifically, the directory should be set to `600`, and the files set to `700`.
+  See also https://gist.github.com/oseme-techguy/bae2e309c084d93b75a9b25f49718f85
+
 ## Dependencies
 
 ### Required
