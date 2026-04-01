@@ -65,7 +65,7 @@ jobs:
         run: touch requirements.txt
 
       - name: "ShellCheck with SARIF"
-        uses: reactive-firewall/shellcheck-scan@v1
+        uses: reactive-firewall/shellcheck-scan@v2
         with:
           # Optional: Custom glob pattern for matching files
           match: >
