@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Where user-specific configurations should be written (analogous to /etc).
 export XDG_CONFIG_HOME="${HOME}/.config"
 
