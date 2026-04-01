@@ -1,1 +1,2 @@
-hosts.yml # may contain credentials, better to not track than to filter
+# may contain credentials, better to not track than to filter
+hosts.yml
