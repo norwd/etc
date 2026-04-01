@@ -1,4 +1,4 @@
 #!/bin/sh
 
-export VISUAL="$(command -v vim)"
+export VISUAL="vim"
 export EDITOR="${VISUAL}"
