@@ -25,4 +25,4 @@ jobs:
         run: shellcheck --version
 
       - name: "ShellCheck"
-        run: find . -type f \( -name "*.sh" -o -name ".config/profile" \) | xargs --verbose -I{} shellcheck --rcfile .config/shellcheckrc {}
+        run: find . -type f \( -name "*.sh" -o -name ".config\/profile" \) | xargs --verbose -I{} shellcheck --rcfile .config/shellcheckrc {}
