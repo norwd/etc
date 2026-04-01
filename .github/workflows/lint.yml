@@ -24,7 +24,7 @@ jobs:
     steps:
 
       - name: "Checkout"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: "Install"
         run: wget --quiet --output-document - "${RELEASE_URL}" | sudo tar --extract --xz --directory=/usr/bin/ --transform='s|.*shellcheck-latest/||' shellcheck-latest/shellcheck
@@ -59,7 +59,7 @@ jobs:
     steps:
 
       - name: "Checkout"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: "Fake requirements.txt"
         run: touch requirements.txt
