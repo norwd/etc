@@ -17,5 +17,7 @@ jobs:
 
       - name: "ShellCheck"
         run: |
+          cabal update
+          cabal install ShellCheck
           shellcheck --version
           find . -type f -name "*.sh" -exec shellcheck --rcfile .config/shellcheckrc {} +
