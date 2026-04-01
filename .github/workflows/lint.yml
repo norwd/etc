@@ -45,3 +45,21 @@ jobs:
 
       - name: "ShellCheck with SARIF"
         uses: reactive-firewall/shellcheck-scan@v1
+        with:
+          # # Optional: Specify exact path to scan (advanced feature)
+          # # To use a specific file, uncomment and set:
+          # path: '${{ github.workspace }}/downloads/my-artifact.bash'
+
+          # Optional: Custom glob pattern for matching files
+          match: |
+            .config/profile
+            **/*.{sh,bash,ksh}
+
+          # Optional: Set minimum severity level (style, info, warning, error)
+          severity: style
+
+          # # Optional: Specify shell dialect (bash, sh, dash, ksh, busybox)
+          # shell-format: 'bash'
+
+          # # Optional: Set to true to upload scan results as artifacts
+          # publish-artifacts: true
