@@ -1,0 +1,48 @@
+# name:    add-default-case
+# desc:    Suggest adding a default case in `case` statements
+# example: case $? in 0) echo 'Success';; esac
+# fix:     case $? in 0) echo 'Success';; *) echo 'Fail' ;; esac
+
+# name:    avoid-nullary-conditions
+# desc:    Suggest explicitly using -n in `[ $var ]`
+# example: [ "$var" ]
+# fix:     [ -n "$var" ]
+
+# name:    check-extra-masked-returns
+# desc:    Check for additional cases where exit codes are masked
+# example: rm -r "$(get_chroot_dir)/home"
+# fix:     set -e; dir="$(get_chroot_dir)"; rm -r "$dir/home"
+
+# name:    check-set-e-suppressed
+# desc:    Notify when set -e is suppressed during function invocation
+# example: set -e; func() { cp *.txt ~/backup; rm *.txt; }; func && echo ok
+# fix:     set -e; func() { cp *.txt ~/backup; rm *.txt; }; func; echo ok
+
+# name:    check-unassigned-uppercase
+# desc:    Warn when uppercase variables are unassigned
+# example: echo $VAR
+# fix:     VAR=hello; echo $VAR
+enable=check-unassigned-uppercase
+
+# name:    deprecate-which
+# desc:    Suggest 'command -v' instead of 'which'
+# example: which javac
+# fix:     command -v javac
+enable=deprecate-which
+
+# name:    quote-safe-variables
+# desc:    Suggest quoting variables without metacharacters
+# example: var=hello; echo $var
+# fix:     var=hello; echo "$var"
+enable=quote-safe-variables
+
+# name:    require-double-brackets
+# desc:    Require [[ and warn about [ in Bash/Ksh
+# example: [ -e /etc/issue ]
+# fix:     [[ -e /etc/issue ]]
+
+# name:    require-variable-braces
+# desc:    Suggest putting braces around all variable references
+# example: var=hello; echo $var
+# fix:     var=hello; echo ${var}
+enable=require-variable-braces
