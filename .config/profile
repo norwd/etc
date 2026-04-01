@@ -2,9 +2,9 @@
 
 for profile in ~/.config/profile.d/*.sh
 do
-    if [ -r "$profile" ]
+    if [ -r "${profile}" ]
     then
-        . "$profile"
+        . "${profile}"
     fi
 done
 
