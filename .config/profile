@@ -4,6 +4,7 @@ for profile in ~/.config/profile.d/*.sh
 do
     if [ -r "${profile}" ]
     then
+        # shellcheck source-path=.config/profile.d/
         . "${profile}"
     fi
 done
