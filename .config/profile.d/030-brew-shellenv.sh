@@ -2,6 +2,6 @@
 
 if [ -x "$(command -v brew)" ]
 then
-  # shellcheck source=/dev/null
+  # shell asdf check source=/dev/null
   eval "$(brew shellenv)"
 fi
