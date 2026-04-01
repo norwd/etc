@@ -1,8 +1,11 @@
+#!/bin/sh
+
 for profile in ~/.config/profile.d/*.sh
 do
     if [ -r "$profile" ]
     then
-        source $profile
+        . "$profile"
     fi
 done
+
 unset profile
