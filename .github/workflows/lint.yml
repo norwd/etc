@@ -8,8 +8,24 @@ permissions: {}
 jobs:
 
   lint-shellcheck:
-    name: "Lint Shellcheck"
+    name: "Lint Shellcheck ${{ matrix.shell }} (${{ matrix.severity }})"
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+
+        severity:
+          - style
+          - info
+          - warning
+          - error
+
+        shell:
+          - sh
+          - ksh
+          - bash
+          - dash
+
     steps:
 
       - name: "Checkout"
@@ -25,15 +41,31 @@ jobs:
         run: shellcheck --version
 
       - name: "ShellCheck"
-        run: shellcheck --rcfile .config/shellcheckrc $(find . -type f -name "*.sh") .config/profile
+        run: shellcheck --severity ${{ matrix.severity }} --shell=${{ matrix.shell }} --rcfile .config/shellcheckrc $(find . -type f -name "*.sh") .config/profile
 
   scan-shellcheck-scan:
-    name: "Scan Shellcheck"
+    name: "Scan Shellcheck ${{ matrix.shell }} (${{ matrix.severity }})"
     runs-on: ubuntu-latest
 
     permissions:
       contents: read
       security-events: write
+
+    strategy:
+      matrix:
+
+        severity:
+          - style
+          - info
+          - warning
+          - error
+
+        shell:
+          - sh
+          - ksh
+          - bash
+          - dash
+          - busybox
 
     steps:
 
@@ -46,20 +78,16 @@ jobs:
       - name: "ShellCheck with SARIF"
         uses: reactive-firewall/shellcheck-scan@v1
         with:
-          # # Optional: Specify exact path to scan (advanced feature)
-          # # To use a specific file, uncomment and set:
-          # path: '${{ github.workspace }}/downloads/my-artifact.bash'
-
           # Optional: Custom glob pattern for matching files
           match: >
             .config/profile
             **/*.{sh,bash,ksh}
 
           # Optional: Set minimum severity level (style, info, warning, error)
-          severity: style
+          severity: ${{ matrix.severity }}
 
-          # # Optional: Specify shell dialect (bash, sh, dash, ksh, busybox)
-          # shell-format: 'bash'
+          # Optional: Specify shell dialect (bash, sh, dash, ksh, busybox)
+          shell-format: ${{ matrix.shell }}
 
-          # # Optional: Set to true to upload scan results as artifacts
-          # publish-artifacts: true
+          # Optional: Set to true to upload scan results as artifacts
+          publish-artifacts: true
