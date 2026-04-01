@@ -2,5 +2,5 @@
 
 if [ -x "$(command -v brew)" ]
 then
-  source <(brew shellenv)
+  . <(brew shellenv)
 fi
