@@ -15,9 +15,13 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
 
-      - name: "ShellCheck"
+      - name: "Install"
         run: |
-          wget -qO- "https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz" | tar -xJv
+          wget --quiet --output-document - "${RELEASE_URL}" | tar --extract --xz --verbose
           sudo cp "shellcheck-latest/shellcheck" /usr/bin/
           shellcheck --version
-          find . -type f -name "*.sh" -exec shellcheck --rcfile .config/shellcheckrc {} +
+        env:
+          RELEASE_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
+
+      - name: "ShellCheck"
+        run: find . -type f -name "*.sh" -exec shellcheck --rcfile .config/shellcheckrc {} +
