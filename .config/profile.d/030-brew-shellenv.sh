@@ -3,5 +3,5 @@
 if [ -x "$(command -v brew)" ]
 then
   # shellcheck source=/dev/null
-  . <(brew shellenv)
+  eval "$(brew shellenv)"
 fi
