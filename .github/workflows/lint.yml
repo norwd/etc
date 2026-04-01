@@ -14,18 +14,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-
+        shell: [ sh, ksh, bash, dash ]
         severity:
           - style
           - info
           - warning
           - error
-
-        shell:
-          - sh
-          - ksh
-          - bash
-          - dash
 
     steps:
 
@@ -55,18 +49,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-
+        shell: [ sh, ksh, bash, dash ]
         severity:
           - style
           - info
           - warning
           - error
-
-        shell:
-          - sh
-          - ksh
-          - bash
-          - dash
 
     steps:
 
