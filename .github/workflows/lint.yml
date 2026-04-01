@@ -26,3 +26,17 @@ jobs:
 
       - name: "ShellCheck"
         run: shellcheck --rcfile .config/shellcheckrc $(find . -type f -name "*.sh") .config/profile
+
+  scan-shellcheck-scan:
+    name: "Scan Shellcheck"
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write  # required for uploading SARIF results
+
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "ShellCheck with SARIF"
+        uses: reactive-firewall/shellcheck-scan@v1
