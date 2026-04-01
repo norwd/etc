@@ -16,4 +16,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: "ShellCheck"
-        run: find . -type f -name "*.sh" -exec shellcheck {} +
+        run: find . -type f -name "*.sh" -exec shellcheck --rcfile .config/shellcheckrc {} +
