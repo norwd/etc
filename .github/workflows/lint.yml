@@ -30,8 +30,10 @@ jobs:
   scan-shellcheck-scan:
     name: "Scan Shellcheck"
     runs-on: ubuntu-latest
+
     permissions:
-      security-events: write  # required for uploading SARIF results
+      contents: read
+      security-events: write
 
     steps:
 
