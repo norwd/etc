@@ -25,4 +25,4 @@ jobs:
         run: shellcheck --version
 
       - name: "ShellCheck"
-        run: find . -type f -name "*.sh" -exec shellcheck --rcfile .config/shellcheckrc {} +
+        run: find . -type f \( -name "*.sh" -o -name ".config/profile" ) -exec shellcheck --rcfile .config/shellcheckrc {} +
