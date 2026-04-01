@@ -17,7 +17,7 @@ jobs:
 
       - name: "Install"
         run: |
-          wget --quiet --output-document - "${RELEASE_URL}" | sudo tar --extract --xz --verbose shellcheck-latest/shellcheck --strip-components=2 --directory=/usr/bin/
+          wget --quiet --output-document - "${RELEASE_URL}" | sudo tar --extract --xz --verbose --directory=/usr/bin/ --transform='s|.*shellcheck-latest/||' shellcheck-latest/shellcheck
           shellcheck --version
         env:
           RELEASE_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
