@@ -51,7 +51,7 @@ jobs:
           # path: '${{ github.workspace }}/downloads/my-artifact.bash'
 
           # Optional: Custom glob pattern for matching files
-          match: |
+          match: >
             .config/profile
             **/*.{sh,bash,ksh}
 
