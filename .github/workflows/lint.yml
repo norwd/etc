@@ -31,8 +31,7 @@ jobs:
         name: "Use GNU Tar"
         run: |
           brew install gnu-tar
-          echo "${HOMEBREW_PREFIX}/opt/gnu-tar/libexec/gnubin" >> "${GITHUB_PATH}"
-          gtar --help
+          echo "$(brew --prefix)/opt/gnu-tar/libexec/gnubin" >> "${GITHUB_PATH}"
           tar --help
 
       - name: "Install"
