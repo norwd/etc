@@ -11,7 +11,7 @@ then
 
 		if apt-get install --dry-run "${cmd}" 1>/dev/null 2>&1
 		then
-			if read -q "?zsh: command not found, install ${cmd} with apt-get [nyae]? "
+			if read -r -q "?zsh: command not found, install ${cmd} with apt-get [nyae]? "
 			then
 				printf '\nzsh: installing %s...\n' "${cmd}"
 				$([[ $(id -u) == 0 ]] || echo sudo) apt-get install "${cmd}"
@@ -32,7 +32,7 @@ then
 
 		if brew install --dry-run "${cmd}" 1>/dev/null 2>&1
 		then
-			if read -q "?zsh: command not found, install ${cmd} with homebrew [nyae]? "
+			if read -r -q "?zsh: command not found, install ${cmd} with homebrew [nyae]? "
 			then
 				printf '\nzsh: installing %s...\n' "${cmd}"
 				brew install "${cmd}"
