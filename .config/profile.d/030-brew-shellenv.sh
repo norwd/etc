@@ -2,5 +2,5 @@
 
 if [ -x "$(command -v brew)" ]
 then
-  eval "$(brew shellenv)"
+	eval "$(brew shellenv)"
 fi
