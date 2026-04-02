@@ -25,9 +25,10 @@ then
 
 # 		return 127
 # 	}
-elif true # [[ -x "$(command -v brew)" ]]
-then
-	true
+else
+	if true # [[ -x "$(command -v brew)" ]]
+	then
+		true
 # 	command_not_found_handler() {
 # 		local cmd="$1"
 
@@ -47,4 +48,5 @@ then
 
 # 		return 127
 # 	}
+	fi
 fi
