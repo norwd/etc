@@ -27,6 +27,7 @@ then
 # 	}
 elif [[ -x "$(command -v brew)" ]]
 then
+	true
 # 	command_not_found_handler() {
 # 		local cmd="$1"
 
