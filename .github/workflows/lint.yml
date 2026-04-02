@@ -38,6 +38,37 @@ jobs:
       - name: "ShellCheck"
         run: shellcheck --severity ${{ matrix.severity }} --shell=${{ matrix.shell }} --rcfile .config/shellcheckrc $(find . -type f -name "*.sh") .config/profile
 
+  lint-shellcheck-zsh:
+    name: "Lint Shellcheck zsh (${{ matrix.severity }})"
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [ ksh, bash ] # zsh isn't supported directly, but is semi-compatible with both ksh and bash
+        severity:
+          - style
+          - info
+          - warning
+          - error
+
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - name: "Install"
+        run: wget --quiet --output-document - "${RELEASE_URL}" | sudo tar --extract --xz --directory=/usr/bin/ --transform='s|.*shellcheck-latest/||' shellcheck-latest/shellcheck
+        env:
+          RELEASE_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
+
+      - if: runner.debug == 1
+        name: "Debug"
+        run: shellcheck --version
+
+      - name: "ShellCheck"
+        run: shellcheck --severity ${{ matrix.severity }} --shell=${{ matrix.shell }} --rcfile .config/shellcheckrc $(find . -type f -name "*.zsh") .zshenv .zprofile .zshrc .zlogin .zlogout
+
   scan-shellcheck-scan:
     name: "Scan Shellcheck ${{ matrix.shell }} (${{ matrix.severity }})"
     runs-on: ubuntu-latest
@@ -73,13 +104,3 @@ jobs:
           match: >
             .config/profile
             **/*.{sh,bash,ksh}
-
-      # - name: "Upload Artifact"
-      #   uses: actions/upload-artifact@v6
-      #   with:
-      #     name: shellcheck.sarif
-      #     path: shellcheck.sarif
-      #     overwrite: true
-      #     compression-level: 9
-      #     if-no-files-found: error
-      #     include-hidden-files: false
