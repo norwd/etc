@@ -25,8 +25,8 @@ then
 
 # 		return 127
 # 	}
-# elif [[ -x "$(command -v brew)" ]]
-# then
+elif [[ -x "$(command -v brew)" ]]
+then
 # 	command_not_found_handler() {
 # 		local cmd="$1"
 
