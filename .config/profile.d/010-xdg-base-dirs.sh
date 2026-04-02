@@ -14,7 +14,6 @@ export XDG_STATE_HOME="${HOME}/.local/state"
 
 # Hack XDG support where not already automatic
 # See also: https://wiki.archlinux.org/title/XDG_Base_Directory
-export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 export W3M_DIR="${XDG_STATE_HOME}/w3m"
 export WGETRC="${XDG_CONFIG_HOME}/wget/wgetrc"
 export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
