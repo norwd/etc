@@ -8,7 +8,7 @@ setopt AUTO_MENU
 [ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
 [ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
 
-fpath=("${XDG_DATA_HOME}/zsh/site-functions" $fpath)
+fpath=("${XDG_DATA_HOME}/zsh/site-functions" ${fpath})
 
 function create-site-functions() {
 	if [ ! -f "${HOMEBREW_PREFIX}/share/zsh/site-functions/_$1" ] &&
