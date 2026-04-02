@@ -2,11 +2,11 @@
 
 for profile in ~/.config/profile.d/*.sh
 do
-    if [ -r "${profile}" ]
-    then
-        # shellcheck source=/dev/null
-        . "${profile}"
-    fi
+	if [ -r "${profile}" ]
+	then
+		# shellcheck source=/dev/null
+		. "${profile}"
+	fi
 done
 
 unset profile
