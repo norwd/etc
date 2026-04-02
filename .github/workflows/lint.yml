@@ -8,7 +8,7 @@ permissions: {}
 jobs:
 
   lint-shellcheck:
-    name: "Lint Shellcheck ${{ matrix.shell }} (${{ matrix.severity }})"
+    name: "Lint ShellCheck ${{ matrix.shell }} (${{ matrix.severity }})"
     runs-on: ubuntu-latest
 
     strategy:
@@ -45,7 +45,7 @@ jobs:
           .config/profile
 
   lint-shellcheck-zsh:
-    name: "Lint Shellcheck zsh (${{ matrix.severity }})"
+    name: "Lint ShellCheck zsh (${{ matrix.severity }})"
     runs-on: ubuntu-latest
 
     strategy:
@@ -78,6 +78,45 @@ jobs:
           --severity ${{ matrix.severity }}
           --shell=${{ matrix.shell }}
           --rcfile .config/shellcheckrc
+          $(find . -type f -name "*.zsh")
+          $(find . -type f -name "*.zshenv")
+          $(find . -type f -name "*.zprofile")
+          $(find . -type f -name "*.zshrc")
+          $(find . -type f -name "*.zlogin")
+          $(find . -type f -name "*.zlogout")
+
+  lint-zshellcheck:
+    name: "Lint ZShellCheck zsh (${{ matrix.severity }})"
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        severity:
+          - style
+          - info
+          - warning
+          - error
+
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - name: "Setup"
+        uses: actions/setup-go@v6
+
+      - name: "Install"
+        run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
+
+      - if: runner.debug == 1
+        name: "Debug"
+        run: zshellcheck --version
+
+      - name: "ZShellCheck"
+        run: >
+          zshellcheck
+          --severity ${{ matrix.severity }}
           $(find . -type f -name "*.zsh")
           $(find . -type f -name "*.zshenv")
           $(find . -type f -name "*.zprofile")
