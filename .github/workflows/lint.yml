@@ -32,6 +32,8 @@ jobs:
         run: |
           brew install gnu-tar
           echo "${HOMEBREW_PREFIX}/opt/gnu-tar/libexec/gnubin" >> "${GITHUB_PATH}"
+          gtar --help
+          tar --help
 
       - name: "Install"
         run: wget --quiet --output-document - "${RELEASE_URL}" | sudo tar --extract --xz --directory=/usr/bin/ --transform='s|.*shellcheck-latest/||' shellcheck-latest/shellcheck
@@ -52,7 +54,7 @@ jobs:
           .config/profile
 
   lint-shellcheck-zsh:
-    name: "Lint ShellCheck zsh (${{ matrix.severity }})"
+    name: "Lint ShellCheck zsh (${{ matrix.severity }} / ${{ matrix.runner }})"
     runs-on: ${{ matrix.runner }}
 
     strategy:
@@ -100,7 +102,7 @@ jobs:
           $(find . -type f -name "*.zlogout")
 
   lint-zshellcheck:
-    name: "Lint ZShellCheck zsh (${{ matrix.severity }})"
+    name: "Lint ZShellCheck zsh (${{ matrix.severity }} / ${{ matrix.runner }})"
     runs-on: ${{ matrix.runner }}
 
     strategy:
@@ -120,6 +122,8 @@ jobs:
 
       - name: "Setup"
         uses: actions/setup-go@v6
+        with:
+          go-version: stable
 
       - name: "Install"
         run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
@@ -140,7 +144,7 @@ jobs:
           $(find . -type f -name "*.zlogout")
 
   scan-shellcheck-scan:
-    name: "Scan Shellcheck ${{ matrix.shell }} (${{ matrix.severity }})"
+    name: "Scan Shellcheck ${{ matrix.shell }} (${{ matrix.severity }} / ${{ matrix.runner }})"
     runs-on: ${{ matrix.runner }}
 
     permissions:
