@@ -8,7 +8,7 @@ setopt AUTO_MENU
 [[ -x "$(command -v thefuck)" ]] && source <(thefuck --alias)
 [[ -x "$(command -v fzf)"     ]] && source <(fzf --zsh)
 
-FPATH="${XDG_DATA_HOME:-${HOME}/.local/share}/zsh/site-functions:$FPATH"
+FPATH="${XDG_DATA_HOME:-${HOME}/.local/share}/zsh/site-functions:${FPATH}"
 
 create-site-functions() {
 	# shellcheck disable=SC2154
