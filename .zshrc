@@ -1,12 +1,13 @@
 #!/usr/bin/env zsh
+# shellcheck source=/dev/null
 
 # Setup login shell
 source ~/.config/profile
 
 # Setup zsh specific sub-configs
-for _zshrc_path in ${XDG_CONFIG_HOME}/zsh/*.zsh
+for _zshrc_path in "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/"*.zsh
 do
-    [ -r "$_zshrc_path" ] && source $_zshrc_path
+    [ -r "${_zshrc_path}" ] && source "${_zshrc_path}"
 done
 unset _zshrc
 
@@ -25,7 +26,7 @@ setopt AUTO_CD
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
-export HISTFILE="${XDG_STATE_HOME}/zsh/history"
+export HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/history"
 export HISTSIZE=2000
 export SAVEHIST=1000
 
@@ -33,4 +34,4 @@ export SAVEHIST=1000
 PS1="%1~ %B%#%b "
 
 # Misc
-export GPG_TTY=$(tty)
+export GPG_TTY="$(tty)"
