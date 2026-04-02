@@ -8,13 +8,16 @@ setopt AUTO_MENU
 [ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
 [ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
 
+# shellcheck disable=SC2206
 fpath=("${XDG_DATA_HOME:-${HOME}/.local/share}/zsh/site-functions" ${fpath})
 
 function create-site-functions() {
+	# shellcheck disable=SC2154
 	if [ ! -f "${HOMEBREW_PREFIX}/share/zsh/site-functions/_$1" ] &&
 	   [ ! -f "${XDG_DATA_HOME:-${HOME}/.local/share}/zsh/site-functions/_$1"         ] &&
 	   [   -x "$(command -v "$1")"                              ]
 	then
+		# shellcheck disable=SC2068
 		$@ > "${XDG_DATA_HOME:-${HOME}/.local/share}/zsh/site-functions/_$1"
 	fi
 }
