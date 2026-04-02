@@ -74,12 +74,12 @@ jobs:
             .config/profile
             **/*.{sh,bash,ksh}
 
-      - name: "Upload Artifact"
-        uses: actions/upload-artifact@v6
-        with:
-          name: shellcheck.sarif
-          path: shellcheck.sarif
-          overwrite: true
-          compression-level: 9
-          if-no-files-found: error
-          include-hidden-files: false
+      # - name: "Upload Artifact"
+      #   uses: actions/upload-artifact@v6
+      #   with:
+      #     name: shellcheck.sarif
+      #     path: shellcheck.sarif
+      #     overwrite: true
+      #     compression-level: 9
+      #     if-no-files-found: error
+      #     include-hidden-files: false
