@@ -8,12 +8,13 @@ permissions: {}
 jobs:
 
   lint-shellcheck:
-    name: "Lint ShellCheck ${{ matrix.shell }} (${{ matrix.severity }})"
-    runs-on: ubuntu-latest
+    name: "Lint ShellCheck ${{ matrix.shell }} (${{ matrix.severity }} / ${{ matrix.runner }})"
+    runs-on: ${{ matrix.runner }}
 
     strategy:
       fail-fast: false
       matrix:
+        runner: [ ubuntu-latest, macos-latest ]
         shell: [ sh, ksh, bash, dash ]
         severity:
           - style
@@ -46,11 +47,12 @@ jobs:
 
   lint-shellcheck-zsh:
     name: "Lint ShellCheck zsh (${{ matrix.severity }})"
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
 
     strategy:
       fail-fast: false
       matrix:
+        runner: [ ubuntu-latest, macos-latest ]
         shell: [ ksh, bash ] # zsh isn't supported directly, but is semi-compatible with both ksh and bash
         severity:
           - style
@@ -87,11 +89,12 @@ jobs:
 
   lint-zshellcheck:
     name: "Lint ZShellCheck zsh (${{ matrix.severity }})"
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
 
     strategy:
       fail-fast: false
       matrix:
+        runner: [ ubuntu-latest, macos-latest ]
         severity:
           - style
           - info
@@ -126,7 +129,7 @@ jobs:
 
   scan-shellcheck-scan:
     name: "Scan Shellcheck ${{ matrix.shell }} (${{ matrix.severity }})"
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
 
     permissions:
       contents: read
@@ -135,6 +138,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        runner: [ ubuntu-latest, macos-latest ]
         shell: [ sh, ksh, bash, dash ]
         severity:
           - style
