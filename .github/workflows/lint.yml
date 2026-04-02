@@ -67,16 +67,19 @@ jobs:
       - name: "ShellCheck with SARIF"
         uses: reactive-firewall/shellcheck-scan@v2
         with:
-          # Optional: Custom glob pattern for matching files
+          severity: ${{ matrix.severity }}
+          shell-format: ${{ matrix.shell }}
+          publish-artifacts: false
           match: >
             .config/profile
             **/*.{sh,bash,ksh}
 
-          # Optional: Set minimum severity level (style, info, warning, error)
-          severity: ${{ matrix.severity }}
-
-          # Optional: Specify shell dialect (bash, sh, dash, ksh, busybox)
-          shell-format: ${{ matrix.shell }}
-
-          # Optional: Set to true to upload scan results as artifacts
-          publish-artifacts: true
+      - name: "Upload Artifact"
+        uses: actions/upload-artifact@v6
+        with:
+          name: shellcheck.sarif
+          path: shellcheck.sarif
+          overwrite: true
+          compression-level: 9
+          if-no-files-found: error
+          include-hidden-files: false
