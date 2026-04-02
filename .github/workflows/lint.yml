@@ -36,7 +36,13 @@ jobs:
         run: shellcheck --version
 
       - name: "ShellCheck"
-        run: shellcheck --severity ${{ matrix.severity }} --shell=${{ matrix.shell }} --rcfile .config/shellcheckrc $(find . -type f -name "*.sh") .config/profile
+        run: >
+          shellcheck
+          --severity ${{ matrix.severity }}
+          --shell=${{ matrix.shell }}
+          --rcfile .config/shellcheckrc
+          $(find . -type f -name "*.sh")
+          .config/profile
 
   lint-shellcheck-zsh:
     name: "Lint Shellcheck zsh (${{ matrix.severity }})"
@@ -67,7 +73,17 @@ jobs:
         run: shellcheck --version
 
       - name: "ShellCheck"
-        run: shellcheck --severity ${{ matrix.severity }} --shell=${{ matrix.shell }} --rcfile .config/shellcheckrc $(find . -type f -name "*.zsh") .zshenv .zprofile .zshrc .zlogin .zlogout
+        run: >
+          shellcheck
+          --severity ${{ matrix.severity }}
+          --shell=${{ matrix.shell }}
+          --rcfile .config/shellcheckrc
+          $(find . -type f -name "*.zsh")
+          $(find . -type f -name "*.zshenv")
+          $(find . -type f -name "*.zprofile")
+          $(find . -type f -name "*.zshrc")
+          $(find . -type f -name "*.zlogin")
+          $(find . -type f -name "*.zlogout")
 
   scan-shellcheck-scan:
     name: "Scan Shellcheck ${{ matrix.shell }} (${{ matrix.severity }})"
