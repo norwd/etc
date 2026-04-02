@@ -25,7 +25,7 @@ then
 
 # 		return 127
 # 	}
-elif [[ -x "$(command -v brew)" ]]
+elif true # [[ -x "$(command -v brew)" ]]
 then
 	true
 # 	command_not_found_handler() {
