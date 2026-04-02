@@ -5,8 +5,8 @@ setopt COMPLETE_ALIASES
 setopt AUTO_LIST
 setopt AUTO_MENU
 
-[ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
-[ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
+[[ -x "$(command -v thefuck)" ]] && source <(thefuck --alias)
+[[ -x "$(command -v fzf)"     ]] && source <(fzf --zsh)
 
 # shellcheck disable=SC2206
 fpath=("${XDG_DATA_HOME:-${HOME}/.local/share}/zsh/site-functions" ${fpath})
