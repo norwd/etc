@@ -26,12 +26,18 @@ jobs:
 
       - name: "Checkout"
         uses: actions/checkout@v6
+      
+      - if: runner.os != 'macOS'
+        name: "Install"
+        run: wget --quiet --output-document - "${RELEASE_URL}" | sudo tar --extract --xz --directory=/usr/bin/ --transform='s|.*shellcheck-latest/||' shellcheck-latest/shellcheck
+        env:
+          RELEASE_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
 
-      - #if: runner.os == 'macOS'
+      - if: runner.os == 'macOS'
         name: "Install"
         run: brew install shellcheck
 
-      - if: runner.debug == 1
+      - #if: runner.debug == 1
         name: "Debug"
         run: shellcheck --version
 
@@ -63,12 +69,18 @@ jobs:
 
       - name: "Checkout"
         uses: actions/checkout@v6
+      
+      - if: runner.os != 'macOS'
+        name: "Install"
+        run: wget --quiet --output-document - "${RELEASE_URL}" | sudo tar --extract --xz --directory=/usr/bin/ --transform='s|.*shellcheck-latest/||' shellcheck-latest/shellcheck
+        env:
+          RELEASE_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
 
-      - #if: runner.os == 'macOS'
+      - if: runner.os == 'macOS'
         name: "Install"
         run: brew install shellcheck
 
-      - if: runner.debug == 1
+      - #if: runner.debug == 1
         name: "Debug"
         run: shellcheck --version
 
