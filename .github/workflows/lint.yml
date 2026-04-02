@@ -27,6 +27,12 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
+      - if: runner.os == 'macOS'
+        name: "Use GNU Tar"
+        run: |
+          brew install gnu-tar
+          echo "${HOMEBREW_PREFIX}/opt/gnu-tar/libexec/gnubin" >> "${GITHUB_PATH}"
+
       - name: "Install"
         run: wget --quiet --output-document - "${RELEASE_URL}" | sudo tar --extract --xz --directory=/usr/bin/ --transform='s|.*shellcheck-latest/||' shellcheck-latest/shellcheck
         env:
@@ -64,6 +70,12 @@ jobs:
 
       - name: "Checkout"
         uses: actions/checkout@v6
+
+      - if: runner.os == 'macOS'
+        name: "Use GNU Tar"
+        run: |
+          brew install gnu-tar
+          echo "${HOMEBREW_PREFIX}/opt/gnu-tar/libexec/gnubin" >> "${GITHUB_PATH}"
 
       - name: "Install"
         run: wget --quiet --output-document - "${RELEASE_URL}" | sudo tar --extract --xz --directory=/usr/bin/ --transform='s|.*shellcheck-latest/||' shellcheck-latest/shellcheck
