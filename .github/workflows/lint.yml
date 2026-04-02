@@ -37,7 +37,7 @@ jobs:
         name: "Install"
         run: brew install shellcheck
 
-      - #if: runner.debug == 1
+      - if: runner.debug == 1
         name: "Debug"
         run: shellcheck --version
 
@@ -80,7 +80,7 @@ jobs:
         name: "Install"
         run: brew install shellcheck
 
-      - #if: runner.debug == 1
+      - if: runner.debug == 1
         name: "Debug"
         run: shellcheck --version
 
