@@ -4,6 +4,7 @@ setopt COMPLETE_ALIASES
 setopt AUTO_LIST
 setopt AUTO_MENU
 
+# shellcheck source=/dev/null
 [ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
 [ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
 
