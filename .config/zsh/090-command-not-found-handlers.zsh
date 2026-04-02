@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
 
-if [ -x "$(command -v pkgfile)" ]
+if [[ -x "$(command -v pkgfile)" ]]
 then
 	# shellcheck source=/dev/null
 	source /usr/share/doc/pkgfile/command-not-found.zsh
-elif [ -x "$(command -v apt-get)" ]
+elif [[ -x "$(command -v apt-get)" ]]
 then
 	command_not_found_handler() {
 		local cmd="$1"
@@ -25,7 +25,7 @@ then
 
 		return 127
 	}
-elif [ -x "$(command -v brew)" ]
+elif [[ -x "$(command -v brew)" ]]
 then
 	command_not_found_handler() {
 		local cmd="$1"
