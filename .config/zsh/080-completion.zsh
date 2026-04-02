@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
+# shellcheck source=/dev/null
 
 setopt COMPLETE_ALIASES
 setopt AUTO_LIST
 setopt AUTO_MENU
 
-# shellcheck source=/dev/null
 [ -x "$(command -v thefuck)" ] && source <(thefuck --alias)
 [ -x "$(command -v fzf)"     ] && source <(fzf --zsh)
 
@@ -13,7 +13,7 @@ fpath=("${XDG_DATA_HOME}/zsh/site-functions" $fpath)
 function create-site-functions() {
 	if [ ! -f "${HOMEBREW_PREFIX}/share/zsh/site-functions/_$1" ] &&
 	   [ ! -f "${XDG_DATA_HOME}/zsh/site-functions/_$1"         ] &&
-	   [   -x "$(command -v $1)"                                ]
+	   [   -x "$(command -v "$1")"                              ]
 	then
 		$@ > "${XDG_DATA_HOME}/zsh/site-functions/_$1"
 	fi
