@@ -1,1 +1,1 @@
-config linguist-language=toml
+config linguist-language=toml linguist-detectable
