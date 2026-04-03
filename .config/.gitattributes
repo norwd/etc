@@ -1,2 +1,2 @@
-profile linguist-language=sh
-shellcheckrc linguist-language=shellcheckrc
+profile linguist-language=sh linguist-detectable
+shellcheckrc linguist-language=shellcheckrc linguist-detectable
