@@ -33,13 +33,14 @@ if [[ -x "$(command -v brew)" ]] && ! functions command_not_found_handler >/dev/
 then
 	command_not_found_handler() {
 		local cmd="$1"
+		local pkg="$(brew which-formula --skip-update "${cmd}" 2>/dev/null || true)"
 
-		if brew install --dry-run "${cmd}" 1>/dev/null 2>&1
+		if [[ -n "${pkg}" ]]
 		then
-			if read -r -q "?zsh: command not found, install ${cmd} with homebrew [nyae]? "
+			if read -r -q "?zsh: command not found, install ${pkg} with homebrew [nyae]? "
 			then
 				printf '\nzsh: installing %s...\n' "${cmd}"
-				brew install "${cmd}"
+				brew install "${pkg}"
 				return 0
 			else
 				printf '\nzsh: not installing %s\n' "${cmd}"
