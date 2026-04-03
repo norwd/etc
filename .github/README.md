@@ -29,7 +29,7 @@ dotfiles push
 #### `gpg: unsafe permissions on homedir '~/.config/gnupg'`
 
 This can happen because git doesn't clone the file permisions, other than the executable bit.
-To correct the error, the `~/.config/gnupg` needs to have read/write[^gnupg-homedir] for only the owner:
+To correct the error, set read/write[^gnupg-homedir] for only the owner:
 
 ```shell
 chown -R "$(whoami)" "$GNUPGHOME"
