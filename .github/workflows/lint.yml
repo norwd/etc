@@ -139,7 +139,7 @@ jobs:
           $(find . -type f -name "*.zlogin")
           $(find . -type f -name "*.zlogout")
 
-  scan-shellcheck-scan:
+  scan-shellcheck:
     name: "Scan Shellcheck ${{ matrix.shell }} (${{ matrix.severity }} / ${{ matrix.runner }})"
     runs-on: ${{ matrix.runner }}
 
@@ -175,3 +175,18 @@ jobs:
           match: >
             .config/profile
             **/*.{sh,bash,ksh}
+
+  
+  editorconfig:
+    name: "Check files match editorconfig"
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - name: "Setup"
+        uses: editorconfig-checker/action-editorconfig-checker@v2.2.0
+
+      - name: "Check editorconfig"
+        run: editorconfig-checker
