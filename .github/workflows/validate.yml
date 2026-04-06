@@ -39,5 +39,6 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout
 
       - name: "Validate"
-        shell: zsh {0} # command [options] {0} [more_options]
-        run: echo $ZSH_VERSION
+        #shell: zsh {0} # command [options] {0} [more_options]
+        run: |
+          echo "ZSH_VERSION: $ZSH_VERSION BASH_VERSION: $BASH_VERSION"
