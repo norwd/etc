@@ -116,6 +116,9 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
+      - name: "Fake go.mod"
+        run: touch go.mod
+
       - name: "Setup"
         uses: actions/setup-go@v6
         with:
