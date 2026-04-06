@@ -12,10 +12,7 @@ FPATH="${XDG_DATA_HOME:-${HOME}/.local/share}/zsh/site-functions:${FPATH}"
 
 create-site-functions() {
 	# shellcheck disable=SC2154
-	if \
-		[ ! -f "${HOMEBREW_PREFIX}/share/zsh/site-functions/_$1"               ] &&
-		[ ! -f "${XDG_DATA_HOME:-${HOME}/.local/share}/zsh/site-functions/_$1" ] &&
-		[   -x "$(command -v "$1")"                                            ]
+	if [ ! -f "${HOMEBREW_PREFIX}/share/zsh/site-functions/_$1" ] && [ ! -f "${XDG_DATA_HOME:-${HOME}/.local/share}/zsh/site-functions/_$1" ] && [ -x "$(command -v "$1")" ]
 	then
 		# shellcheck disable=SC2068
 		$@ > "${XDG_DATA_HOME:-${HOME}/.local/share}/zsh/site-functions/_$1"
