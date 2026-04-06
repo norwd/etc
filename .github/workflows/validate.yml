@@ -39,6 +39,7 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout
 
       - name: "Validate"
-        shell: zsh {0} # command [options] {0} [more_options]
+        shell: zsh -l {0}
         run: |
+          env
           test "${SHELL_SESSIONS_DISABLE}" -eq 1
