@@ -74,9 +74,9 @@ jobs:
       - name: "Validate"
         shell: bash --posix -i -l -v {0}
         run: |
-          errfile="${{ runner.temp }}/errfile.txt"
+          . ~/.config/profile # Note: this would need to go in ~/.profile or ~/.bash_profile
 
-          env
+          errfile="${{ runner.temp }}/errfile.txt"
 
           echo "::group::Validate .config/profile.d/005-environment.sh"
           if [ -z "${VISUAL+x}" ]
