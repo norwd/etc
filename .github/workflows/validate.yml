@@ -21,6 +21,14 @@ jobs:
 
     steps:
 
+      - if: runner.os == 'macOS'
+        name: "Install Zsh"
+        run: brew install zsh
+
+      - if: runner.os == 'Linux'
+        name: "Install Zsh"
+        run: sudo apt-get install zsh
+
       - name: "Clone"
         run: git clone --bare https://github.com/norwd/etc ~/etc
 
@@ -31,4 +39,5 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout
 
       - name: "Validate"
-        run: echo TODO
+        shell: zsh {0} # command [options] {0} [more_options]
+        run: echo $0
