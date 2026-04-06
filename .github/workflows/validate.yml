@@ -80,25 +80,25 @@ jobs:
           if [ -z "${VISUAL+x}" ]
           then
             touch "${errfile}"
-            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL/{print NR}' ~/.config/profile.d/005-environment.sh),title=ERROR::VISUAL is not set but should be set to vim in .config/profile.d/005-environment.sh"
+            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1),title=ERROR::VISUAL is not set but should be set to vim in .config/profile.d/005-environment.sh"
           elif [ ! "${VISUAL}" == "vim" ]
           then
             touch "${errfile}"
-            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL/{print NR}' ~/.config/profile.d/005-environment.sh),title=ERROR::VISUAL is set to \"${VISUAL}\" but should be set to vim in .config/profile.d/005-environment.sh"
+            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1),title=ERROR::VISUAL is set to \"${VISUAL}\" but should be set to vim in .config/profile.d/005-environment.sh"
           else
-            echo "::notice file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL/{print NR}' ~/.config/profile.d/005-environment.sh)::VISUAL is set correctly in .config/profile.d/005-environment.sh"
+            echo "::notice file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1)::VISUAL is set correctly in .config/profile.d/005-environment.sh"
           fi
 
           if [ -z "${EDITOR+x}" ]
           then
             touch "${errfile}"
-            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR/{print NR}' ~/.config/profile.d/005-environment.sh),title=ERROR::EDITOR is not set but should be set to vim in .config/profile.d/005-environment.sh"
+            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1),title=ERROR::EDITOR is not set but should be set to vim in .config/profile.d/005-environment.sh"
           elif [ ! "${EDITOR}" == "vim" ]
           then
             touch "${errfile}"
-            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR/{print NR}' ~/.config/profile.d/005-environment.sh),title=ERROR::EDITOR is set to \"${EDITOR}\" but should be set to vim in .config/profile.d/005-environment.sh"
+            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1),title=ERROR::EDITOR is set to \"${EDITOR}\" but should be set to vim in .config/profile.d/005-environment.sh"
           else
-            echo "::notice file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR/{print NR}' ~/.config/profile.d/005-environment.sh)::EDITOR is set correctly in .config/profile.d/005-environment.sh"
+            echo "::notice file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1)::EDITOR is set correctly in .config/profile.d/005-environment.sh"
           fi
           echo "::endgroup::"
 
