@@ -39,9 +39,9 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout
 
       - name: "Validate .zprofile"
-        shell: zsh -l {0}
+        shell: zsh -ilx {0}
         run: test "${SHELL_SESSIONS_DISABLE}" -eq 1
 
-      - name: "Validate"
-        shell: zsh -il {0}
+      - name: "Validate .zshrc"
+        shell: zsh -ilx {0}
         run: setopt
