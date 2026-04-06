@@ -38,8 +38,10 @@ jobs:
       - name: "Checkout"
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout
 
+      - name: "Validate .zprofile"
+        shell: zsh -l {0}
+        run: test "${SHELL_SESSIONS_DISABLE}" -eq 1
+
       - name: "Validate"
         shell: zsh -l {0}
-        run: |
-          env
-          test "${SHELL_SESSIONS_DISABLE}" -eq 1
+        run: setopt
