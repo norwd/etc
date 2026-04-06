@@ -37,6 +37,17 @@ find "$GNUPGHOME" -type f -exec chmod 600 {} \;
 find "$GNUPGHOME" -type d -exec chmod 700 {} \;
 ```
 
+#### Using non-zsh shells
+
+While everything in this repo assumes that zsh will be the only shell used,
+other shells *should* work with minimal setup.
+
+Just add the following to the end of ~/.profile or ~/.bash_profile:
+
+```shell
+. ~/.config/profile
+```
+
 [^gnupg-homedir]: Specifically, the directory should be set to `600`, and the files set to `700`.
   See also https://gist.github.com/oseme-techguy/bae2e309c084d93b75a9b25f49718f85
 
