@@ -62,14 +62,6 @@ jobs:
 
     steps:
 
-      - if: runner.os == 'macOS'
-        name: "Install Zsh"
-        run: brew install zsh
-
-      - if: runner.os == 'Linux'
-        name: "Install Zsh"
-        run: sudo apt-get install zsh
-
       - name: "Clone"
         run: git clone --bare https://github.com/norwd/etc ~/etc
 
@@ -80,9 +72,41 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout
 
       - name: "Validate"
-        shell: zsh -i -l emulate sh -c '. {0}'
+        shell: bash --posix -i -l {0}
         run: |
-          env
+          errfile="${{ runner.temp }}/errfile.txt"
+
+          echo "::group::Validate .config/profile.d/005-environment.sh"
+          if [ -z "${VISUAL+x}" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL/{print NR}' ~/.config/profile.d/005-environment.sh),title=ERROR::VISUAL is not set but should be set to vim in .config/profile.d/005-environment.sh"
+          elif [ ! "${VISUAL}" == "vim" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL/{print NR}' ~/.config/profile.d/005-environment.sh),title=ERROR::VISUAL is set to \"${VISUAL}\" but should be set to vim in .config/profile.d/005-environment.sh"
+          else
+            echo "::notice file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL/{print NR}' ~/.config/profile.d/005-environment.sh)::VISUAL is set correctly in .config/profile.d/005-environment.sh"
+          fi
+
+          if [ -z "${EDITOR+x}" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR/{print NR}' ~/.config/profile.d/005-environment.sh),title=ERROR::EDITOR is not set but should be set to vim in .config/profile.d/005-environment.sh"
+          elif [ ! "${EDITOR}" == "vim" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR/{print NR}' ~/.config/profile.d/005-environment.sh),title=ERROR::EDITOR is set to \"${EDITOR}\" but should be set to vim in .config/profile.d/005-environment.sh"
+          else
+            echo "::notice file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR/{print NR}' ~/.config/profile.d/005-environment.sh)::EDITOR is set correctly in .config/profile.d/005-environment.sh"
+          fi
+          echo "::endgroup::"
+
+          if [ -f "${errfile}" ]
+          then
+            echo "::error title=ERROR::Validation errors detected!"
+            exit 1
+          fi
 
   validate-zsh-environment:
     name: "Validate Zsh Environment"
