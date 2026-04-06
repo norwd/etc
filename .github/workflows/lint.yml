@@ -26,7 +26,7 @@ jobs:
 
       - name: "Checkout"
         uses: actions/checkout@v6
-      
+
       - if: runner.os != 'macOS'
         name: "Install"
         run: wget --quiet --output-document - "${RELEASE_URL}" | sudo tar --extract --xz --directory=/usr/bin/ --transform='s|.*shellcheck-latest/||' shellcheck-latest/shellcheck
@@ -47,8 +47,8 @@ jobs:
           --severity ${{ matrix.severity }}
           --shell=${{ matrix.shell }}
           --rcfile .config/shellcheckrc
-          $(find . -type f -name "*.sh")
           .config/profile
+          $(find . -type f -name "*.sh")
 
   lint-shellcheck-zsh:
     name: "Lint ShellCheck zsh (${{ matrix.severity }} / ${{ matrix.runner }})"
@@ -69,7 +69,7 @@ jobs:
 
       - name: "Checkout"
         uses: actions/checkout@v6
-      
+
       - if: runner.os != 'macOS'
         name: "Install"
         run: wget --quiet --output-document - "${RELEASE_URL}" | sudo tar --extract --xz --directory=/usr/bin/ --transform='s|.*shellcheck-latest/||' shellcheck-latest/shellcheck
@@ -176,7 +176,6 @@ jobs:
             .config/profile
             **/*.{sh,bash,ksh}
 
-  
   editorconfig:
     name: "Check files match editorconfig"
     runs-on: ubuntu-latest
