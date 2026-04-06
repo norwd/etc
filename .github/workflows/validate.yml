@@ -43,5 +43,5 @@ jobs:
         run: test "${SHELL_SESSIONS_DISABLE}" -eq 1
 
       - name: "Validate"
-        shell: zsh -l {0}
+        shell: zsh -il {0}
         run: setopt
