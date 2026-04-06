@@ -38,10 +38,66 @@ jobs:
       - name: "Checkout"
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout
 
-      - name: "Validate .zprofile"
-        shell: zsh -ilx {0}
-        run: test "${SHELL_SESSIONS_DISABLE}" -eq 1
+      - name: "Validate"
+        run: |
+          test -f ~/.zprofile
+          test -f ~/.zshrc
+          test -f ~/.editorconfig
+          test -d ~/.cache
+          test -d ~/.config
+          test -f ~/.config/vim/vimrc
+          test -d ~/.local/bin
+          test -d ~/.local/share
+          test -d ~/.local/state
 
-      - name: "Validate .zshrc"
-        shell: zsh -ilx {0}
-        run: setopt
+  validate-zsh-environment:
+    name: "Validate Installation"
+    runs-on: ${{ matrix.runner }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - macos-15-intel # For compatability
+          - macos-latest
+          - ubuntu-latest
+
+    steps:
+
+      - if: runner.os == 'macOS'
+        name: "Install Zsh"
+        run: brew install zsh
+
+      - if: runner.os == 'Linux'
+        name: "Install Zsh"
+        run: sudo apt-get install zsh
+
+      - name: "Clone"
+        run: git clone --bare https://github.com/norwd/etc ~/etc
+
+      - name: "Configure"
+        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+
+      - name: "Checkout"
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout
+
+      - name: "Validate"
+        shell: zsh -i -l {0}
+        run: |
+          errfile="${{ runner.temp }}/errfile.txt"
+
+          echo "::group::Validate .zprofile"
+          if [ -z ${SHELL_SESSIONS_DISABLE+x} ]
+          then
+            touch "${errfile}"
+            echo "::error file=.zprofile,line=$(awk '/SHELL_SESSIONS_DISABLE/{print NR}' .zprofile),title=ERROR::SHELL_SESSIONS_DISABLE is not set but should be set to 1 in .zprofile"
+          else
+            echo "::notice file=.zprofile,line=$(awk '/SHELL_SESSIONS_DISABLE/{print NR}' .zprofile)::SHELL_SESSIONS_DISABLE is set correctly in .zprofile"
+          fi
+          echo "::endgroup::"
+
+          if [ -f "${errfile}" ]
+          then
+            echo "::error title=ERROR::Validation errors detected!"
+            exit 1
+          fi
