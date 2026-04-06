@@ -40,4 +40,4 @@ jobs:
 
       - name: "Validate"
         shell: zsh {0} # command [options] {0} [more_options]
-        run: echo $0
+        run: echo $ZSH_VERSION
