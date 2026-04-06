@@ -1,0 +1,34 @@
+---
+
+name: "Validate"
+run-name: "Validate"
+on: push
+permissions: {}
+
+jobs:
+
+  validate-installation:
+    name: "Validate Installation"
+    runs-on: ${{ matrix.runner }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - macos-15-intel # For compatability
+          - macos-latest
+          - ubuntu-latest
+
+    steps:
+
+      - name: "Clone"
+        run: git clone --bare https://github.com/norwd/etc ~/etc
+
+      - name: "Configure"
+        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+
+      - name: "Checkout"
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout
+
+      - name: "Validate"
+        run: echo TODO
