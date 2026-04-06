@@ -41,6 +41,4 @@ jobs:
       - name: "Validate"
         shell: zsh {0} # command [options] {0} [more_options]
         run: |
-          echo "$SHELL"
-          echo "ZSH_VERSION: $ZSH_VERSION BASH_VERSION: $BASH_VERSION"
-          env
+          test "${SHELL_SESSIONS_DISABLE}" -eq 1
