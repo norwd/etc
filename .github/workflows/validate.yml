@@ -349,6 +349,8 @@ jobs:
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
 
+          vim --cmd 'source .config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!'
+
           if [[ "$(vim --cmd 'source .config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!')" -eq 0 ]]
           then
               echo "::notice file=.config/vim/vimrc,line=$(awk "/nocompatible/{print NR}" ~/.config/vim/vimrc | head -n 1)::nocompatible is correctly set in .config/vim/vimrc"
