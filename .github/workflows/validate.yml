@@ -133,7 +133,7 @@ jobs:
           then
             touch "${errfile}"
             echo "::error file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_DATA_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1),title=ERROR::XDG_DATA_HOME is not set but should be set to ~/.local/share in .config/profile.d/010-xdg-base-dirs.sh"
-          elif [ ! "${XDG_DATA_HOME}" == "${HOME}/.config" ]
+          elif [ ! "${XDG_DATA_HOME}" == "${HOME}/.local/share" ]
           then
             touch "${errfile}"
             echo "::error file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_DATA_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1),title=ERROR::XDG_DATA_HOME is set to \"${XDG_DATA_HOME}\" but should be set to ~/.local/share in .config/profile.d/010-xdg-base-dirs.sh"
@@ -145,12 +145,26 @@ jobs:
           then
             touch "${errfile}"
             echo "::error file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_STATE_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1),title=ERROR::XDG_STATE_HOME is not set but should be set to ~/.local/state in .config/profile.d/010-xdg-base-dirs.sh"
-          elif [ ! "${XDG_STATE_HOME}" == "${HOME}/.config" ]
+          elif [ ! "${XDG_STATE_HOME}" == "${HOME}/.local/state" ]
           then
             touch "${errfile}"
             echo "::error file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_STATE_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1),title=ERROR::XDG_STATE_HOME is set to \"${XDG_STATE_HOME}\" but should be set to ~/.local/state in .config/profile.d/010-xdg-base-dirs.sh"
           else
             echo "::notice file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_STATE_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1)::XDG_STATE_HOME is set correctly in .config/profile.d/010-xdg-base-dirs.sh"
+          fi
+          echo "::endgroup::"
+
+          echo "::group::Validate .config/profile.d/015-xdg-extra-dirs.sh"
+          if [ -z "${XDG_BIN_HOME+x}" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/015-xdg-extra-dirs.sh,line=$(awk '/XDG_BIN_HOME=/{print NR}' ~/.config/profile.d/015-xdg-extra-dirs.sh | head -n 1),title=ERROR::XDG_BIN_HOME is not set but should be set to ~/.local/bin in .config/profile.d/015-xdg-extra-dirs.sh"
+          elif [ ! "${XDG_BIN_HOME}" == "${HOME}/.local/bin" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/015-xdg-extra-dirs.sh,line=$(awk '/XDG_BIN_HOME=/{print NR}' ~/.config/profile.d/015-xdg-extra-dirs.sh | head -n 1),title=ERROR::XDG_BIN_HOME is set to \"${XDG_BIN_HOME}\" but should be set to ~/.local/bin in .config/profile.d/015-xdg-extra-dirs.sh"
+          else
+            echo "::notice file=.config/profile.d/015-xdg-extra-dirs.sh,line=$(awk '/XDG_BIN_HOME=/{print NR}' ~/.config/profile.d/015-xdg-extra-dirs.sh | head -n 1)::XDG_BIN_HOME is set correctly in .config/profile.d/015-xdg-extra-dirs.sh"
           fi
           echo "::endgroup::"
 
