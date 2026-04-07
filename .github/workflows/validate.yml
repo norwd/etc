@@ -350,7 +350,7 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
       - name: "Validate"
-        shell: vim --cmd 'source {0}'
+        shell: vim -u NONE --cmd 'source {0}'
         run: |
           echo 'aouaeu'
           quit!
