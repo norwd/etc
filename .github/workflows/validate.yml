@@ -301,6 +301,8 @@ jobs:
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
 
+          setopt
+
           for optname in \
             NOBEEP \
             CORRECTALL \
