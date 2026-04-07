@@ -352,14 +352,12 @@ jobs:
         name: "Dump Zsh Options"
         shell: zsh -i -l {0}
         run: |
-          for key value in "${(kv)options}"
+          for key value in ${(kv)options}
           do
             echo "$key: $value"
-          done
-            # |
-            # yq 'map_values(. ==  "on")' --output-format json |
-            # tee -a "${GITHUB_OUTPUT}"
-          exit 1
+          done |
+            yq 'map_values(. ==  "on")' --output-format json |
+            tee -a "${GITHUB_OUTPUT}"
 
       - name: "Validate 'aliases' option"
         run: ${{ steps.zsh-options.outputs.aliases }}
