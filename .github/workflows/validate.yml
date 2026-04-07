@@ -351,8 +351,7 @@ jobs:
 
       - name: "Validate"
         run: |
-          brew install hexyl
-          vim --cmd 'source ~/.config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!' | hexyl
+          vim --cmd 'source ~/.config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!' | hexdump
 
           errfile="${{ runner.temp }}/errfile.txt"
 
