@@ -172,8 +172,8 @@ jobs:
             exit 1
           fi
 
-      - if: contains(steps.*.outcome, 'failure')
-        name: "Failures Detected"
+      - #if: contains(steps.*.outcome, 'failure')
+        name: "Failures Detected ${{ steps.*.outcome }}"
         run: exit 1
 
   validate-zsh-environment:
@@ -358,10 +358,8 @@ jobs:
         run: |
           for key value in ${(kv)options}
           do
-            echo "$key: $value"
-          done |
-            yq 'map_values(. ==  "on")' --output-format json |
-            tee -a "${GITHUB_OUTPUT}"
+            echo "${key}=$([[ "${value}" = "on" ]] && echo true || echo false)"
+          done | tee -a "${GITHUB_OUTPUT}"
 
       - name: "Validate 'aliases' option"
         run: ${{ steps.zsh-options.outputs.aliases }}
