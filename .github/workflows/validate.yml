@@ -51,7 +51,7 @@ jobs:
 
       - id: fake-bash-profile
         name: "Fake Bash Profile"
-        run: echo '. ~/.config/profile' >> ~/.bash_profile
+        run: echo '. ~/.config/profile' >> ~/.bashrc
 
       - if: always() && steps.fake-bash-profile.outcome == 'success'
         name: "Validate .config/profile.d/005-environment.sh"
