@@ -307,7 +307,7 @@ jobs:
             CORRECT \
             DVORAK \
             AUTOCD \
-            INCAPPEND_HISTORY \
+            INCAPPENDHISTORY \
             SHAREHISTORY \
             COMPLETEALIASES \
             AUTOLIST \
