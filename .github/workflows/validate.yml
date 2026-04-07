@@ -352,5 +352,5 @@ jobs:
       - name: "Validate"
         shell: vim -u NONE --cmd 'source {0}'
         run: |
-          echo 'aouaeu'
-          quit!
+          :echo 'aouaeu'
+          :quit!
