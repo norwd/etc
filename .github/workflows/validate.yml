@@ -350,21 +350,6 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
       - name: "Validate"
+        shell: vim --cmd 'source ~/.config/vim/vimrc' --cmd 'source {0}' --cmd 'quit!'
         run: |
-          vim --cmd 'source ~/.config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!' | cut -c 1
-
-          errfile="${{ runner.temp }}/errfile.txt"
-
-          # if [[ "$(vim --cmd 'source ~/.config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!')" -eq 0 ]]
-          # then
-          #     echo "::notice file=.config/vim/vimrc,line=$(awk "/nocompatible/{print NR}" ~/.config/vim/vimrc | head -n 1)::nocompatible is correctly set in .config/vim/vimrc"
-          # else
-          #     echo "::error file=.config/vim/vimrc,line=$(awk "/nocompatible/{print NR}" ~/.config/vim/vimrc | head -n 1),title=ERROR::nocompatible should be set in .config/vim/vimrc"
-          #     touch "${errfile}"
-          # fi
-
-          if [ -f "${errfile}" ]
-          then
-            echo "::error title=ERROR::Validation errors detected!"
-            exit 1
-          fi
+          echo &compatible
