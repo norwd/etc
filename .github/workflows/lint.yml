@@ -33,7 +33,15 @@ jobs:
         name: "Debug"
         run: shellcheck --version
 
-      - name: "ShellCheck"
+      - id: cache
+        name: "Cache"
+        uses: actions/cache/restore@v5
+        with:
+          path: path/to/dependencies
+          key: ${{ runner.os }}-${{ hashFiles('.config/profile', '**/*.sh') }}
+
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "ShellCheck"
         run: >
           shellcheck
           --severity ${{ matrix.severity }}
