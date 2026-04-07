@@ -49,10 +49,12 @@ jobs:
       - name: "Checkout"
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
-      - name: "Fake Bash Profile"
-        run: echo '. ~/.config/profile' >> ~/.bashrc
+      - id: fake-bash-profile
+        name: "Fake Bash Profile"
+        run: echo '. ~/.config/profile' >> ~/.bash_profile
 
-      - name: "Validate .config/profile.d/005-environment.sh"
+      - if: always() && steps.fake-bash-profile.outcome == 'success'
+        name: "Validate .config/profile.d/005-environment.sh"
         shell: bash --posix -i -l {0}
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
@@ -87,7 +89,8 @@ jobs:
             exit 1
           fi
 
-      - name: "Validate .config/profile.d/010-xdg-base-dirs.sh"
+      - if: always() && steps.fake-bash-profile.outcome == 'success'
+        name: "Validate .config/profile.d/010-xdg-base-dirs.sh"
         shell: bash --posix -i -l {0}
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
@@ -146,7 +149,8 @@ jobs:
             exit 1
           fi
 
-      - name: "Validate .config/profile.d/015-xdg-extra-dirs.sh"
+      - if: always() && steps.fake-bash-profile.outcome == 'success'
+        name: "Validate .config/profile.d/015-xdg-extra-dirs.sh"
         shell: bash --posix -i -l {0}
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
