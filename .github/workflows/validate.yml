@@ -15,6 +15,10 @@ jobs:
       - name: "Install Zsh"
         run: brew install zsh
 
+      - if: runner.debug == 1
+        name: "Show zsh version"
+        run: zsh --version
+
       - name: "Clone"
         run: git clone --bare https://github.com/norwd/etc ~/etc
 
@@ -159,6 +163,10 @@ jobs:
       - name: "Install Zsh"
         run: brew install zsh
 
+      - if: runner.debug == 1
+        name: "Show zsh version"
+        run: zsh --version
+
       - name: "Clone"
         run: git clone --bare https://github.com/norwd/etc ~/etc
 
@@ -287,6 +295,10 @@ jobs:
       - name: "Install Zsh"
         run: brew install zsh
 
+      - if: runner.debug == 1
+        name: "Show zsh version"
+        run: zsh --version
+
       - name: "Clone"
         run: git clone --bare https://github.com/norwd/etc ~/etc
 
@@ -333,8 +345,12 @@ jobs:
     runs-on: macos-latest
     steps:
 
-      - name: "Install Vim"
-        run: brew install Vim
+      # - name: "Install Vim"
+      #   run: brew install Vim
+
+      - if: runner.debug == 1
+        name: "Show vim version"
+        run: vim --version
 
       - name: "Clone"
         run: git clone --bare https://github.com/norwd/etc ~/etc
@@ -349,9 +365,7 @@ jobs:
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
 
-          vim --cmd 'source .config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!'
-
-          if [[ "$(vim --cmd 'source .config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!')" -eq 0 ]]
+          if [[ "$(vim --cmd 'source ~/.config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!')" -eq 0 ]]
           then
               echo "::notice file=.config/vim/vimrc,line=$(awk "/nocompatible/{print NR}" ~/.config/vim/vimrc | head -n 1)::nocompatible is correctly set in .config/vim/vimrc"
           else
