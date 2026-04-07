@@ -173,7 +173,7 @@ jobs:
           fi
 
       - #if: contains(steps.*.outcome, 'failure')
-        name: "Failures Detected ${{ steps.*.outcome }}"
+        name: "Failures Detected ${{ toJson(steps.*.outcome) }}"
         run: exit 1
 
   validate-zsh-environment:
@@ -359,13 +359,25 @@ jobs:
           for key value in ${(kv)options}
           do
             echo "${key}=$([[ "${value}" = "on" ]] && echo true || echo false)"
-          done | tee -a "${GITHUB_OUTPUT}"
+          done | sort | tee -a "${GITHUB_OUTPUT}"
 
       - name: "Validate 'aliases' option"
-        run: ${{ steps.zsh-options.outputs.aliases }}
+        run: ${{ steps.zsh-options.outputs.aliases || false }}
 
       - name: "Validate 'appendhistory' option"
-        run: ${{ steps.zsh-options.outputs.appendhistory }}
+        run: ${{ steps.zsh-options.outputs.appendhistory || false }}
+
+      - name: "Validate 'autocd' option"
+        run: ${{ steps.zsh-options.outputs.autocd || false }}
+
+      - name: "Validate 'autolist' option"
+        run: ${{ steps.zsh-options.outputs.autolist || false }}
+
+      - name: "Validate 'automenu' option"
+        run: ${{ steps.zsh-options.outputs.automenu || false }}
+
+      - name: "Validate 'beep' option"
+        run: ${{ !steps.zsh-options.outputs.beep || 'antsatsneutsnthsnaeuotsnsntoetnsuaosnt' }}
 
       - name: "Validate"
         shell: zsh -i -l {0}
@@ -377,12 +389,9 @@ jobs:
             CORRECTALL \
             CORRECT \
             DVORAK \
-            AUTOCD \
             INCAPPENDHISTORY \
             SHAREHISTORY \
-            COMPLETEALIASES \
-            AUTOLIST \
-            AUTOMENU
+            COMPLETEALIASES
           do
             if [[ "$options[${optname}]" == "on" ]]
             then
