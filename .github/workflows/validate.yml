@@ -17,7 +17,7 @@ jobs:
         run: zsh --version
 
       - name: "Clone"
-        run: git clone --bare https://github.com/norwd/etc ~/etc
+        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
 
       - name: "Configure"
         run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
@@ -41,7 +41,7 @@ jobs:
     steps:
 
       - name: "Clone"
-        run: git clone --bare https://github.com/norwd/etc ~/etc
+        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
 
       - name: "Configure"
         run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
@@ -162,7 +162,7 @@ jobs:
         run: zsh --version
 
       - name: "Clone"
-        run: git clone --bare https://github.com/norwd/etc ~/etc
+        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
 
       - name: "Configure"
         run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
@@ -291,7 +291,7 @@ jobs:
         run: zsh --version
 
       - name: "Clone"
-        run: git clone --bare https://github.com/norwd/etc ~/etc
+        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
 
       - name: "Configure"
         run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
@@ -341,7 +341,7 @@ jobs:
         run: vim --version
 
       - name: "Clone"
-        run: git clone --bare https://github.com/norwd/etc ~/etc
+        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
 
       - name: "Configure"
         run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
@@ -351,7 +351,7 @@ jobs:
 
       - name: "Validate"
         run: |
-          vim --cmd 'source ~/.config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!'
+          vim --cmd 'source ~/.config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!' | cut --bytes=1
 
           errfile="${{ runner.temp }}/errfile.txt"
 
