@@ -364,8 +364,10 @@ jobs:
             AUTO_LIST \
             AUTO_MENU
           do
-            if [[ ! setopt | grep -iq "${optname}" ]]
+            if setopt | grep -iq "${optname}"
             then
+              echo "::notice file=.zshrc,line=$(awk "/${optname}=/{print NR}" ~/.zshrc.sh | head -n 1)::${optname} is correctly set in .zshrc"
+            else
               touch "${errfile}"
               echo "::error file=.zshrc,line=$(awk "/${optname}=/{print NR}" ~/.zshrc.sh | head -n 1),title=ERROR::${optname} should be set in .zshrc"
             fi
