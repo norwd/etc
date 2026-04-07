@@ -297,7 +297,7 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
       - name: "Validate"
-        shell: zsh -i -l -x {0}
+        shell: zsh -i -l {0}
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
 
