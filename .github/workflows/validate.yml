@@ -50,10 +50,10 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
       - name: "Fake Bash Profile"
-        run: echo '. ~/.config/profile' >> ~/.bash_profile
+        run: echo '. ~/.config/profile' >> ~/.bashrc
 
       - name: "Validate .config/profile.d/005-environment.sh"
-        shell: bash --posix -i -l -x {0}
+        shell: bash --posix -i -l -xv {0}
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
 
@@ -370,11 +370,13 @@ jobs:
         run: ${{ steps.zsh-options.outputs.automenu || false }}
 
       - name: "Validate 'beep' option"
-        run: ${{ (!steps.zsh-options.outputs.beep) }}
+        run: echo "${{ toJson(steps.zsh-options.outputs) }}"
 
       - name: "Validate"
         shell: zsh -i -l {0}
         run: |
+          exit 1
+
           errfile="${{ runner.temp }}/errfile.txt"
 
           for optname in \
