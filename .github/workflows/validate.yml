@@ -301,6 +301,8 @@ jobs:
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
 
+          source ~/.config/zsh/080-completion.zsh
+
           setopt
 
           for optname in \
