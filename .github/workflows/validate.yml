@@ -315,3 +315,64 @@ jobs:
             echo "::error title=ERROR::Validation errors detected!"
             exit 1
           fi
+
+  validate-zsh-options:
+    name: "Validate Zsh Options"
+    runs-on: ${{ matrix.runner }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - macos-15-intel # For compatability
+          - macos-latest
+          - ubuntu-latest
+
+    steps:
+
+      - if: runner.os == 'macOS'
+        name: "Install Zsh"
+        run: brew install zsh
+
+      - if: runner.os == 'Linux'
+        name: "Install Zsh"
+        run: sudo apt-get install zsh
+
+      - name: "Clone"
+        run: git clone --bare https://github.com/norwd/etc ~/etc
+
+      - name: "Configure"
+        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+
+      - name: "Checkout"
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
+
+      - name: "Validate"
+        shell: zsh -i -l {0}
+        run: |
+          errfile="${{ runner.temp }}/errfile.txt"
+
+          for optname in \
+            NOBEEP \
+            CORRECT_ALL \
+            CORRECT \
+            DVORAK \
+            AUTO_CD \
+            INC_APPEND_HISTORY \
+            SHARE_HISTORY \
+            COMPLETE_ALIASES \
+            AUTO_LIST \
+            AUTO_MENU
+          do
+            if [[ ! setopt | grep -iq "${optname}" ]]
+            then
+              touch "${errfile}"
+              echo "::error file=.zshrc,line=$(awk "/${optname}=/{print NR}" ~/.zshrc.sh | head -n 1),title=ERROR::${optname} should be set in .zshrc"
+            fi
+          done
+
+          if [ -f "${errfile}" ]
+          then
+            echo "::error title=ERROR::Validation errors detected!"
+            exit 1
+          fi
