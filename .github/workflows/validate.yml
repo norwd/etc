@@ -49,14 +49,13 @@ jobs:
       - name: "Checkout"
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
-      - name: "Validate"
+      - name: "Validate .config/profile.d/005-environment.sh"
         shell: bash --posix -i -l {0}
         run: |
           . ~/.config/profile # Note: this would need to go in ~/.profile or ~/.bash_profile
 
           errfile="${{ runner.temp }}/errfile.txt"
 
-          echo "::group::Validate .config/profile.d/005-environment.sh"
           if [ -z "${VISUAL+x}" ]
           then
             touch "${errfile}"
@@ -80,9 +79,20 @@ jobs:
           else
             echo "::notice file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1)::EDITOR is set correctly in .config/profile.d/005-environment.sh"
           fi
-          echo "::endgroup::"
 
-          echo "::group::Validate .config/profile.d/010-xdg-base-dirs.sh"
+          if [ -f "${errfile}" ]
+          then
+            echo "::error title=ERROR::Validation errors detected!"
+            exit 1
+          fi
+
+      - name: "Validate .config/profile.d/010-xdg-base-dirs.sh"
+        shell: bash --posix -i -l {0}
+        run: |
+          . ~/.config/profile # Note: this would need to go in ~/.profile or ~/.bash_profile
+
+          errfile="${{ runner.temp }}/errfile.txt"
+
           if [ -z "${XDG_CONFIG_HOME+x}" ]
           then
             touch "${errfile}"
@@ -130,9 +140,20 @@ jobs:
           else
             echo "::notice file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_STATE_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1)::XDG_STATE_HOME is set correctly in .config/profile.d/010-xdg-base-dirs.sh"
           fi
-          echo "::endgroup::"
 
-          echo "::group::Validate .config/profile.d/015-xdg-extra-dirs.sh"
+          if [ -f "${errfile}" ]
+          then
+            echo "::error title=ERROR::Validation errors detected!"
+            exit 1
+          fi
+
+      - name: "Validate .config/profile.d/015-xdg-extra-dirs.sh"
+        shell: bash --posix -i -l {0}
+        run: |
+          . ~/.config/profile # Note: this would need to go in ~/.profile or ~/.bash_profile
+
+          errfile="${{ runner.temp }}/errfile.txt"
+
           if [ -z "${XDG_BIN_HOME+x}" ]
           then
             touch "${errfile}"
@@ -144,7 +165,6 @@ jobs:
           else
             echo "::notice file=.config/profile.d/015-xdg-extra-dirs.sh,line=$(awk '/XDG_BIN_HOME=/{print NR}' ~/.config/profile.d/015-xdg-extra-dirs.sh | head -n 1)::XDG_BIN_HOME is set correctly in .config/profile.d/015-xdg-extra-dirs.sh"
           fi
-          echo "::endgroup::"
 
           if [ -f "${errfile}" ]
           then
@@ -170,12 +190,11 @@ jobs:
       - name: "Checkout"
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
-      - name: "Validate"
+      - name: "Validate .zprofile"
         shell: zsh -i -l {0}
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
 
-          echo "::group::Validate .zprofile"
           if [ -z ${SHELL_SESSIONS_DISABLE+x} ]
           then
             touch "${errfile}"
@@ -183,9 +202,18 @@ jobs:
           else
             echo "::notice file=.zprofile,line=$(awk '/SHELL_SESSIONS_DISABLE/{print NR}' ~/.zprofile)::SHELL_SESSIONS_DISABLE is set correctly in .zprofile"
           fi
-          echo "::endgroup::"
 
-          echo "::group::Validate .config/profile.d/005-environment.sh"
+          if [ -f "${errfile}" ]
+          then
+            echo "::error title=ERROR::Validation errors detected!"
+            exit 1
+          fi
+
+      - name: "Validate .config/profile.d/005-environment.sh"
+        shell: zsh -i -l {0}
+        run: |
+          errfile="${{ runner.temp }}/errfile.txt"
+
           if [ -z "${VISUAL+x}" ]
           then
             touch "${errfile}"
@@ -209,9 +237,18 @@ jobs:
           else
             echo "::notice file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1)::EDITOR is set correctly in .config/profile.d/005-environment.sh"
           fi
-          echo "::endgroup::"
 
-          echo "::group::Validate .config/profile.d/010-xdg-base-dirs.sh"
+          if [ -f "${errfile}" ]
+          then
+            echo "::error title=ERROR::Validation errors detected!"
+            exit 1
+          fi
+
+      - name: "Validate .config/profile.d/010-xdg-base-dirs.sh"
+        shell: zsh -i -l {0}
+        run: |
+          errfile="${{ runner.temp }}/errfile.txt"
+
           if [ -z "${XDG_CONFIG_HOME+x}" ]
           then
             touch "${errfile}"
@@ -259,9 +296,18 @@ jobs:
           else
             echo "::notice file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_STATE_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1)::XDG_STATE_HOME is set correctly in .config/profile.d/010-xdg-base-dirs.sh"
           fi
-          echo "::endgroup::"
 
-          echo "::group::Validate .config/profile.d/015-xdg-extra-dirs.sh"
+          if [ -f "${errfile}" ]
+          then
+            echo "::error title=ERROR::Validation errors detected!"
+            exit 1
+          fi
+
+      - name: "Validate .config/profile.d/015-xdg-extra-dirs.sh"
+        shell: zsh -i -l {0}
+        run: |
+          errfile="${{ runner.temp }}/errfile.txt"
+
           if [ -z "${XDG_BIN_HOME+x}" ]
           then
             touch "${errfile}"
@@ -273,7 +319,6 @@ jobs:
           else
             echo "::notice file=.config/profile.d/015-xdg-extra-dirs.sh,line=$(awk '/XDG_BIN_HOME=/{print NR}' ~/.config/profile.d/015-xdg-extra-dirs.sh | head -n 1)::XDG_BIN_HOME is set correctly in .config/profile.d/015-xdg-extra-dirs.sh"
           fi
-          echo "::endgroup::"
 
           if [ -f "${errfile}" ]
           then
