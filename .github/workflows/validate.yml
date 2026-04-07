@@ -72,7 +72,7 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
       - name: "Validate"
-        shell: bash --posix -i -l -v {0}
+        shell: bash --posix -i -l {0}
         run: |
           . ~/.config/profile # Note: this would need to go in ~/.profile or ~/.bash_profile
 
@@ -101,6 +101,56 @@ jobs:
             echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1),title=ERROR::EDITOR is set to \"${EDITOR}\" but should be set to vim in .config/profile.d/005-environment.sh"
           else
             echo "::notice file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1)::EDITOR is set correctly in .config/profile.d/005-environment.sh"
+          fi
+          echo "::endgroup::"
+
+          echo "::group::Validate .config/profile.d/010-xdg-base-dirs.sh"
+          if [ -z "${XDG_CONFIG_HOME+x}" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_CONFIG_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1),title=ERROR::XDG_CONFIG_HOME is not set but should be set to ~/.config in .config/profile.d/010-xdg-base-dirs.sh"
+          elif [ ! "${XDG_CONFIG_HOME}" == "${HOME}/.config" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_CONFIG_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1),title=ERROR::XDG_CONFIG_HOME is set to \"${XDG_CONFIG_HOME}\" but should be set to ~/.config in .config/profile.d/010-xdg-base-dirs.sh"
+          else
+            echo "::notice file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_CONFIG_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1)::XDG_CONFIG_HOME is set correctly in .config/profile.d/010-xdg-base-dirs.sh"
+          fi
+
+          if [ -z "${XDG_CACHE_HOME+x}" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_CACHE_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1),title=ERROR::XDG_CACHE_HOME is not set but should be set to ~/.cache in .config/profile.d/010-xdg-base-dirs.sh"
+          elif [ ! "${XDG_CACHE_HOME}" == "${HOME}/.cache" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_CACHE_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1),title=ERROR::XDG_CACHE_HOME is set to \"${XDG_CACHE_HOME}\" but should be set to ~/.cache in .config/profile.d/010-xdg-base-dirs.sh"
+          else
+            echo "::notice file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_CACHE_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1)::XDG_CACHE_HOME is set correctly in .config/profile.d/010-xdg-base-dirs.sh"
+          fi
+
+          if [ -z "${XDG_DATA_HOME+x}" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_DATA_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1),title=ERROR::XDG_DATA_HOME is not set but should be set to ~/.local/share in .config/profile.d/010-xdg-base-dirs.sh"
+          elif [ ! "${XDG_DATA_HOME}" == "${HOME}/.config" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_DATA_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1),title=ERROR::XDG_DATA_HOME is set to \"${XDG_DATA_HOME}\" but should be set to ~/.local/share in .config/profile.d/010-xdg-base-dirs.sh"
+          else
+            echo "::notice file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_DATA_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1)::XDG_DATA_HOME is set correctly in .config/profile.d/010-xdg-base-dirs.sh"
+          fi
+
+          if [ -z "${XDG_STATE_HOME+x}" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_STATE_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1),title=ERROR::XDG_STATE_HOME is not set but should be set to ~/.local/state in .config/profile.d/010-xdg-base-dirs.sh"
+          elif [ ! "${XDG_STATE_HOME}" == "${HOME}/.config" ]
+          then
+            touch "${errfile}"
+            echo "::error file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_STATE_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1),title=ERROR::XDG_STATE_HOME is set to \"${XDG_STATE_HOME}\" but should be set to ~/.local/state in .config/profile.d/010-xdg-base-dirs.sh"
+          else
+            echo "::notice file=.config/profile.d/010-xdg-base-dirs.sh,line=$(awk '/XDG_STATE_HOME=/{print NR}' ~/.config/profile.d/010-xdg-base-dirs.sh | head -n 1)::XDG_STATE_HOME is set correctly in .config/profile.d/010-xdg-base-dirs.sh"
           fi
           echo "::endgroup::"
 
