@@ -350,6 +350,7 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
       - name: "Validate"
-        shell: vim --cmd 'source ~/.config/vim/vimrc' --cmd 'source {0}' --cmd 'quit!'
+        shell: vim --cmd 'source {0}'
         run: |
-          echo &compatible
+          echo 'aouaeu'
+          quit!
