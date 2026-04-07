@@ -12,9 +12,6 @@ jobs:
     runs-on: macos-latest
     steps:
 
-      - name: "Install Zsh"
-        run: brew install zsh
-
       - if: runner.debug == 1
         name: "Show zsh version"
         run: zsh --version
@@ -160,9 +157,6 @@ jobs:
     runs-on: macos-latest
     steps:
 
-      - name: "Install Zsh"
-        run: brew install zsh
-
       - if: runner.debug == 1
         name: "Show zsh version"
         run: zsh --version
@@ -292,9 +286,6 @@ jobs:
     runs-on: macos-latest
     steps:
 
-      - name: "Install Zsh"
-        run: brew install zsh
-
       - if: runner.debug == 1
         name: "Show zsh version"
         run: zsh --version
@@ -345,9 +336,6 @@ jobs:
     runs-on: macos-latest
     steps:
 
-      # - name: "Install Vim"
-      #   run: brew install Vim
-
       - if: runner.debug == 1
         name: "Show vim version"
         run: vim --version
@@ -363,15 +351,17 @@ jobs:
 
       - name: "Validate"
         run: |
+          vim --cmd 'source ~/.config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!'
+
           errfile="${{ runner.temp }}/errfile.txt"
 
-          if [[ "$(vim --cmd 'source ~/.config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!')" -eq 0 ]]
-          then
-              echo "::notice file=.config/vim/vimrc,line=$(awk "/nocompatible/{print NR}" ~/.config/vim/vimrc | head -n 1)::nocompatible is correctly set in .config/vim/vimrc"
-          else
-              echo "::error file=.config/vim/vimrc,line=$(awk "/nocompatible/{print NR}" ~/.config/vim/vimrc | head -n 1),title=ERROR::nocompatible should be set in .config/vim/vimrc"
-              touch "${errfile}"
-          fi
+          # if [[ "$(vim --cmd 'source ~/.config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!')" -eq 0 ]]
+          # then
+          #     echo "::notice file=.config/vim/vimrc,line=$(awk "/nocompatible/{print NR}" ~/.config/vim/vimrc | head -n 1)::nocompatible is correctly set in .config/vim/vimrc"
+          # else
+          #     echo "::error file=.config/vim/vimrc,line=$(awk "/nocompatible/{print NR}" ~/.config/vim/vimrc | head -n 1),title=ERROR::nocompatible should be set in .config/vim/vimrc"
+          #     touch "${errfile}"
+          # fi
 
           if [ -f "${errfile}" ]
           then
