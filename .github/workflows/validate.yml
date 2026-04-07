@@ -301,10 +301,6 @@ jobs:
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
 
-          source ~/.config/zsh/080-completion.zsh
-
-          setopt
-
           for optname in \
             NOBEEP \
             CORRECTALL \
@@ -319,12 +315,47 @@ jobs:
           do
             if [[ "$options[${optname}]" == "on" ]]
             then
-              echo "::notice file=.zshrc,line=$(awk "/${optname}=/{print NR}" ~/.zshrc | head -n 1)::${optname} is correctly set in .zshrc"
+              echo "::notice file=.zshrc,line=$(awk "/${optname}/{print NR}" ~/.zshrc | head -n 1)::${optname} is correctly set in .zshrc"
             else
               touch "${errfile}"
-              echo "::error file=.zshrc,line=$(awk "/${optname}=/{print NR}" ~/.zshrc | head -n 1),title=ERROR::${optname} should be set in .zshrc"
+              echo "::error file=.zshrc,line=$(awk "/${optname}/{print NR}" ~/.zshrc | head -n 1),title=ERROR::${optname} should be set in .zshrc"
             fi
           done
+
+          if [ -f "${errfile}" ]
+          then
+            echo "::error title=ERROR::Validation errors detected!"
+            exit 1
+          fi
+
+  validate-vimrc:
+    name: "Validate Vimrc"
+    runs-on: macos-latest
+    steps:
+
+      - name: "Install Vim"
+        run: brew install Vim
+
+      - name: "Clone"
+        run: git clone --bare https://github.com/norwd/etc ~/etc
+
+      - name: "Configure"
+        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+
+      - name: "Checkout"
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
+
+      - name: "Validate"
+        run: |
+          errfile="${{ runner.temp }}/errfile.txt"
+
+          if [[ "$(vim --cmd 'source .config/vim/vimrc' --cmd 'echo &compatible' --cmd 'quit!')" -eq 0 ]]
+          then
+              echo "::notice file=.config/vim/vimrc,line=$(awk "/nocompatible/{print NR}" ~/.config/vim/vimrc | head -n 1)::nocompatible is correctly set in .config/vim/vimrc"
+          else
+              echo "::error file=.config/vim/vimrc,line=$(awk "/nocompatible/{print NR}" ~/.config/vim/vimrc | head -n 1),title=ERROR::nocompatible should be set in .config/vim/vimrc"
+              touch "${errfile}"
+          fi
 
           if [ -f "${errfile}" ]
           then
