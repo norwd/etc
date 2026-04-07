@@ -172,6 +172,10 @@ jobs:
             exit 1
           fi
 
+      - if: contains(steps.*.outcome, 'failure')
+        name: "Failures Detected"
+        run: exit 1
+
   validate-zsh-environment:
     name: "Validate Zsh Environment"
     runs-on: macos-latest
