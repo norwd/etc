@@ -354,51 +354,50 @@ jobs:
             echo "${key}=$([[ "${value}" = "on" ]] && echo true || echo false)"
           done | sort | tee -a "${GITHUB_OUTPUT}"
 
-      - name: "Validate 'aliases' option"
-        run: ${{ steps.zsh-options.outputs.aliases || false }}
+      - if: always() && steps.zsh-options.outcome == 'success'
+        name: "Validate 'aliases' option"
+        run: ${{ fromJson(steps.zsh-options.outputs.aliases) || false }}
 
-      - name: "Validate 'appendhistory' option"
-        run: ${{ steps.zsh-options.outputs.appendhistory || false }}
+      - if: always() && steps.zsh-options.outcome == 'success'
+        name: "Validate 'appendhistory' option"
+        run: ${{ fromJson(steps.zsh-options.outputs.appendhistory) || false }}
 
-      - name: "Validate 'autocd' option"
-        run: ${{ steps.zsh-options.outputs.autocd || false }}
+      - if: always() && steps.zsh-options.outcome == 'success'
+        name: "Validate 'autocd' option"
+        run: ${{ fromJson(steps.zsh-options.outputs.autocd) || false }}
 
-      - name: "Validate 'autolist' option"
-        run: ${{ steps.zsh-options.outputs.autolist || false }}
+      - if: always() && steps.zsh-options.outcome == 'success'
+        name: "Validate 'autolist' option"
+        run: ${{ fromJson(steps.zsh-options.outputs.autolist) || false }}
 
-      - name: "Validate 'automenu' option"
-        run: ${{ steps.zsh-options.outputs.automenu || false }}
+      - if: always() && steps.zsh-options.outcome == 'success'
+        name: "Validate 'automenu' option"
+        run: ${{ fromJson(steps.zsh-options.outputs.automenu) || false }}
 
-      - name: "Validate 'beep' option"
-        run: echo ${{ ! fromJson(steps.zsh-options.outputs.beep) || 'aoeusasnthaeuosthneuoanths' }}
+      - if: always() && steps.zsh-options.outcome == 'success'
+        name: "Validate 'beep' option"
+        run: ${{ ! fromJson(steps.zsh-options.outputs.beep) || false }}
 
-      - name: "Validate"
-        shell: zsh -i -l {0}
-        run: |
-          exit 1
+      - if: always() && steps.zsh-options.outcome == 'success'
+        name: "Validate 'completealiases' option"
+        run: ${{ fromJson(steps.zsh-options.outputs.completealiases) || false }}
 
-          errfile="${{ runner.temp }}/errfile.txt"
+      - if: always() && steps.zsh-options.outcome == 'success'
+        name: "Validate 'correct' option"
+        run: ${{ fromJson(steps.zsh-options.outputs.correct) || false }}
 
-          for optname in \
-            NOBEEP \
-            CORRECTALL \
-            CORRECT \
-            DVORAK \
-            INCAPPENDHISTORY \
-            SHAREHISTORY \
-            COMPLETEALIASES
-          do
-            if [[ "$options[${optname}]" == "on" ]]
-            then
-              echo "::notice file=.zshrc,line=$(awk "/${optname}/{print NR}" ~/.zshrc | head -n 1)::${optname} is correctly set in .zshrc"
-            else
-              touch "${errfile}"
-              echo "::error file=.zshrc,line=$(awk "/${optname}/{print NR}" ~/.zshrc | head -n 1),title=ERROR::${optname} should be set in .zshrc"
-            fi
-          done
+      - if: always() && steps.zsh-options.outcome == 'success'
+        name: "Validate 'correctall' option"
+        run: ${{ fromJson(steps.zsh-options.outputs.correctall) || false }}
 
-          if [ -f "${errfile}" ]
-          then
-            echo "::error title=ERROR::Validation errors detected!"
-            exit 1
-          fi
+      - if: always() && steps.zsh-options.outcome == 'success'
+        name: "Validate 'dvorak' option"
+        run: ${{ fromJson(steps.zsh-options.outputs.dvorak) || false }}
+
+      - if: always() && steps.zsh-options.outcome == 'success'
+        name: "Validate 'incappendhistory' option"
+        run: ${{ fromJson(steps.zsh-options.outputs.incappendhistory) || false }}
+
+      - if: always() && steps.zsh-options.outcome == 'success'
+        name: "Validate 'sharehistory' option"
+        run: ${{ fromJson(steps.zsh-options.outputs.sharehistory) || false }}
