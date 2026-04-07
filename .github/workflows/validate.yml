@@ -15,7 +15,6 @@ jobs:
       fail-fast: false
       matrix:
         runner:
-          - macos-15-intel # For compatability
           - macos-latest
           - ubuntu-latest
 
@@ -56,7 +55,6 @@ jobs:
       fail-fast: false
       matrix:
         runner:
-          - macos-15-intel # For compatability
           - macos-latest
           - ubuntu-latest
 
@@ -182,7 +180,6 @@ jobs:
       fail-fast: false
       matrix:
         runner:
-          - macos-15-intel # For compatability
           - macos-latest
           - ubuntu-latest
 
@@ -324,7 +321,6 @@ jobs:
       fail-fast: false
       matrix:
         runner:
-          - macos-15-intel # For compatability
           - macos-latest
           - ubuntu-latest
 
@@ -366,10 +362,10 @@ jobs:
           do
             if setopt | grep -iq "${optname}"
             then
-              echo "::notice file=.zshrc,line=$(awk "/${optname}=/{print NR}" ~/.zshrc.sh | head -n 1)::${optname} is correctly set in .zshrc"
+              echo "::notice file=.zshrc,line=$(awk "/${optname}=/{print NR}" ~/.zshrc | head -n 1)::${optname} is correctly set in .zshrc"
             else
               touch "${errfile}"
-              echo "::error file=.zshrc,line=$(awk "/${optname}=/{print NR}" ~/.zshrc.sh | head -n 1),title=ERROR::${optname} should be set in .zshrc"
+              echo "::error file=.zshrc,line=$(awk "/${optname}=/{print NR}" ~/.zshrc | head -n 1),title=ERROR::${optname} should be set in .zshrc"
             fi
           done
 
