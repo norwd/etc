@@ -26,13 +26,6 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - name: "Install"
-        run: brew install shellcheck
-
-      - if: runner.debug == 1
-        name: "Debug"
-        run: shellcheck --version
-
       - id: cache
         name: "Cache"
         uses: actions/cache@v5
@@ -41,6 +34,10 @@ jobs:
           path: |
             .config/profile
             **/*.sh
+
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Install"
+        run: brew install shellcheck
 
       - if: steps.cache.outputs.cache-hit != 'true'
         name: "ShellCheck"
@@ -71,13 +68,6 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - name: "Install"
-        run: brew install shellcheck
-
-      - if: runner.debug == 1
-        name: "Debug"
-        run: shellcheck --version
-
       - id: cache
         name: "Cache"
         uses: actions/cache@v5
@@ -90,6 +80,10 @@ jobs:
             **/*.zshrc
             **/*.zlogin
             **/*.zlogout
+
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Install"
+        run: brew install shellcheck
 
       - if: steps.cache.outputs.cache-hit != 'true'
         name: "ShellCheck"
@@ -126,18 +120,6 @@ jobs:
       - name: "Fake go.mod"
         run: touch go.mod
 
-      - name: "Setup"
-        uses: actions/setup-go@v6
-        with:
-          go-version: stable
-
-      - name: "Install"
-        run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
-
-      - if: runner.debug == 1
-        name: "Debug"
-        run: zshellcheck --version
-
       - id: cache
         name: "Cache"
         uses: actions/cache@v5
@@ -150,6 +132,16 @@ jobs:
             **/*.zshrc
             **/*.zlogin
             **/*.zlogout
+
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Setup"
+        uses: actions/setup-go@v6
+        with:
+          go-version: stable
+
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Install"
+        run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
 
       - if: steps.cache.outputs.cache-hit != 'true'
         name: "ZShellCheck"
