@@ -354,15 +354,15 @@ jobs:
 
           for optname in \
             NOBEEP \
-            CORRECT_ALL \
+            CORRECTALL \
             CORRECT \
             DVORAK \
-            AUTO_CD \
-            INC_APPEND_HISTORY \
-            SHARE_HISTORY \
-            COMPLETE_ALIASES \
-            AUTO_LIST \
-            AUTO_MENU
+            AUTOCD \
+            INCAPPEND_HISTORY \
+            SHAREHISTORY \
+            COMPLETEALIASES \
+            AUTOLIST \
+            AUTOMENU
           do
             if setopt | grep -iq "${optname}"
             then
