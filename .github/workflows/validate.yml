@@ -317,7 +317,7 @@ jobs:
             AUTOLIST \
             AUTOMENU
           do
-            if setopt | grep -iq "${optname}"
+            if [[ "$options[${optname}]" == "on" ]]
             then
               echo "::notice file=.zshrc,line=$(awk "/${optname}=/{print NR}" ~/.zshrc | head -n 1)::${optname} is correctly set in .zshrc"
             else
