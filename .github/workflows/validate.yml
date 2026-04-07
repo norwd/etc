@@ -53,7 +53,7 @@ jobs:
         run: echo '. ~/.config/profile' >> ~/.bash_profile
 
       - name: "Validate .config/profile.d/005-environment.sh"
-        shell: bash --posix -i -l {0}
+        shell: bash --posix -i -l -x {0}
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
 
@@ -370,7 +370,7 @@ jobs:
         run: ${{ steps.zsh-options.outputs.automenu || false }}
 
       - name: "Validate 'beep' option"
-        run: ${{ (!steps.zsh-options.outputs.beep) || 'antsatsneutsnthsnaeuotsnsntoetnsuaosnt' }}
+        run: ${{ (!steps.zsh-options.outputs.beep) }}
 
       - name: "Validate"
         shell: zsh -i -l {0}
