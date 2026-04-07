@@ -370,7 +370,7 @@ jobs:
         run: ${{ steps.zsh-options.outputs.automenu || false }}
 
       - name: "Validate 'beep' option"
-        run: echo ${{ ! (fromJson(steps.zsh-options.outputs.beep)) }}
+        run: echo ${{ ( ! (fromJson(steps.zsh-options.outputs.beep)) ) || 'aoeusasnthaeuosthneuoanths' }}
 
       - name: "Validate"
         shell: zsh -i -l {0}
