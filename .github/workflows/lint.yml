@@ -37,8 +37,10 @@ jobs:
         name: "Cache"
         uses: actions/cache@v5
         with:
-          path: path/to/dependencies
           key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.config/profile', '**/*.sh') }}
+          path: |
+            .config/profile
+            **/*.sh
 
       - if: steps.cache.outputs.cache-hit != 'true'
         name: "ShellCheck"
@@ -76,7 +78,21 @@ jobs:
         name: "Debug"
         run: shellcheck --version
 
-      - name: "ShellCheck"
+      - id: cache
+        name: "Cache"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*.zsh', '**/*.zshenv', '**/*.zprofile', '**/*.zshrc', '**/*.zlogin', '**/*.zlogout') }}
+          path: |
+            **/*.zsh
+            **/*.zshenv
+            **/*.zprofile
+            **/*.zshrc
+            **/*.zlogin
+            **/*.zlogout
+
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "ShellCheck"
         run: >
           shellcheck
           --severity ${{ matrix.severity }}
@@ -122,7 +138,21 @@ jobs:
         name: "Debug"
         run: zshellcheck --version
 
-      - name: "ZShellCheck"
+      - id: cache
+        name: "Cache"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*.zsh', '**/*.zshenv', '**/*.zprofile', '**/*.zshrc', '**/*.zlogin', '**/*.zlogout') }}
+          path: |
+            **/*.zsh
+            **/*.zshenv
+            **/*.zprofile
+            **/*.zshrc
+            **/*.zlogin
+            **/*.zlogout
+
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "ZShellCheck"
         run: >
           zshellcheck
           --severity ${{ matrix.severity }}
@@ -159,7 +189,19 @@ jobs:
       - name: "Fake requirements.txt"
         run: touch requirements.txt
 
-      - name: "ShellCheck with SARIF"
+      - id: cache
+        name: "Cache"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.config/profile', '**/*.sh', '**/*.bash', '**/*.ksh') }}
+          path: |
+            .config/profile
+            **/*.sh
+            **/*.bash
+            **/*.ksh
+
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "ShellCheck with SARIF"
         uses: reactive-firewall/shellcheck-scan@v2
         with:
           severity: ${{ matrix.severity }}
