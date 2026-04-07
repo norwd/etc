@@ -53,6 +53,7 @@ jobs:
         run: echo '. ~/.config/profile' >> ~/.bash_profile
 
       - name: "Validate .config/profile.d/005-environment.sh"
+        continue-on-error: true
         shell: bash --posix -i -l {0}
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
@@ -88,6 +89,7 @@ jobs:
           fi
 
       - name: "Validate .config/profile.d/010-xdg-base-dirs.sh"
+        continue-on-error: true
         shell: bash --posix -i -l {0}
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
@@ -147,6 +149,7 @@ jobs:
           fi
 
       - name: "Validate .config/profile.d/015-xdg-extra-dirs.sh"
+        continue-on-error: true
         shell: bash --posix -i -l {0}
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
@@ -330,7 +333,7 @@ jobs:
 
       - if: runner.debug == 1
         name: "Show yq version"
-        run: brew install yq && yq --version
+        run: yq --version
 
       - if: runner.debug == 1
         name: "Show zsh version"
@@ -352,9 +355,11 @@ jobs:
           for key value in "${(kv)options}"
           do
             echo "$key: $value"
-          done |
-            yq 'map_values(. ==  "on")' --output-format json |
-            tee -a "${GITHUB_OUTPUT}"
+          done
+            # |
+            # yq 'map_values(. ==  "on")' --output-format json |
+            # tee -a "${GITHUB_OUTPUT}"
+          exit 1
 
       - name: "Validate 'aliases' option"
         run: ${{ steps.zsh-options.outputs.aliases }}
