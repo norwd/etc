@@ -9,24 +9,11 @@ jobs:
 
   validate-installation:
     name: "Validate Installation"
-    runs-on: ${{ matrix.runner }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        runner:
-          - macos-latest
-          - ubuntu-latest
-
+    runs-on: macos-latest
     steps:
 
-      - if: runner.os == 'macOS'
-        name: "Install Zsh"
+      - name: "Install Zsh"
         run: brew install zsh
-
-      - if: runner.os == 'Linux'
-        name: "Install Zsh"
-        run: sudo apt-get install zsh
 
       - name: "Clone"
         run: git clone --bare https://github.com/norwd/etc ~/etc
@@ -49,15 +36,7 @@ jobs:
 
   validate-shell-environment:
     name: "Validate Shell Environment"
-    runs-on: ${{ matrix.runner }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        runner:
-          - macos-latest
-          - ubuntu-latest
-
+    runs-on: macos-latest
     steps:
 
       - name: "Clone"
@@ -174,24 +153,11 @@ jobs:
 
   validate-zsh-environment:
     name: "Validate Zsh Environment"
-    runs-on: ${{ matrix.runner }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        runner:
-          - macos-latest
-          - ubuntu-latest
-
+    runs-on: macos-latest
     steps:
 
-      - if: runner.os == 'macOS'
-        name: "Install Zsh"
+      - name: "Install Zsh"
         run: brew install zsh
-
-      - if: runner.os == 'Linux'
-        name: "Install Zsh"
-        run: sudo apt-get install zsh
 
       - name: "Clone"
         run: git clone --bare https://github.com/norwd/etc ~/etc
@@ -315,24 +281,11 @@ jobs:
 
   validate-zsh-options:
     name: "Validate Zsh Options"
-    runs-on: ${{ matrix.runner }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        runner:
-          - macos-latest
-          - ubuntu-latest
-
+    runs-on: macos-latest
     steps:
 
-      - if: runner.os == 'macOS'
-        name: "Install Zsh"
+      - name: "Install Zsh"
         run: brew install zsh
-
-      - if: runner.os == 'Linux'
-        name: "Install Zsh"
-        run: sudo apt-get install zsh
 
       - name: "Clone"
         run: git clone --bare https://github.com/norwd/etc ~/etc
