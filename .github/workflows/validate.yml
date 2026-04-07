@@ -53,7 +53,6 @@ jobs:
         run: echo '. ~/.config/profile' >> ~/.bash_profile
 
       - name: "Validate .config/profile.d/005-environment.sh"
-        continue-on-error: true
         shell: bash --posix -i -l {0}
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
@@ -89,7 +88,6 @@ jobs:
           fi
 
       - name: "Validate .config/profile.d/010-xdg-base-dirs.sh"
-        continue-on-error: true
         shell: bash --posix -i -l {0}
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
@@ -149,7 +147,6 @@ jobs:
           fi
 
       - name: "Validate .config/profile.d/015-xdg-extra-dirs.sh"
-        continue-on-error: true
         shell: bash --posix -i -l {0}
         run: |
           errfile="${{ runner.temp }}/errfile.txt"
@@ -171,10 +168,6 @@ jobs:
             echo "::error title=ERROR::Validation errors detected!"
             exit 1
           fi
-
-      - #if: contains(steps.*.outcome, 'failure')
-        name: "Failures Detected ${{ toJson(steps.*.outcome) }}"
-        run: exit 1
 
   validate-zsh-environment:
     name: "Validate Zsh Environment"
@@ -377,7 +370,7 @@ jobs:
         run: ${{ steps.zsh-options.outputs.automenu || false }}
 
       - name: "Validate 'beep' option"
-        run: ${{ !steps.zsh-options.outputs.beep || 'antsatsneutsnthsnaeuotsnsntoetnsuaosnt' }}
+        run: ${{ (!steps.zsh-options.outputs.beep) || 'antsatsneutsnthsnaeuotsnsntoetnsuaosnt' }}
 
       - name: "Validate"
         shell: zsh -i -l {0}
