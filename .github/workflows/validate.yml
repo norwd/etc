@@ -49,11 +49,12 @@ jobs:
       - name: "Checkout"
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
+      - name: "Fake Bash Profile"
+        run: echo '. ~/.config/profile' >> ~/.bash_profile
+
       - name: "Validate .config/profile.d/005-environment.sh"
         shell: bash --posix -i -l {0}
         run: |
-          . ~/.config/profile # Note: this would need to go in ~/.profile or ~/.bash_profile
-
           errfile="${{ runner.temp }}/errfile.txt"
 
           if [ -z "${VISUAL+x}" ]
@@ -89,8 +90,6 @@ jobs:
       - name: "Validate .config/profile.d/010-xdg-base-dirs.sh"
         shell: bash --posix -i -l {0}
         run: |
-          . ~/.config/profile # Note: this would need to go in ~/.profile or ~/.bash_profile
-
           errfile="${{ runner.temp }}/errfile.txt"
 
           if [ -z "${XDG_CONFIG_HOME+x}" ]
@@ -150,8 +149,6 @@ jobs:
       - name: "Validate .config/profile.d/015-xdg-extra-dirs.sh"
         shell: bash --posix -i -l {0}
         run: |
-          . ~/.config/profile # Note: this would need to go in ~/.profile or ~/.bash_profile
-
           errfile="${{ runner.temp }}/errfile.txt"
 
           if [ -z "${XDG_BIN_HOME+x}" ]
@@ -332,6 +329,10 @@ jobs:
     steps:
 
       - if: runner.debug == 1
+        name: "Show yq version"
+        run: brew install yq && yq --version
+
+      - if: runner.debug == 1
         name: "Show zsh version"
         run: zsh --version
 
@@ -343,6 +344,23 @@ jobs:
 
       - name: "Checkout"
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
+
+      - id: zsh-options
+        name: "Dump Zsh Options"
+        shell: zsh -i -l {0}
+        run: |
+          for key value in "${(kv)options}"
+          do
+            echo "$key: $value"
+          done |
+            yq 'map_values(. ==  "on")' --output-format json |
+            tee -a "${GITHUB_OUTPUT}"
+
+      - name: "Validate 'aliases' option"
+        run: ${{ steps.zsh-options.outputs.aliases }}
+
+      - name: "Validate 'appendhistory' option"
+        run: ${{ steps.zsh-options.outputs.appendhistory }}
 
       - name: "Validate"
         shell: zsh -i -l {0}
