@@ -330,27 +330,3 @@ jobs:
             echo "::error title=ERROR::Validation errors detected!"
             exit 1
           fi
-
-  validate-vimrc:
-    name: "Validate Vimrc"
-    runs-on: macos-latest
-    steps:
-
-      - if: runner.debug == 1
-        name: "Show vim version"
-        run: vim --version
-
-      - name: "Clone"
-        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
-
-      - name: "Configure"
-        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
-
-      - name: "Checkout"
-        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
-
-      - name: "Validate"
-        shell: vim -u NONE --cmd 'source {0}'
-        run: |
-          :echo 'aouaeu'
-          :quit!
