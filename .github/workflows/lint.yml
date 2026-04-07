@@ -8,13 +8,12 @@ permissions: {}
 jobs:
 
   lint-shellcheck:
-    name: "Lint ShellCheck ${{ matrix.shell }} (${{ matrix.severity }} / ${{ matrix.runner }})"
-    runs-on: ${{ matrix.runner }}
+    name: "Lint ShellCheck ${{ matrix.shell }} (${{ matrix.severity }})"
+    runs-on: macos-latest
 
     strategy:
       fail-fast: false
       matrix:
-        runner: [ ubuntu-latest, macos-latest ]
         shell: [ sh, ksh, bash, dash ]
         severity:
           - style
@@ -27,14 +26,7 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - if: runner.os != 'macOS'
-        name: "Install"
-        run: wget --quiet --output-document - "${RELEASE_URL}" | sudo tar --extract --xz --directory=/usr/bin/ --transform='s|.*shellcheck-latest/||' shellcheck-latest/shellcheck
-        env:
-          RELEASE_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
-
-      - if: runner.os == 'macOS'
-        name: "Install"
+      - name: "Install"
         run: brew install shellcheck
 
       - if: runner.debug == 1
@@ -51,13 +43,12 @@ jobs:
           $(find . -type f -name "*.sh")
 
   lint-shellcheck-zsh:
-    name: "Lint ShellCheck zsh (${{ matrix.severity }} / ${{ matrix.runner }})"
-    runs-on: ${{ matrix.runner }}
+    name: "Lint ShellCheck zsh as ${{ matrix.shell }} (${{ matrix.severity }})"
+    runs-on: macos-latest
 
     strategy:
       fail-fast: false
       matrix:
-        runner: [ ubuntu-latest, macos-latest ]
         shell: [ ksh, bash ] # zsh isn't supported directly, but is semi-compatible with both ksh and bash
         severity:
           - style
@@ -70,14 +61,7 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - if: runner.os != 'macOS'
-        name: "Install"
-        run: wget --quiet --output-document - "${RELEASE_URL}" | sudo tar --extract --xz --directory=/usr/bin/ --transform='s|.*shellcheck-latest/||' shellcheck-latest/shellcheck
-        env:
-          RELEASE_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
-
-      - if: runner.os == 'macOS'
-        name: "Install"
+      - name: "Install"
         run: brew install shellcheck
 
       - if: runner.debug == 1
@@ -98,13 +82,12 @@ jobs:
           $(find . -type f -name "*.zlogout")
 
   lint-zshellcheck:
-    name: "Lint ZShellCheck zsh (${{ matrix.severity }} / ${{ matrix.runner }})"
-    runs-on: ${{ matrix.runner }}
+    name: "Lint ZShellCheck zsh (${{ matrix.severity }})"
+    runs-on: macos-latest
 
     strategy:
       fail-fast: false
       matrix:
-        runner: [ ubuntu-latest, macos-latest ]
         severity:
           - style
           - info
@@ -143,8 +126,8 @@ jobs:
           $(find . -type f -name "*.zlogout")
 
   scan-shellcheck:
-    name: "Scan Shellcheck ${{ matrix.shell }} (${{ matrix.severity }} / ${{ matrix.runner }})"
-    runs-on: ${{ matrix.runner }}
+    name: "Scan Shellcheck ${{ matrix.shell }} (${{ matrix.severity }})"
+    runs-on: macos-latest
 
     permissions:
       contents: read
@@ -153,7 +136,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ ubuntu-latest, macos-latest ]
         shell: [ sh, ksh, bash, dash ]
         severity:
           - style
@@ -181,7 +163,7 @@ jobs:
 
   editorconfig:
     name: "Check files match editorconfig"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
 
       - name: "Checkout"
