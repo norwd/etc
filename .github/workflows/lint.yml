@@ -23,6 +23,14 @@ jobs:
           path: |
             **/*
 
+      - id: detect-changes-py
+        name: "Cache"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*.py') }}
+          path: |
+            **/*.sh
+
       - id: detect-changes-sh
         name: "Cache"
         uses: actions/cache@v5
@@ -66,14 +74,12 @@ jobs:
             **/*.zprofile
 
     outputs:
-
-      changes-detected: steps.detect-changes.outputs.cache-hit != 'true'
-
+      changes-detected: ${{ steps.detect-changes.outputs.cache-hit != 'true' }}
+      changes-detected-py: ${{ steps.detect-changes-py.outputs.cache-hit != 'true' }}
       changes-detected-sh: ${{ steps.detect-changes-sh.outputs.cache-hit != 'true' }}
       changes-detected-bash: ${{ steps.detect-changes-bash.outputs.cache-hit != 'true' }}
       changes-detected-ksh: ${{ steps.detect-changes-ksh.outputs.cache-hit != 'true' }}
       changes-detected-zsh: ${{ steps.detect-changes-zsh.outputs.cache-hit != 'true' }}
-
       changes-detected-any-shell: >-
         ${{
           steps.detect-changes-sh.outputs.cache-hit != 'true' ||
@@ -259,3 +265,13 @@ jobs:
 
       - name: "Check editorconfig"
         run: editorconfig-checker
+
+  lint-python:
+    if: needs.detect-changes.outputs.changes-detected-py == 'true'
+    needs: detect-changes
+    name: "Lint Python"
+    runs-on: ubuntu-slim
+    steps:
+
+      - name: "Lint Python with Ruff"
+        uses: astral-sh/ruff-action@v3
