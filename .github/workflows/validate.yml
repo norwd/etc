@@ -2,8 +2,11 @@
 
 name: "Validate"
 run-name: "Validate"
-on: push
 permissions: {}
+
+on:
+  schedule: [ cron: '33 9 * * 2' ]
+  push:
 
 jobs:
 
