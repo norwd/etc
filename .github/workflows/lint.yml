@@ -276,8 +276,11 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
+      - id: list-python-files
+        name: "Find Python files"
+        run: echo "paths=$(find . -type f -name '*.py' | xargs)" | tee -a "${GITHUB_OUTPUTS}"
+
       - name: "Lint Python with Ruff"
         uses: astral-sh/ruff-action@v3
         with:
-          src: >-
-            **/*.py
+          src: ${{ steps.list-python-files.outputs.paths }}
