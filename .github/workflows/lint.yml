@@ -29,7 +29,7 @@ jobs:
         name: "Cache"
         uses: actions/cache@v5
         with:
-          key: ${{ runner.os }}-${{ hashFiles('.github/workflows/lint.yml') }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*') }}
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*') }}
           path: |
             .profile
             .config/profile
@@ -71,7 +71,7 @@ jobs:
         name: "Cache"
         uses: actions/cache@v5
         with:
-          key: ${{ runner.os }}-${{ hashFiles('.github/workflows/lint.yml') }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*', '**/*.bash*', '**/*.ksh*', '**/*.zsh', '**/*.zlog*', '**/*.zprofile') }}
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*', '**/*.bash*', '**/*.ksh*', '**/*.zsh', '**/*.zlog*', '**/*.zprofile') }}
           path: |
             .profile
             .config/profile
@@ -121,7 +121,7 @@ jobs:
         name: "Cache"
         uses: actions/cache@v5
         with:
-          key: ${{ runner.os }}-${{ hashFiles('.github/workflows/lint.yml') }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*', '**/*.bash*', '**/*.ksh*', '**/*.zsh', '**/*.zlog*', '**/*.zprofile') }}
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*', '**/*.bash*', '**/*.ksh*', '**/*.zsh', '**/*.zlog*', '**/*.zprofile') }}
           path: |
             .profile
             .config/profile
@@ -184,7 +184,7 @@ jobs:
         name: "Cache"
         uses: actions/cache@v5
         with:
-          key: ${{ runner.os }}-${{ hashFiles('.github/workflows/lint.yml') }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*', '**/*.bash*', '**/*.ksh*', '**/*.zsh', '**/*.zlog*', '**/*.zprofile') }}
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*', '**/*.bash*', '**/*.ksh*', '**/*.zsh', '**/*.zlog*', '**/*.zprofile') }}
           path: |
             .profile
             .config/profile
@@ -222,7 +222,7 @@ jobs:
         name: "Cache"
         uses: actions/cache@v5
         with:
-          key: ${{ runner.os }}-${{ hashFiles('.github/workflows/lint.yml') }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*') }}
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*') }}
           path: |
             **/*
 
@@ -246,7 +246,7 @@ jobs:
         name: "Cache"
         uses: actions/cache@v5
         with:
-          key: ${{ runner.os }}-${{ hashFiles('.github/workflows/lint.yml') }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*.py') }}
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*.py') }}
           path: |
             **/*.py
 
