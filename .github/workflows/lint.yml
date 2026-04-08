@@ -7,94 +7,9 @@ permissions: {}
 
 jobs:
 
-  detect-changes:
-    name: "Detect if there are any changes since the last lint"
-    runs-on: ubuntu-slim
-    steps:
-
-      - name: "Checkout"
-        uses: actions/checkout@v6
-
-      - id: detect-changes
-        name: "Cache"
-        uses: actions/cache@v5
-        with:
-          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*') }}
-          path: |
-            **/*
-
-      - id: detect-changes-py
-        name: "Cache"
-        uses: actions/cache@v5
-        with:
-          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*.py') }}
-          path: |
-            **/*.py
-
-      - id: detect-changes-sh
-        name: "Cache"
-        uses: actions/cache@v5
-        with:
-          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*') }}
-          path: |
-            .profile
-            .config/profile
-            **/*.sh*
-
-      - id: detect-changes-bash
-        name: "Cache"
-        uses: actions/cache@v5
-        with:
-          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.bash*') }}
-          path: |
-            .profile
-            .config/profile
-            **/*.bash*
-
-      - id: detect-changes-ksh
-        name: "Cache"
-        uses: actions/cache@v5
-        with:
-          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.ksh*') }}
-          path: |
-            .profile
-            .config/profile
-            **/*.ksh*
-
-      - id: detect-changes-zsh
-        name: "Cache"
-        uses: actions/cache@v5
-        with:
-          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.zsh', '**/*.zlog*', '**/*.zprofile') }}
-          path: |
-            .profile
-            .config/profile
-            **/*.zsh*
-            **/*.zlog*
-            **/*.zprofile
-
-    outputs:
-      changes-detected: ${{ steps.detect-changes.outputs.cache-hit != 'true' }}
-      changes-detected-py: ${{ steps.detect-changes-py.outputs.cache-hit != 'true' }}
-      changes-detected-sh: ${{ steps.detect-changes-sh.outputs.cache-hit != 'true' }}
-      changes-detected-bash: ${{ steps.detect-changes-bash.outputs.cache-hit != 'true' }}
-      changes-detected-ksh: ${{ steps.detect-changes-ksh.outputs.cache-hit != 'true' }}
-      changes-detected-zsh: ${{ steps.detect-changes-zsh.outputs.cache-hit != 'true' }}
-      changes-detected-any-shell: >-
-        ${{
-          steps.detect-changes-sh.outputs.cache-hit != 'true' ||
-          steps.detect-changes-bash.outputs.cache-hit != 'true' ||
-          steps.detect-changes-ksh.outputs.cache-hit != 'true' ||
-          steps.detect-changes-zsh.outputs.cache-hit != 'true' ||
-          false
-        }}
-
-  lint-shellcheck:
-    if: needs.detect-changes.outputs.changes-detected-any-shell == 'true'
-    needs: detect-changes
-    name: "Lint ShellCheck ${{ matrix.shell }} (${{ matrix.severity }})"
+  lint-shell-shellcheck:
+    name: "Lint ${{ matrix.shell }} with ShellCheck (${{ matrix.severity }})"
     runs-on: macos-latest
-
     strategy:
       fail-fast: false
       matrix:
@@ -107,15 +22,24 @@ jobs:
 
     steps:
 
-      - if: needs.detect-changes.outputs[format('changes-detected-{0}', matrix.shell)] == 'true'
-        name: "Checkout"
+      - name: "Checkout"
         uses: actions/checkout@v6
 
-      - if: needs.detect-changes.outputs[format('changes-detected-{0}', matrix.shell)] == 'true'
+      - id: cache
+        name: "Cache"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*') }}
+          path: |
+            .profile
+            .config/profile
+            **/*.sh*
+
+      - if: steps.cache.outputs.cache-hit != 'true'
         name: "Install"
         run: brew install shellcheck
 
-      - if: needs.detect-changes.outputs[format('changes-detected-{0}', matrix.shell)] == 'true'
+      - if: steps.cache.outputs.cache-hit != 'true'
         name: "ShellCheck"
         run: >
           shellcheck
@@ -125,12 +49,9 @@ jobs:
           .config/profile
           $(find . -type f -name "*.sh")
 
-  lint-shellcheck-zsh:
-    if: needs.detect-changes.outputs.changes-detected-zsh == 'true'
-    needs: detect-changes
-    name: "Lint ShellCheck zsh as ${{ matrix.shell }} (${{ matrix.severity }})"
+  lint-zsh-shellcheck:
+    name: "Lint zsh with ShellCheck as ${{ matrix.shell }} (${{ matrix.severity }})"
     runs-on: macos-latest
-
     strategy:
       fail-fast: false
       matrix:
@@ -146,10 +67,27 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - name: "Install"
+      - id: cache
+        name: "Cache"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*', '**/*.bash*', '**/*.ksh*', '**/*.zsh', '**/*.zlog*', '**/*.zprofile') }}
+          path: |
+            .profile
+            .config/profile
+            **/*.sh*
+            **/*.bash*
+            **/*.ksh*
+            **/*.zsh*
+            **/*.zlog*
+            **/*.zprofile
+
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Install"
         run: brew install shellcheck
 
-      - name: "ShellCheck"
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "ShellCheck"
         run: >
           shellcheck
           --severity ${{ matrix.severity }}
@@ -162,15 +100,9 @@ jobs:
           $(find . -type f -name "*.zlogin")
           $(find . -type f -name "*.zlogout")
 
-  lint-zshellcheck:
-    if: needs.detect-changes.outputs.changes-detected-zsh == 'true'
-    needs:
-      - detect-changes
-      - lint-shellcheck-zsh
-
-    name: "Lint ZShellCheck zsh (${{ matrix.severity }})"
+  lint-zsh-zshellcheck:
+    name: "Lint zsh with ZShellCheck (${{ matrix.severity }})"
     runs-on: macos-latest
-
     strategy:
       fail-fast: false
       matrix:
@@ -185,18 +117,37 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - name: "Fake go.mod"
+      - id: cache
+        name: "Cache"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*', '**/*.bash*', '**/*.ksh*', '**/*.zsh', '**/*.zlog*', '**/*.zprofile') }}
+          path: |
+            .profile
+            .config/profile
+            **/*.sh*
+            **/*.bash*
+            **/*.ksh*
+            **/*.zsh*
+            **/*.zlog*
+            **/*.zprofile
+
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Fake go.mod"
         run: touch go.mod
 
-      - name: "Setup"
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Setup"
         uses: actions/setup-go@v6
         with:
           go-version: stable
 
-      - name: "Install"
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Install"
         run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
 
-      - name: "ZShellCheck"
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "ZShellCheck"
         run: >
           zshellcheck
           --severity ${{ matrix.severity }}
@@ -207,16 +158,9 @@ jobs:
           $(find . -type f -name "*.zlogin")
           $(find . -type f -name "*.zlogout")
 
-  scan-shellcheck:
-    if: needs.detect-changes.outputs.changes-detected-any-shell == 'true'
-    needs:
-      - detect-changes
-      - lint-shellcheck
-      - lint-shellcheck-zsh
-
-    name: "Scan Shellcheck ${{ matrix.shell }} (${{ matrix.severity }})"
+  scan-shell-shellcheck:
+    name: "Scan ${{ matrix.shell }} with Shellcheck (${{ matrix.severity }})"
     runs-on: macos-latest
-
     permissions:
       contents: read
       security-events: write
@@ -236,10 +180,26 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - name: "Fake requirements.txt"
+      - id: cache
+        name: "Cache"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*', '**/*.bash*', '**/*.ksh*', '**/*.zsh', '**/*.zlog*', '**/*.zprofile') }}
+          path: |
+            .profile
+            .config/profile
+            **/*.sh*
+            **/*.bash*
+            **/*.ksh*
+            **/*.zsh*
+            **/*.zlog*
+            **/*.zprofile
+
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Fake requirements.txt"
         run: touch requirements.txt
 
-      - if: needs.detect-changes.outputs[format('changes-detected-{0}', matrix.shell)] == 'true'
+      - if: steps.cache.outputs.cache-hit != 'true'
         name: "ShellCheck with SARIF"
         uses: reactive-firewall/shellcheck-scan@v2
         with:
@@ -250,37 +210,53 @@ jobs:
             .config/profile
             **/*.{sh,bash,ksh}
 
-  editorconfig:
-    if: needs.detect-changes.outputs.changes-detected == 'true'
-    needs: detect-changes
-    name: "Check files match editorconfig"
+  lint-whitespace-editorconfigchecker:
+    name: "Lint whitespace with Editor Config Checker"
     runs-on: ubuntu-slim
     steps:
 
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - name: "Setup"
+      - id: cache
+        name: "Cache"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*') }}
+          path: |
+            **/*
+
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Setup"
         uses: editorconfig-checker/action-editorconfig-checker@v2.2.0
 
-      - name: "Check editorconfig"
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Check editorconfig"
         run: editorconfig-checker
 
-  lint-python:
-    if: needs.detect-changes.outputs.changes-detected-py == 'true'
-    needs: detect-changes
-    name: "Lint Python"
+  lint-python-ruff:
+    name: "Lint Python with Ruff"
     runs-on: ubuntu-slim
     steps:
 
       - name: "Checkout"
         uses: actions/checkout@v6
 
+      - id: cache
+        name: "Cache"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*.py') }}
+          path: |
+            **/*.py
+
       - id: list-python-files
+        if: steps.cache.outputs.cache-hit != 'true'
         name: "Find Python files"
         run: echo "paths=$(find . -type f -name '*.py' | xargs)" | tee -a "${GITHUB_OUTPUT}"
 
-      - name: "Lint Python with Ruff"
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Lint Python with Ruff"
         uses: astral-sh/ruff-action@v3
         with:
           src: ${{ steps.list-python-files.outputs.paths }}
