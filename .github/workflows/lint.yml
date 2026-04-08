@@ -11,7 +11,7 @@ jobs:
     needs: detect-changes
     runs-on: ubuntu-slim
     steps:
-      - run: echo $JSON
+      - run: echo "${JSON}" | jq
         env:
           JSON: ${{toJson(needs.detect-changes)}}
 
@@ -67,26 +67,26 @@ jobs:
 
     outputs:
 
-      changes-detected-sh: ${{ steps.detect-changes-sh.outputs.cache-hit != 'true' }}
-      changes-detected-bash: ${{ steps.detect-changes-bash.outputs.cache-hit != 'true' }}
-      changes-detected-ksh: ${{ steps.detect-changes-ksh.outputs.cache-hit != 'true' }}
-      changes-detected-zsh: ${{ steps.detect-changes-zsh.outputs.cache-hit != 'true' }}
+      changes-detected-sh: ${{ fromJson(steps.detect-changes-sh.outputs.cache-hit != 'true') }}
+      changes-detected-bash: ${{ fromJson(steps.detect-changes-bash.outputs.cache-hit != 'true') }}
+      changes-detected-ksh: ${{ fromJson(steps.detect-changes-ksh.outputs.cache-hit != 'true') }}
+      changes-detected-zsh: ${{ fromJson(steps.detect-changes-zsh.outputs.cache-hit != 'true') }}
 
-      changes-detected-any-shell: |
+      changes-detected-any-shell: >
         ${{
-          steps.detect-changes-sh.outputs.cache-hit != 'true' ||
-          steps.detect-changes-bash.outputs.cache-hit != 'true' ||
-          steps.detect-changes-ksh.outputs.cache-hit != 'true' ||
-          steps.detect-changes-zsh.outputs.cache-hit != 'true' ||
+          fromJson(steps.detect-changes-sh.outputs.cache-hit != 'true') ||
+          fromJson(steps.detect-changes-bash.outputs.cache-hit != 'true') ||
+          fromJson(steps.detect-changes-ksh.outputs.cache-hit != 'true') ||
+          fromJson(steps.detect-changes-zsh.outputs.cache-hit != 'true') ||
           false
         }}
 
-      changes-detected-any: |
+      changes-detected-any: >
         ${{
-          steps.detect-changes-sh.outputs.cache-hit != 'true' ||
-          steps.detect-changes-bash.outputs.cache-hit != 'true' ||
-          steps.detect-changes-ksh.outputs.cache-hit != 'true' ||
-          steps.detect-changes-zsh.outputs.cache-hit != 'true' ||
+          fromJson(steps.detect-changes-sh.outputs.cache-hit != 'true') ||
+          fromJson(steps.detect-changes-bash.outputs.cache-hit != 'true') ||
+          fromJson(steps.detect-changes-ksh.outputs.cache-hit != 'true') ||
+          fromJson(steps.detect-changes-zsh.outputs.cache-hit != 'true') ||
           false
         }}
 
