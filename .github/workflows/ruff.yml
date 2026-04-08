@@ -5,6 +5,7 @@ run-name: "Run Ruff"
 permissions: {}
 
 on:
+  schedule: [ cron: '33 9 * * 2' ]
   push:
     paths:
       - '**/*.py'
