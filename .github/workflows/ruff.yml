@@ -1,0 +1,25 @@
+---
+
+name: "Run Ruff"
+run-name: "Run Ruff"
+on: push
+permissions: {}
+
+jobs:
+
+  ruff:
+    name: "Run Ruff"
+    runs-on: ubuntu-slim
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - id: list-python-files
+        name: "Find Python files"
+        run: echo "paths=$(find . -type f -name '*.py' | xargs)" | tee -a "${GITHUB_OUTPUT}"
+
+      - name: "Run Ruff"
+        uses: astral-sh/ruff-action@v3
+        with:
+          src: ${{ steps.list-python-files.outputs.paths }}
