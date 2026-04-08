@@ -2,8 +2,12 @@
 
 name: "Run Ruff"
 run-name: "Run Ruff"
-on: push
 permissions: {}
+
+on:
+  push:
+    paths:
+      - '**/*.py'
 
 jobs:
 
