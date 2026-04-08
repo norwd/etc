@@ -268,10 +268,13 @@ jobs:
 
   lint-python:
     #if: needs.detect-changes.outputs.changes-detected-py == 'true'
-    needs: detect-changes
+    #needs: detect-changes
     name: "Lint Python"
     runs-on: ubuntu-slim
     steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
 
       - name: "Lint Python with Ruff"
         uses: astral-sh/ruff-action@v3
