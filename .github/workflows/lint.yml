@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-slim
     steps:
 
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
       - id: detect-changes-sh
         name: "Cache"
         uses: actions/cache@v5
@@ -116,6 +119,8 @@ jobs:
           $(find . -type f -name "*.sh")
 
   lint-shellcheck-zsh:
+    if: needs.detect-changes.outputs.changes-detected-zsh
+    needs: detect-changes
     name: "Lint ShellCheck zsh as ${{ matrix.shell }} (${{ matrix.severity }})"
     runs-on: macos-latest
 
@@ -134,25 +139,10 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - id: cache
-        name: "Cache"
-        uses: actions/cache@v5
-        with:
-          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*.zsh', '**/*.zshenv', '**/*.zprofile', '**/*.zshrc', '**/*.zlogin', '**/*.zlogout') }}
-          path: |
-            **/*.zsh
-            **/*.zshenv
-            **/*.zprofile
-            **/*.zshrc
-            **/*.zlogin
-            **/*.zlogout
-
-      - if: steps.cache.outputs.cache-hit != 'true'
-        name: "Install"
+      - name: "Install"
         run: brew install shellcheck
 
-      - if: steps.cache.outputs.cache-hit != 'true'
-        name: "ShellCheck"
+      - name: "ShellCheck"
         run: >
           shellcheck
           --severity ${{ matrix.severity }}
@@ -166,6 +156,10 @@ jobs:
           $(find . -type f -name "*.zlogout")
 
   lint-zshellcheck:
+    if: needs.detect-changes.outputs.changes-detected-zsh
+    needs:
+      - detect-changes
+      - lint-shellcheck-zsh
     name: "Lint ZShellCheck zsh (${{ matrix.severity }})"
     runs-on: macos-latest
 
@@ -186,31 +180,15 @@ jobs:
       - name: "Fake go.mod"
         run: touch go.mod
 
-      - id: cache
-        name: "Cache"
-        uses: actions/cache@v5
-        with:
-          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*.zsh', '**/*.zshenv', '**/*.zprofile', '**/*.zshrc', '**/*.zlogin', '**/*.zlogout') }}
-          path: |
-            **/*.zsh
-            **/*.zshenv
-            **/*.zprofile
-            **/*.zshrc
-            **/*.zlogin
-            **/*.zlogout
-
-      - if: steps.cache.outputs.cache-hit != 'true'
-        name: "Setup"
+      - name: "Setup"
         uses: actions/setup-go@v6
         with:
           go-version: stable
 
-      - if: steps.cache.outputs.cache-hit != 'true'
-        name: "Install"
+      - name: "Install"
         run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
 
-      - if: steps.cache.outputs.cache-hit != 'true'
-        name: "ZShellCheck"
+      - name: "ZShellCheck"
         run: >
           zshellcheck
           --severity ${{ matrix.severity }}
@@ -222,6 +200,8 @@ jobs:
           $(find . -type f -name "*.zlogout")
 
   scan-shellcheck:
+    if: needs.detect-changes.outputs.changes-detected-any-shell
+    needs: detect-changes
     name: "Scan Shellcheck ${{ matrix.shell }} (${{ matrix.severity }})"
     runs-on: macos-latest
 
@@ -247,18 +227,7 @@ jobs:
       - name: "Fake requirements.txt"
         run: touch requirements.txt
 
-      - id: cache
-        name: "Cache"
-        uses: actions/cache@v5
-        with:
-          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.config/profile', '**/*.sh', '**/*.bash', '**/*.ksh') }}
-          path: |
-            .config/profile
-            **/*.sh
-            **/*.bash
-            **/*.ksh
-
-      - if: steps.cache.outputs.cache-hit != 'true'
+      - if: needs.detect-changes.outputs[format('changes-detected-{0}', matrix.shell)]
         name: "ShellCheck with SARIF"
         uses: reactive-firewall/shellcheck-scan@v2
         with:
