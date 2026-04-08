@@ -1,7 +1,7 @@
 ---
 
-name: "Run Shell Linters"
-run-name: "Run Shell Linters"
+name: "Run ShellCheck"
+run-name: "Run ShellCheck"
 permissions: {}
 
 on:
