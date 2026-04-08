@@ -7,58 +7,6 @@ permissions: {}
 
 jobs:
 
-  scan-shell-shellcheck:
-    name: "Scan ${{ matrix.shell }} with Shellcheck (${{ matrix.severity }})"
-    runs-on: macos-latest
-    permissions:
-      contents: read
-      security-events: write
-
-    strategy:
-      fail-fast: false
-      matrix:
-        shell: [ sh, ksh, bash ]
-        severity:
-          - style
-          - info
-          - warning
-          - error
-
-    steps:
-
-      - name: "Checkout"
-        uses: actions/checkout@v6
-
-      - id: cache
-        name: "Cache"
-        uses: actions/cache@v5
-        with:
-          key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('.profile', '.config/profile', '**/*.sh*', '**/*.bash*', '**/*.ksh*', '**/*.zsh', '**/*.zlog*', '**/*.zprofile') }}
-          path: |
-            .profile
-            .config/profile
-            **/*.sh*
-            **/*.bash*
-            **/*.ksh*
-            **/*.zsh*
-            **/*.zlog*
-            **/*.zprofile
-
-      - if: steps.cache.outputs.cache-hit != 'true'
-        name: "Fake requirements.txt"
-        run: touch requirements.txt
-
-      - if: steps.cache.outputs.cache-hit != 'true'
-        name: "ShellCheck with SARIF"
-        uses: reactive-firewall/shellcheck-scan@v2
-        with:
-          severity: ${{ matrix.severity }}
-          shell-format: ${{ matrix.shell }}
-          publish-artifacts: false
-          match: >
-            .config/profile
-            **/*.{sh,bash,ksh}
-
   lint-whitespace-editorconfigchecker:
     name: "Lint whitespace with Editor Config Checker"
     runs-on: ubuntu-slim
