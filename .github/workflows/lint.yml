@@ -278,7 +278,7 @@ jobs:
 
       - id: list-python-files
         name: "Find Python files"
-        run: echo "paths=$(find . -type f -name '*.py' | xargs)" | tee -a "${GITHUB_OUTPUTS}"
+        run: echo "paths=$(find . -type f -name '*.py' | xargs)" | tee -a "${GITHUB_OUTPUT}"
 
       - name: "Lint Python with Ruff"
         uses: astral-sh/ruff-action@v3
