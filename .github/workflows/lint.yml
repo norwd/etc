@@ -160,6 +160,7 @@ jobs:
     needs:
       - detect-changes
       - lint-shellcheck-zsh
+
     name: "Lint ZShellCheck zsh (${{ matrix.severity }})"
     runs-on: macos-latest
 
@@ -201,7 +202,11 @@ jobs:
 
   scan-shellcheck:
     if: needs.detect-changes.outputs.changes-detected-any-shell
-    needs: detect-changes
+    needs:
+      - detect-changes
+      - lint-shellcheck
+      - lint-shellcheck-zsh
+
     name: "Scan Shellcheck ${{ matrix.shell }} (${{ matrix.severity }})"
     runs-on: macos-latest
 
