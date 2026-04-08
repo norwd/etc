@@ -1,10 +1,5 @@
 # ~/etc - dotfiles, configs, settings
 
-[![Lint](https://github.com/norwd/etc/actions/workflows/lint.yml/badge.svg)](https://github.com/norwd/etc/actions/workflows/lint.yml)
-[![Validate](https://github.com/norwd/etc/actions/workflows/validate.yml/badge.svg)](https://github.com/norwd/etc/actions/workflows/validate.yml)
-[![CodeQL](https://github.com/norwd/etc/actions/workflows/codeql.yml/badge.svg)](https://github.com/norwd/etc/actions/workflows/codeql.yml)
-[![Dependabot Updates](https://github.com/norwd/etc/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/norwd/etc/actions/workflows/dependabot/dependabot-updates)
-
 ## Usage
 
 This repo is loosely based on the strategy described on the [Arch Linux Wiki][archwiki-dotfiles],
