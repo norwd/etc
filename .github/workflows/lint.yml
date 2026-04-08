@@ -275,3 +275,6 @@ jobs:
 
       - name: "Lint Python with Ruff"
         uses: astral-sh/ruff-action@v3
+        with:
+          src: >-
+            **/*.py
