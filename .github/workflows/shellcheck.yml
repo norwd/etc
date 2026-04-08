@@ -5,6 +5,7 @@ run-name: "Run ShellCheck"
 permissions: {}
 
 on:
+  schedule: [ cron: '33 9 * * 2' ]
   push:
     paths:
       - '.profile'
