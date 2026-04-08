@@ -7,6 +7,14 @@ permissions: {}
 
 jobs:
 
+  debug:
+    needs: detect-changes
+    runs-on: ubuntu-slim
+    steps:
+      - run: echo $JSON
+        env:
+          JSON: ${{toJson(needs.detect-changes)}}
+
   detect-changes:
     name: "Detect if there are any changes since the last lint"
     runs-on: ubuntu-slim
