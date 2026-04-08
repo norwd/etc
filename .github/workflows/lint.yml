@@ -267,8 +267,8 @@ jobs:
         run: editorconfig-checker
 
   lint-python:
-    #if: needs.detect-changes.outputs.changes-detected-py == 'true'
-    #needs: detect-changes
+    if: needs.detect-changes.outputs.changes-detected-py == 'true'
+    needs: detect-changes
     name: "Lint Python"
     runs-on: ubuntu-slim
     steps:
