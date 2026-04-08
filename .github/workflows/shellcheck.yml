@@ -45,7 +45,7 @@ jobs:
           --severity ${{ matrix.severity }}
           --shell=${{ matrix.shell }}
           --rcfile .config/shellcheckrc
-          .profile
+          $(find . -type f -name ".profile")
           .config/profile
           $(find . -type f -name "*.sh")
 
@@ -76,8 +76,8 @@ jobs:
           --severity ${{ matrix.severity }}
           --shell=${{ matrix.shell }}
           --rcfile .config/shellcheckrc
-          .profile
-          .config/profile
+          $(find . -type f -name ".profile")
+          $(find . -type f -name ".config/profile")
           $(find . -type f -name "*.sh")
           $(find . -type f -name "*.zsh")
           $(find . -type f -name "*.zshenv")
@@ -118,8 +118,8 @@ jobs:
         run: >
           zshellcheck
           --severity ${{ matrix.severity }}
-          .profile
-          .config/profile
+          $(find . -type f -name ".profile")
+          $(find . -type f -name ".config/profile")
           $(find . -type f -name "*.sh")
           $(find . -type f -name "*.zsh")
           $(find . -type f -name "*.zshenv")
@@ -160,6 +160,7 @@ jobs:
           shell-format: ${{ matrix.shell }}
           publish-artifacts: false
           match: >
+            .profile
             .config/profile
             **/*.{sh,bash,ksh}
 
