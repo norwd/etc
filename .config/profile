@@ -4,7 +4,7 @@ for profile in ~/.config/profile.d/*.sh
 do
 	if [ -r "${profile}" ]
 	then
-		# shell_aoeuaoeua_check source=/dev/null
+		# shellcheck source=/dev/null
 		. "${profile}"
 	fi
 done
