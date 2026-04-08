@@ -1,0 +1,131 @@
+---
+
+name: "Run Shell Linters"
+run-name: "Run Shell Linters"
+permissions: {}
+
+on:
+  push:
+    paths:
+      - .profile
+      - .config/profile
+      - **/*.sh*
+      - **/*.bash*
+      - **/*.ksh*
+      - **/*.zsh*
+      - **/*.zlog*
+      - **/*.zprofile
+
+jobs:
+
+  shellcheck:
+    name: "Lint ${{ matrix.shell }} with ShellCheck (${{ matrix.severity }})"
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [ sh, ksh, bash ]
+        severity:
+          - style
+          - info
+          - warning
+          - error
+
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - name: "Install"
+        run: brew install shellcheck
+
+      - name: "ShellCheck"
+        run: >
+          shellcheck
+          --severity ${{ matrix.severity }}
+          --shell=${{ matrix.shell }}
+          --rcfile .config/shellcheckrc
+          .profile
+          .config/profile
+          $(find . -type f -name "*.sh")
+
+  shellcheck-zsh:
+    name: "Lint zsh with ShellCheck as ${{ matrix.shell }} (${{ matrix.severity }})"
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [ ksh, bash ] # zsh isn't supported directly, but is semi-compatible with both ksh and bash
+        severity:
+          - style
+          - info
+          - warning
+          - error
+
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - name: "Install"
+        run: brew install shellcheck
+
+      - name: "ShellCheck"
+        run: >
+          shellcheck
+          --severity ${{ matrix.severity }}
+          --shell=${{ matrix.shell }}
+          --rcfile .config/shellcheckrc
+          .profile
+          .config/profile
+          $(find . -type f -name "*.sh")
+          $(find . -type f -name "*.zsh")
+          $(find . -type f -name "*.zshenv")
+          $(find . -type f -name "*.zprofile")
+          $(find . -type f -name "*.zshrc")
+          $(find . -type f -name "*.zlogin")
+          $(find . -type f -name "*.zlogout")
+
+  zshellcheck:
+    name: "Lint zsh with ZShellCheck (${{ matrix.severity }})"
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        severity:
+          - style
+          - info
+          - warning
+          - error
+
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - name: "Fake go.mod"
+        run: touch go.mod
+
+      - name: "Setup"
+        uses: actions/setup-go@v6
+        with:
+          go-version: stable
+
+      - name: "Install"
+        run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
+
+      - name: "ZShellCheck"
+        run: >
+          zshellcheck
+          --severity ${{ matrix.severity }}
+          .profile
+          .config/profile
+          $(find . -type f -name "*.sh")
+          $(find . -type f -name "*.zsh")
+          $(find . -type f -name "*.zshenv")
+          $(find . -type f -name "*.zprofile")
+          $(find . -type f -name "*.zshrc")
+          $(find . -type f -name "*.zlogin")
+          $(find . -type f -name "*.zlogout")
+
+...
