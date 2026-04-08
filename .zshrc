@@ -9,6 +9,7 @@ for _zshrc_path in "${XDG_CONFIG_HOME:-${HOME}/.config}/zsh/"*.zsh
 do
 	[[ -r "${_zshrc_path}" ]] && source "${_zshrc_path}"
 done
+
 unset -v _zshrc
 
 # Do not beep on error
