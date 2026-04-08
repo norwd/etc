@@ -3,7 +3,10 @@
 name: "Run EditorConfig Checker"
 run-name: "Run EditorConfig Checker"
 permissions: {}
-on: push
+
+on:
+  schedule: [ cron: '33 9 * * 2' ]
+  push:
 
 jobs:
 
