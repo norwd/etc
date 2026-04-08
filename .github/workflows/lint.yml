@@ -29,7 +29,7 @@ jobs:
         with:
           key: ${{ runner.os }}-${{ join(matrix.*, '-') }}-${{ hashFiles('**/*.py') }}
           path: |
-            **/*.sh
+            **/*.py
 
       - id: detect-changes-sh
         name: "Cache"
@@ -267,7 +267,7 @@ jobs:
         run: editorconfig-checker
 
   lint-python:
-    if: needs.detect-changes.outputs.changes-detected-py == 'true'
+    #if: needs.detect-changes.outputs.changes-detected-py == 'true'
     needs: detect-changes
     name: "Lint Python"
     runs-on: ubuntu-slim
