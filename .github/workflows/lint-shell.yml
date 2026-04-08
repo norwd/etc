@@ -7,14 +7,14 @@ permissions: {}
 on:
   push:
     paths:
-      - .profile
-      - .config/profile
-      - **/*.sh*
-      - **/*.bash*
-      - **/*.ksh*
-      - **/*.zsh*
-      - **/*.zlog*
-      - **/*.zprofile
+      - '.profile'
+      - '.config/profile'
+      - '**/*.sh*'
+      - '**/*.bash*'
+      - '**/*.ksh*'
+      - '**/*.zsh*'
+      - '**/*.zlog*'
+      - '**/*.zprofile'
 
 jobs:
 
