@@ -47,7 +47,7 @@ jobs:
           --shell=${{ matrix.shell }}
           --rcfile .config/shellcheckrc
           $(find . -type f -name ".profile")
-          .config/profile
+          $(find . -type f -name ".config/profile")
           $(find . -type f -name "*.sh")
 
   shellcheck-zsh:
@@ -161,8 +161,8 @@ jobs:
           shell-format: ${{ matrix.shell }}
           publish-artifacts: false
           match: >
-            .profile
-            .config/profile
+            **/.profile
+            **/.config/profile
             **/*.{sh,bash,ksh}
 
 ...
