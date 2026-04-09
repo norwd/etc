@@ -38,21 +38,29 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - name: "Install"
+      - name: "Setup Ruby"
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: "Install Shellcheck"
         run: brew install shellcheck
 
-      - name: "Debug"
-        run: |
-          gem install github-linguist
-          github-linguist --version
-          github-linguist --breakdown --strategies --json | jq
+      - name: "Install Linguist"
+        run: gem install github-linguist
+
+      - id: list-shell-files
+        name: "List Shell Files"
+        run: github-linguist --breakdown --strategies --json | jq --raw-output "${JQ_QUERY}"
+        env:
+          JQ_QUERY: '@sh "paths=\(.Shell.files)"'
 
       - name: "ShellCheck"
         run: >
           shellcheck
-          --severity ${{ matrix.severity }}
-          --shell=${{ matrix.shell }}
           --rcfile .config/shellcheckrc
+          --shell=${{ matrix.shell }}
+          --severity ${{ matrix.severity }}
           $(find . -type f -name ".profile")
           $(find . -type f -name ".config/profile")
           $(find . -type f -name "*.sh")
