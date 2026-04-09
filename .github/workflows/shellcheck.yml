@@ -8,8 +8,9 @@ on:
   schedule: [ cron: '33 9 * * 2' ]
   push:
     paths:
-      - '.profile'
-      - '.config/profile'
+      - '.github/workflows/shellcheck.yml'
+      - '**/.profile'
+      - '**/.config/profile'
       - '**/*.sh*'
       - '**/*.bash*'
       - '**/*.ksh*'
