@@ -41,14 +41,16 @@ jobs:
       - name: "Install Shellcheck"
         run: brew install shellcheck
 
-      # - id: cache-linguist
-      #   name: "Cache Linguist"
-      #   uses: actions/cache@v5
-      #   with:
-      #     key: .
-      #     path: .
+      - id: cache-linguist
+        name: "Cache Linguist"
+        uses: actions/cache@v5
+        with:
+          key: github-linguist
+          path: |
+            /opt/homebrew/lib/ruby/gems/**/bin/github-linguist
 
-      - name: "Install Linguist"
+      - if: steps.cache-linguist.outputs.cache-hit != 'true'
+        name: "Install Linguist"
         run: gem install github-linguist
 
       - id: list-shell-files
