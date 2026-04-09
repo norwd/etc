@@ -41,33 +41,12 @@ jobs:
       - name: "Install Shellcheck"
         run: brew install shellcheck
 
-      - id: cache-linguist
-        name: "Cache Linguist"
-        uses: actions/cache@v5
-        with:
-          key: github-linguist
-          path: |
-            /opt/homebrew/lib/ruby/gems/**/bin/github-linguist
-
-      - if: steps.cache-linguist.outputs.cache-hit != 'true'
-        name: "Install Linguist"
-        run: gem install github-linguist
-
-      - id: list-shell-files
-        name: "List Shell Files"
-        run: github-linguist --breakdown --strategies --json | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_OUTPUT}"
-        env:
-          JQ_QUERY: '@sh "paths=\(.Shell.files)"'
-
-      - run: which github-linguist
-
       - name: "ShellCheck"
         run: >
           shellcheck
           --rcfile .config/shellcheckrc
           --shell=${{ matrix.shell }}
           --severity ${{ matrix.severity }}
-          ${{ steps.list-shell-files.outputs.paths }}
           $(find . -type f -name ".profile")
           $(find . -type f -name ".config/profile")
           $(find . -type f -name "*.sh")
