@@ -41,6 +41,11 @@ jobs:
       - name: "Install"
         run: brew install shellcheck
 
+      - name: "Debug"
+        run: |
+          github-linguist --version
+          github-linguist --breakdown --strategies --json | jq
+
       - name: "ShellCheck"
         run: >
           shellcheck
