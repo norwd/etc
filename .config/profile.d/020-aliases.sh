@@ -37,6 +37,6 @@ then
 fi
 
 # Fuzz
-[ -x "$(command -v bat)" ] &&
-[ -x "$(command -v fzf)" ] &&
+[[ -x "$(command -v bat)" ]] &&
+[[ -x "$(command -v fzf)" ]] &&
 alias fvim='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}" --bind "enter:become(vim {})"'
