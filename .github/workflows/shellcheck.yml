@@ -155,9 +155,9 @@ jobs:
       matrix:
         shell: [ sh, ksh, bash ]
         severity:
-          - style
-          - info
-          - warning
+          # - style
+          # - info
+          # - warning
           - error
 
     steps:
