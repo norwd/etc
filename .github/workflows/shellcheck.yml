@@ -17,9 +17,19 @@ on:
 
 jobs:
 
-  linguist:
+  shellcheck-linguist:
     runs-on: ubuntu-latest
     container: ghcr.io/github-linguist/linguist:latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [ sh, ksh, bash ]
+        severity:
+          - style
+          - info
+          - warning
+          - error
+
     steps:
 
       - name: "Checkout"
@@ -28,8 +38,13 @@ jobs:
       - name: "Install Shellcheck"
         run: brew install shellcheck
 
-      - name: ""
-        run: github-linguist --breakdown --strategies --json etc | jq --raw-output '@sh "\(.Shell.files[])"'
+      - name: "ShellCheck"
+        run: >
+          shellcheck
+          --rcfile .config/shellcheckrc
+          --shell=${{ matrix.shell }}
+          --severity ${{ matrix.severity }}
+          $(github-linguist --breakdown --strategies --json etc | jq --raw-output '@sh "\(.Shell.files[])"')
 
   shellcheck:
     name: "Lint ${{ matrix.shell }} with ShellCheck (${{ matrix.severity }})"
