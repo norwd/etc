@@ -171,7 +171,7 @@ jobs:
         with:
           severity: ${{ matrix.severity }}
           shell-format: ${{ matrix.shell }}
-          publish-artifacts: true
+          publish-artifacts: false
           match: >
             .profile
             .config/profile
