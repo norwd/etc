@@ -157,9 +157,9 @@ jobs:
         shell: [ sh, ksh, bash ]
         severity:
           - style
-          - info
-          - warning
-          - error
+          # - info
+          # - warning
+          # - error
 
     steps:
 
