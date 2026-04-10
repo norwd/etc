@@ -9,8 +9,8 @@ on:
   push:
     paths:
       - '.github/workflows/shellcheck.yml'
-      - '**/.profile'
-      - '**/.config/profile'
+      - '**/*.profile'
+      - '**/*.config/profile'
       - '**/*.sh*'
       - '**/*.bash*'
       - '**/*.ksh*'
@@ -176,8 +176,8 @@ jobs:
           shell-format: ${{ matrix.shell }}
           publish-artifacts: true
           match: >
-            **/.profile
-            **/.config/profile
+            **/*.profile
+            **/*.config/profile
             **/*.{sh,bash,ksh}
 
 ...
