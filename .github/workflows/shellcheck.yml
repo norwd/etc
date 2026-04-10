@@ -9,13 +9,11 @@ on:
   push:
     paths:
       - '.github/workflows/shellcheck.yml'
-      - '**/*.profile'
-      - '**/*.config/profile'
-      - '**/*.sh*'
-      - '**/*.bash*'
-      - '**/*.ksh*'
-      - '**/*.zsh*'
+      - '.profile'
+      - '.config/profile'
+      - '**/*.*sh*'
       - '**/*.zlog*'
+      - '.zprofile'
       - '**/*.zprofile'
 
 jobs:
@@ -47,8 +45,8 @@ jobs:
           --rcfile .config/shellcheckrc
           --shell=${{ matrix.shell }}
           --severity ${{ matrix.severity }}
-          $(find . -type f -name ".profile")
-          $(find . -type f -name ".config/profile")
+          .profile
+          .config/profile
           $(find . -type f -name "*.sh")
 
   shellcheck-zsh:
@@ -78,8 +76,8 @@ jobs:
           --severity ${{ matrix.severity }}
           --shell=${{ matrix.shell }}
           --rcfile .config/shellcheckrc
-          $(find . -type f -name ".profile")
-          $(find . -type f -name ".config/profile")
+          .profile
+          .config/profile
           $(find . -type f -name "*.sh")
           $(find . -type f -name "*.zsh")
           $(find . -type f -name "*.zshenv")
@@ -133,8 +131,8 @@ jobs:
         run: >
           zshellcheck
           --severity ${{ matrix.severity }}
-          $(find . -type f -name ".profile")
-          $(find . -type f -name ".config/profile")
+          .profile
+          .config/profile
           $(find . -type f -name "*.sh")
           $(find . -type f -name "*.zsh")
           $(find . -type f -name "*.zshenv")
@@ -153,12 +151,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shell:
-          - sh # [ sh, ksh, bash ]
+        shell: [ sh, ksh, bash ]
         severity:
-          # - style
-          # - info
-          # - warning
+          - style
+          - info
+          - warning
           - error
 
     steps:
@@ -176,8 +173,8 @@ jobs:
           shell-format: ${{ matrix.shell }}
           publish-artifacts: true
           match: >
-            **/*.profile
-            **/*.config/profile
+            .profile
+            .config/profile
             **/*.{sh,bash,ksh}
 
 ...
