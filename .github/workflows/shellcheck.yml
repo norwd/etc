@@ -9,7 +9,6 @@ on:
   push:
     paths:
       - '.github/workflows/shellcheck.yml'
-      - '.profile'
       - '.config/profile'
       - '**/*.*sh*'
       - '**/*.zlog*'
@@ -52,7 +51,6 @@ jobs:
           --rcfile .config/shellcheckrc
           --shell=${{ matrix.shell }}
           --severity ${{ matrix.severity }}
-          .profile
           .config/profile
           $(find . -type f -name "*.sh")
 
@@ -83,7 +81,6 @@ jobs:
           --severity ${{ matrix.severity }}
           --shell=${{ matrix.shell }}
           --rcfile .config/shellcheckrc
-          .profile
           .config/profile
           $(find . -type f -name "*.sh")
           $(find . -type f -name "*.zsh")
@@ -138,7 +135,6 @@ jobs:
         run: >
           zshellcheck
           --severity ${{ matrix.severity }}
-          .profile
           .config/profile
           $(find . -type f -name "*.sh")
           $(find . -type f -name "*.zsh")
