@@ -141,40 +141,4 @@ jobs:
           $(find . -type f -name "*.zlogin")
           $(find . -type f -name "*.zlogout")
 
-  shellcheck-sarif-scan:
-    name: "Scan ${{ matrix.shell }} with Shellcheck (${{ matrix.severity }})"
-    runs-on: ubuntu-slim
-    permissions:
-      contents: read
-      security-events: write
-
-    strategy:
-      fail-fast: false
-      matrix:
-        shell: [ sh, ksh, bash ]
-        severity:
-          - style
-          - info
-          - warning
-          - error
-
-    steps:
-
-      - name: "Checkout"
-        uses: actions/checkout@v6
-
-      - name: "Fake requirements.txt"
-        run: touch requirements.txt
-
-      - name: "ShellCheck with SARIF"
-        uses: reactive-firewall/shellcheck-scan@v2
-        with:
-          severity: ${{ matrix.severity }}
-          shell-format: ${{ matrix.shell }}
-          publish-artifacts: false
-          match: >
-            .profile
-            .config/profile
-            **/*.{sh,bash,ksh}
-
 ...
