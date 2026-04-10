@@ -116,6 +116,18 @@ jobs:
       - name: "Install"
         run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
 
+      # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
+      - name: "Fake .zshellcheckrc"
+        run: |
+          tee -a "${GITHUB_OUTPUT}" << EOF
+          disabled_katas:
+            - ZC1049 # Prefer functions over aliases. Aliases are expanded at parse time and can behave unexpectedly in scripts.
+            - ZC1010 # Use `[[ ... ]]` instead of `[ ... ]` or `test`. `[[` is safer and more powerful.
+            - ZC1104 # Use the `path` array instead of manually manipulating the `$PATH` string.
+            - ZC1188 # Use `path+=(dir)` instead of `export PATH=$PATH:dir`. Zsh ties the `path` array to `$PATH` for cleaner manipulation.
+            - ZC1098 # Use the `(q)` flag (or `(qq)`, `(q-)`) when using variables in `eval` to prevent injection.
+          EOF
+
       - name: "ZShellCheck"
         run: >
           zshellcheck
