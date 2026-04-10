@@ -119,7 +119,7 @@ jobs:
       # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
       - name: "Fake .zshellcheckrc"
         run: |
-          tee -a "${GITHUB_OUTPUT}" << EOF
+          tee -a .zshellcheckrc" << EOF
           disabled_katas:
             - ZC1049 # Prefer functions over aliases. Aliases are expanded at parse time and can behave unexpectedly in scripts.
             - ZC1010 # Use `[[ ... ]]` instead of `[ ... ]` or `test`. `[[` is safer and more powerful.
