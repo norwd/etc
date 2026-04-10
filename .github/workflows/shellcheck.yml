@@ -174,14 +174,14 @@ jobs:
         with:
           severity: ${{ matrix.severity }}
           shell-format: ${{ matrix.shell }}
-          publish-artifacts: false
+          publish-artifacts: true
           match: >
             **/.profile
             **/.config/profile
             **/*.{sh,bash,ksh}
 
   zshellcheck-sarif-scan:
-    name: "Scan zsh with Shellcheck (${{ matrix.severity }})"
+    name: "Scan zsh with ZShellcheck (${{ matrix.severity }})"
     runs-on: ubuntu-slim
     permissions:
       contents: read
