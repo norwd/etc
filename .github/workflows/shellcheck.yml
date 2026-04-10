@@ -117,7 +117,8 @@ jobs:
         run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
 
       # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
-      - name: "Fake .zshellcheckrc"
+      - if: false
+        name: "Fake .zshellcheckrc"
         run: |
           tee -a .zshellcheckrc << EOF
           disabled_katas:
@@ -212,10 +213,12 @@ jobs:
         run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
 
       # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
-      - name: "Fake .zshellcheckrc"
+      - if: false
+        name: "Fake .zshellcheckrc"
         run: |
           tee -a .zshellcheckrc << EOF
           disabled_katas:
+          - ZC1046 # Avoid `eval`. It allows execution of arbitrary code and is hard to debug.
           - ZC1049 # Prefer functions over aliases. Aliases are expanded at parse time and can behave unexpectedly in scripts.
           - ZC1010 # Use `[[ ... ]]` instead of `[ ... ]` or `test`. `[[` is safer and more powerful.
           - ZC1104 # Use the `path` array instead of manually manipulating the `$PATH` string.
