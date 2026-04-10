@@ -117,8 +117,7 @@ jobs:
         run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
 
       # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
-      - if: false
-        name: "Fake .zshellcheckrc"
+      - name: "Fake .zshellcheckrc"
         run: |
           tee -a .zshellcheckrc << EOF
           disabled_katas:
@@ -154,13 +153,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shell: #[ sh, ksh, bash ]
-          - sh
+        shell: [ sh, ksh, bash ]
         severity:
           - style
-          # - info
-          # - warning
-          # - error
+          - info
+          - warning
+          - error
 
     steps:
 
@@ -180,89 +178,5 @@ jobs:
             **/.profile
             **/.config/profile
             **/*.{sh,bash,ksh}
-
-  zshellcheck-sarif-scan:
-    name: "Scan zsh with ZShellcheck (${{ matrix.severity }})"
-    runs-on: ubuntu-slim
-    permissions:
-      contents: read
-      security-events: write
-
-    strategy:
-      fail-fast: false
-      matrix:
-        severity:
-          - style
-          - info
-          - warning
-          - error
-
-    steps:
-
-      - name: "Checkout"
-        uses: actions/checkout@v6
-
-      - name: "Fake go.mod"
-        run: touch go.mod
-
-      - name: "Setup"
-        uses: actions/setup-go@v6
-        with:
-          go-version: stable
-
-      - name: "Install"
-        run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
-
-      # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
-      - if: false
-        name: "Fake .zshellcheckrc"
-        run: |
-          tee -a .zshellcheckrc << EOF
-          disabled_katas:
-          - ZC1046 # Avoid `eval`. It allows execution of arbitrary code and is hard to debug.
-          - ZC1049 # Prefer functions over aliases. Aliases are expanded at parse time and can behave unexpectedly in scripts.
-          - ZC1010 # Use `[[ ... ]]` instead of `[ ... ]` or `test`. `[[` is safer and more powerful.
-          - ZC1104 # Use the `path` array instead of manually manipulating the `$PATH` string.
-          - ZC1188 # Use `path+=(dir)` instead of `export PATH=$PATH:dir`. Zsh ties the `path` array to `$PATH` for cleaner manipulation.
-          - ZC1098 # Use the `(q)` flag (or `(qq)`, `(q-)`) when using variables in `eval` to prevent injection.
-          EOF
-
-      - id: zshellcheck
-        name: "ZShellCheck"
-        run: >
-          zshellcheck
-          -format sarif
-          --severity ${{ matrix.severity }}
-          $(find . -type f -name ".profile")
-          $(find . -type f -name ".config/profile")
-          $(find . -type f -name "*.sh")
-          $(find . -type f -name "*.zsh")
-          $(find . -type f -name "*.zshenv")
-          $(find . -type f -name "*.zprofile")
-          $(find . -type f -name "*.zshrc")
-          $(find . -type f -name "*.zlogin")
-          $(find . -type f -name "*.zlogout")
-          | tee -a zshellcheck.sarif
-
-      - if: always() && steps.zshellcheck.outcome != 'skipped' && steps.zshellcheck.outcome != 'cancelled'
-        name: "Upload SARIF file"
-        uses: github/codeql-action/upload-sarif@v4
-        with:
-          category: zshellcheck-scan
-          sarif_file: zshellcheck.sarif
-
-      - if: always()
-        name: "Disavow artifact"
-        shell: bash
-        run: |
-          echo "::group::CWE-910 Mitigation"
-          {
-            rm -f zshellcheck.sarif || true ;
-            touch zshellcheck.sarif || true ;
-            echo "null" > zshellcheck.sarif || true ;
-            ls -1 zshellcheck.sarif || wait ;
-            rm -f zshellcheck.sarif || true ;
-          } 2>/dev/null >> /dev/null
-          echo "::endgroup::"
 
 ...
