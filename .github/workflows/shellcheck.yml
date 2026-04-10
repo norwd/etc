@@ -227,6 +227,7 @@ jobs:
         name: "ZShellCheck"
         run: >
           zshellcheck
+          -format sarif
           --severity ${{ matrix.severity }}
           $(find . -type f -name ".profile")
           $(find . -type f -name ".config/profile")
