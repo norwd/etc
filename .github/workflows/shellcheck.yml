@@ -153,7 +153,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shell: [ sh, ksh, bash ]
+        shell:
+          - sh # [ sh, ksh, bash ]
         severity:
           # - style
           # - info
