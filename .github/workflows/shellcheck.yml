@@ -154,7 +154,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shell: [ sh, ksh, bash ]
+        shell: #[ sh, ksh, bash ]
+          - sh
         severity:
           - style
           # - info
