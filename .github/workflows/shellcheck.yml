@@ -25,6 +25,9 @@ jobs:
       - name: "Install Git"
         run: apk add git
 
+      - name: "Install Jq"
+        run: apk add jq
+
       - name: "Checkout"
         run: git clone ${{ github.server_url }}/${{ github.repository }}
 
