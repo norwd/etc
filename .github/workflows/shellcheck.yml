@@ -19,32 +19,18 @@ jobs:
 
   shellcheck-linguist:
     runs-on: ubuntu-latest
-    container: ghcr.io/github-linguist/linguist:latest
-    strategy:
-      fail-fast: false
-      matrix:
-        shell: [ sh, ksh, bash ]
-        severity:
-          - style
-          - info
-          - warning
-          - error
-
+    container:
+      image: ghcr.io/github-linguist/linguist:latest
+      options: --user root
     steps:
 
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - name: "Install Shellcheck"
-        run: brew install shellcheck
-
-      - name: "ShellCheck"
-        run: >
-          shellcheck
-          --rcfile .config/shellcheckrc
-          --shell=${{ matrix.shell }}
-          --severity ${{ matrix.severity }}
-          $(github-linguist --breakdown --strategies --json etc | jq --raw-output '@sh "\(.Shell.files[])"')
+      - name: "List Shell Files"
+        run: github-linguist --breakdown --strategies --json etc | jq --raw-output "${JQ_QUERY}"
+        env:
+          JQ_QUERY: '@sh "\(.Shell.files[])"'
 
   shellcheck:
     name: "Lint ${{ matrix.shell }} with ShellCheck (${{ matrix.severity }})"
