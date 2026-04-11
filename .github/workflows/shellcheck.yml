@@ -26,7 +26,7 @@ jobs:
         run: apk add git
 
       - name: "Checkout"
-        run: git clone ${{ github.repositoryUrl }}
+        run: git clone ${{ github.server_url }}/${{ github.repository }}
 
       - name: "List Shell Files"
         run: github-linguist --breakdown --strategies --json etc | jq --raw-output "${JQ_QUERY}"
