@@ -57,6 +57,7 @@ jobs:
           JQ_QUERY: '[ .Shell.files[] | @sh "\(.)" ] | join(" ") | "shell-files=\(.)"'
 
       - name: "ShellCheck"
+        working-directory: repo_dir
         run: >
           shellcheck
           --shell=${{ matrix.shell }}
