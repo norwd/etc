@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-slim
     steps:
 
+      - name: "Setup"
+        uses: ruby/setup-ruby@v1
+
       - name: "Install"
         run: gem install github-linguist
 
