@@ -46,18 +46,15 @@ jobs:
           TAR_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
 
       - name: "Checkout"
-        run: git clone "${GIT_URL}" ${{ runner.workspace }}
+        run: git clone "${GIT_URL}" repo_dir
         env:
           GIT_URL: ${{ github.server_url }}/${{ github.repository }}
 
       - id: linguist
         name: "List Shell Files"
-        run: github-linguist --breakdown --strategies --json ${{ runner.workspace }} | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_OUTPUT}"
+        run: github-linguist --breakdown --strategies --json repo_dir | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_OUTPUT}"
         env:
           JQ_QUERY: '[ .Shell.files[] | @sh "\(.)" ] | join(" ") | "shell-files=\(.)"'
-
-      - run: pwd; ls -R -a
-        working-directory: ${{ runner.workspace }}
 
       - name: "ShellCheck"
         run: >
