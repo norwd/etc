@@ -31,7 +31,7 @@ jobs:
       - name: "Install Shellcheck"
         working-directory: /usr/bin
         run: |
-          wget --quiet --output-document - "${TAR_URL}" | tar xvJ
+          wget --quiet --output-document - "${TAR_URL}" | tar xvJ shellcheck-latest/shellcheck
           ls
         env:
           TAR_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
