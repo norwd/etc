@@ -8,6 +8,7 @@ on:
   schedule: [ cron: '33 9 * * 2' ]
   push:
     paths:
+      - '.github/workflows/ruff.yml'
       - '**/*.py'
 
 jobs:
@@ -23,6 +24,8 @@ jobs:
       - id: list-python-files
         name: "Find Python files"
         run: echo "paths=$(find . -type f -name '*.py' | xargs)" | tee -a "${GITHUB_OUTPUT}"
+
+      - run: docker run --rm -v $(pwd):$(pwd):Z -w $(pwd) -t ghcr.io/github-linguist/linguist:latest
 
       - name: "Run Ruff"
         uses: astral-sh/ruff-action@v3
