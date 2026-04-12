@@ -52,7 +52,7 @@ jobs:
 
       - id: linguist
         name: "List Shell Files"
-        run: github-linguist --breakdown --strategies --json . | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_OUTPUT}"
+        run: github-linguist --breakdown --strategies --json ${{ runner.workspace }} | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_OUTPUT}"
         env:
           JQ_QUERY: '[ .Shell.files[] | @sh "\(.)" ] | join(" ") | "shell-files=\(.)"'
 
