@@ -26,11 +26,6 @@ jobs:
       fail-fast: false
       matrix:
         shell: [ sh, ksh, bash ]
-        severity:
-          - style
-          - info
-          - warning
-          - error
 
     steps:
 
@@ -56,12 +51,36 @@ jobs:
         env:
           JQ_QUERY: '[ .Shell.files[] | @sh "\(.)" ] | join(" ") | "shell-files=\(.)"'
 
-      - name: "ShellCheck"
+      - name: "ShellCheck (style)"
         working-directory: repo_dir
         run: >
           shellcheck
           --shell=${{ matrix.shell }}
-          --severity ${{ matrix.severity }}
+          --severity style
+          ${{ steps.linguist.outputs.shell-files }}
+
+      - name: "ShellCheck (info)"
+        working-directory: repo_dir
+        run: >
+          shellcheck
+          --shell=${{ matrix.shell }}
+          --severity info
+          ${{ steps.linguist.outputs.shell-files }}
+
+      - name: "ShellCheck (warning)"
+        working-directory: repo_dir
+        run: >
+          shellcheck
+          --shell=${{ matrix.shell }}
+          --severity warning
+          ${{ steps.linguist.outputs.shell-files }}
+
+      - name: "ShellCheck (error)"
+        working-directory: repo_dir
+        run: >
+          shellcheck
+          --shell=${{ matrix.shell }}
+          --severity error
           ${{ steps.linguist.outputs.shell-files }}
 
   zshellcheck:
