@@ -57,6 +57,7 @@ jobs:
           JQ_QUERY: '[ .Shell.files[] | @sh "\(.)" ] | join(" ") | "shell-files=\(.)"'
 
       - run: pwd; ls -R -a
+        working-directory: ${{ runner.workspace }}
 
       - name: "ShellCheck"
         run: >
