@@ -31,10 +31,12 @@ jobs:
       - name: "Install Shellcheck"
         working-directory: /usr/bin
         run: |
-          wget --quiet --output-document - "${TAR_URL}" | tar xvJ shellcheck-latest/shellcheck
+          wget --quiet --output-document - "${TAR_URL}" | tar xvJ --strip-components=1 shellcheck-latest/shellcheck
           ls
         env:
           TAR_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
+
+      - run: shellcheck --version
 
       - name: "Checkout"
         run: git clone "${GIT_URL}" repo_dir
