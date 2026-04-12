@@ -42,9 +42,9 @@ jobs:
 
       - id: linguist
         name: "List Shell Files"
-        run: github-linguist --breakdown --strategies --json repo_dir | jq --raw-output "${JQ_QUERY}"
+        run: github-linguist --breakdown --strategies --json repo_dir | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_OUTPUT}"
         env:
-          JQ_QUERY: '@sh "shell-files=\(.Shell.files[])"'
+          JQ_QUERY: '@sh "shell-files=\((.Shell.files[]))"'
 
       - name: "ShellCheck"
         run: >
