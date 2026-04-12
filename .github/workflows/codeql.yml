@@ -21,24 +21,37 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # language:
-        #   - actions
-        #   # - c-cpp
-        #   # - csharp
-        #   # - go
-        #   # - java-kotlin
-        #   # - javascript-typescript
-        #   - python
-        #   # - ruby
-        #   # - rust
-        #   # - swift
         include:
 
           - language: actions
             build-mode: none
 
+          # - language: c-cpp
+          #   build-mode: autobuild
+
+          # - language: csharp
+          #   build-mode: autobuild
+
+          # - language: go
+          #   build-mode: autobuild
+
+          # - language: java-kotlin
+          #   build-mode: autobuild
+
+          # - language: javascript-typescript
+          #   build-mode: none
+
           - language: python
             build-mode: none
+
+          # - language: ruby
+          #   build-mode: none
+
+          # - language: rust
+          #   build-mode: none
+
+          # - language: swift
+          #   build-mode: autobuild
 
     steps:
 
@@ -50,21 +63,6 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
-          #   ${{
-          #     case(
-          #       matrix.language == 'actions', 'none',
-          #       matrix.language == 'c-cpp', 'autobuild',
-          #       matrix.language == 'csharp', 'autobuild',
-          #       matrix.language == 'go', 'autobuild',
-          #       matrix.language == 'java-kotlin', 'autobuild',
-          #       matrix.language == 'javascript-typescript', 'none',
-          #       matrix.language == 'python', 'none',
-          #       matrix.language == 'ruby', 'none',
-          #       matrix.language == 'rust', 'none',
-          #       matrix.language == 'swift', 'autobuild',
-          #       'none'
-          #     )
-          #   }}
 
       - name: "Analyse"
         uses: github/codeql-action/analyze@v4
