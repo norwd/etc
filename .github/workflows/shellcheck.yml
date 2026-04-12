@@ -56,8 +56,9 @@ jobs:
         env:
           JQ_QUERY: '[ .Shell.files[] | @sh "\(.)" ] | join(" ") | "shell-files=\(.)"'
 
+      - run: pwd; ls -R -a
+
       - name: "ShellCheck"
-        working-directory: ${{ runner.workspace }}
         run: >
           shellcheck
           --shell=${{ matrix.shell }}
