@@ -18,8 +18,20 @@ on:
 jobs:
 
   shellcheck-linguist:
+    name: "Lint ${{ matrix.shell }} with ShellCheck via Linguist (${{ matrix.severity }})"
     runs-on: ubuntu-latest
     container: ghcr.io/github-linguist/linguist:latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [ sh, ksh, bash ]
+        severity:
+          - style
+          - info
+          - warning
+          - error
+
     steps:
 
       - name: "Install Git"
@@ -49,8 +61,8 @@ jobs:
         run: >
           shellcheck
           --rcfile .config/shellcheckrc
-          --shell=${{ matrix.shell || 'bash' }}
-          --severity ${{ matrix.severity || 'error' }}
+          --shell=${{ matrix.shell }}
+          --severity ${{ matrix.severity }}
           ${{ steps.linguist.outputs.shell-files }}
 
   shellcheck:
