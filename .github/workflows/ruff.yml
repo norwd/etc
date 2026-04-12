@@ -21,7 +21,7 @@ jobs:
       - name: "Setup"
         uses: ruby/setup-ruby@v1
         with:
-          version: ruby
+          ruby-version: ruby
 
       - name: "Install"
         run: gem install github-linguist
