@@ -29,7 +29,11 @@ jobs:
         run: apk add jq
 
       - name: "Install Shellcheck"
-        run: wget --quiet --output-document - "${TAR_URL}" | tar --extract --xz --verbose --directory=/usr/bin/ --transform='s|.*shellcheck-latest/||' shellcheck-latest/shellcheck
+        working-directory: /usr/bin
+        run: |
+          ls
+          wget "${TAR_URL}"
+          ls
         env:
           TAR_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
 
