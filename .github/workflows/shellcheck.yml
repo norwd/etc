@@ -44,7 +44,7 @@ jobs:
         name: "List Shell Files"
         run: github-linguist --breakdown --strategies --json repo_dir | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_OUTPUT}"
         env:
-          JQ_QUERY: '"shell-files=\(@sh "\(.Shell.files[])")"'
+          JQ_QUERY: '"shell-files=\((@sh "\(.Shell.files[])"))"'
 
       - name: "ShellCheck"
         working-directory: repo_dir
