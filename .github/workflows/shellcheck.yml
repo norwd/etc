@@ -18,7 +18,7 @@ on:
 jobs:
 
   shellcheck-linguist:
-    name: "Lint ${{ matrix.shell }} with ShellCheck via Linguist (${{ matrix.severity }})"
+    name: "Lint ${{ matrix.shell }} with ShellCheck via Linguist"
     runs-on: ubuntu-latest
     container: ghcr.io/github-linguist/linguist:latest
 
