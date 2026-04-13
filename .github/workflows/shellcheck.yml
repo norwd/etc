@@ -64,7 +64,7 @@ jobs:
             "
 
       - name: "Install Shellcheck"
-        run: wget --quiet --output-document - "${TAR_URL}" | tar xvJ -C /usr/bin --overwrite --strip-components=1 shellcheck-latest/shellcheck
+        run: wget --quiet --output-document - "${TAR_URL}" | sudo tar xvJ -C /usr/bin --overwrite --strip-components=1 shellcheck-latest/shellcheck
         env:
           TAR_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
 
@@ -159,12 +159,12 @@ jobs:
       - name: "Fake go.mod"
         run: touch go.mod
 
-      - name: "Setup"
+      - name: "Setup Go"
         uses: actions/setup-go@v6
         with:
           go-version: stable
 
-      - name: "Install"
+      - name: "Install Zshellcheck"
         run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
 
       # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
