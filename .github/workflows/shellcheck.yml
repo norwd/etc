@@ -187,6 +187,7 @@ jobs:
 
             # Filter GOOS
             select(
+              # Note: `runner.os` is often correct, but capitalised differently
               ( .os | ascii_downcase ) == ( "${{
                 case(
                   runner.os == 'macOS' , 'darwin',
@@ -197,6 +198,7 @@ jobs:
 
             # Filter GOARCH
             select(
+              # Note: `runner.arch` is often correct, but capitalised differently
               ( .arch | ascii_downcase ) == ( "${{
                 case(
                   runner.arch == 'X64', 'amd64',
