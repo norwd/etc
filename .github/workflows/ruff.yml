@@ -21,20 +21,34 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - name: "Setup"
+      - name: "Cache"
+        id: cache
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-gems
+          path: |
+            /opt/hostedtoolcache/Ruby/**/bin/github-linguist
+
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Setup"
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ruby
           bundler-cache: true
 
-      - name: "Install"
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: "Install"
         run: gem install github-linguist
-
-      - run: which github-linguist
 
       - id: list-python-files
         name: "Find Python files"
         run: echo "paths=$(find . -type f -name '*.py' | xargs)" | tee -a "${GITHUB_OUTPUT}"
+
+      - id: linguist
+        name: "List Files by Language"
+        run: github-linguist --breakdown --strategies --json etc | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_OUTPUT}"
+        env:
+          JQ_QUERY: 'to_entries[] | .key |= (ascii_downcase | gsub("\\s"; "-"; "g")) | .value |= ([.files[] | @sh] | join(" ")) | "\(.key)=\(.value)"'
 
       - name: "Run Ruff"
         uses: astral-sh/ruff-action@v3
