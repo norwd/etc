@@ -9,7 +9,11 @@ on:
   push:
     paths:
       - '.github/workflows/shellcheck.yml'
+      - '**/*shellcheckrc'
+      - '.config/*shellcheck/**'
       - '.config/profile'
+      - '.config/profile.d/**'
+      - '.config/zsh/**'
       - '**/*.*sh*'
       - '**/*.zlog*'
       - '.zprofile'
