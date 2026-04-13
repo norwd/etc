@@ -156,7 +156,9 @@ jobs:
         run: |
           curl -sSL https://go.dev/dl/go1.26.2.linux-amd64.tar.gz | sudo tar xvz -C /usr/local --overwrite
           export PATH="${PATH}:/usr/local/go/bin"
-          echo usr/local/go/bin | tee -a "${GITHUB_PATH}"
+          echo "usr/local/go/bin" | tee -a "${GITHUB_PATH}"
+          echo "$(go env GOPATH)/bin" | tee -a "${GITHUB_PATH}"
+          export PATH=${PATH}:`go env GOPATH`/bin
           go version
 
       - name: "Install Zshellcheck"
