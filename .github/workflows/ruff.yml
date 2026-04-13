@@ -47,8 +47,8 @@ jobs:
             .key |= (ascii_downcase | gsub("\\s"; "-"; "g")) |
             .value |= (.files) |
             "
-            \(.key)-json=\(.value | map("./" + .))
-            \(.key)-files=\([.value | map("./" + .) | @sh] | join(" "))
+            \(.key)-json=\(.value)
+            \(.key)-files=\(.value | join(" "))
             "
 
       - name: "Run Ruff"
