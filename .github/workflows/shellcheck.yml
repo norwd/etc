@@ -152,7 +152,7 @@ jobs:
       - name: "Fake go.mod"
         run: touch go.mod
 
-      - if: true
+      - if: false
         name: "Setup Go"
         uses: actions/setup-go@v6
         with:
