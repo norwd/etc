@@ -158,12 +158,12 @@ jobs:
         name: "Cache Zshellcheck"
         uses: actions/cache@v5
         with:
-          key: ${{ runner.os }}-go-install-zshellcheck
+          key: ${{ runner.os }}-${{ runner.arch }}-go-install-zshellcheck
           path: ~/go/bin
 
       - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
         name: "Install Go"
-        run: curl -sSL "${BASE_URL}/$(curl -sSL "${ENDPOINT}" | jq "${JQ_QUERY}")" | sudo tar xvz -C /usr/local --overwrite go/bin/go
+        run: curl -sSL "$(curl -sSL "${ENDPOINT}" | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_STEP_SUMMARY}")" | sudo tar xvz -C /usr/local --overwrite go/bin/go
         env:
           BASE_URL: 'https://go.dev/dl'
           ENDPOINT: 'https://go.dev/dl/?mode=json'
@@ -208,9 +208,8 @@ jobs:
               }}" | ascii_downcase )
             ) |
 
-            # Pick out the filename of the selected archive
-            .filename
-            
+            # Create link to filename of the selected archive
+            @url "\(env.BASE_URL)/\(.filename)"
 
       - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
         name: "Install Zshellcheck"
