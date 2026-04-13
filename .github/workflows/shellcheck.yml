@@ -39,8 +39,8 @@ jobs:
         env:
           GEM_USER_DIR: ${{ steps.gem.outputs.user_dir }}
 
-      - name: "Cache Linguist"
-        id: cache-github-linguist
+      - id: cache-github-linguist
+        name: "Cache Linguist"
         uses: actions/cache@v5
         with:
           key: ${{ runner.os }}-gem-install-github-linguist
@@ -149,19 +149,27 @@ jobs:
             \(.key)-files=\(.value | join(" "))
             "
 
+      - id: cache-go
+        name: "Cache Go"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-go
+          path: /usr/local/go/bin/go
+
+      - if: steps.cache-go.outputs.cache-hit != 'true'
+        name: "Install Go"
+        run: curl -sSL https://go.dev/dl/go1.26.2.linux-amd64.tar.gz | sudo tar xvz -C /usr/local --overwrite go/bin/go
+
       - id: go
         name: "Setup Go"
         run: |
-          curl -sSL https://go.dev/dl/go1.26.2.linux-amd64.tar.gz | sudo tar xvz -C /usr/local --overwrite go/bin/go
-          export PATH="${PATH}:/usr/local/go/bin"
           echo "usr/local/go/bin" | tee -a "${GITHUB_PATH}"
-          echo "$(go env GOPATH)/bin" | tee -a "${GITHUB_PATH}"
-          echo "binpath=$(go env GOPATH)/bin" | tee -a "${GITHUB_OUTPUT}"
-          export PATH=${PATH}:`go env GOPATH`/bin
-          go version
+          echo "$(/usr/local/go/bin/go env GOPATH)/bin" | tee -a "${GITHUB_PATH}"
+          echo "binpath=$(/usr/local/go/bin/go env GOPATH)/bin" | tee -a "${GITHUB_OUTPUT}"
+          /usr/local/go/bin/go version
 
-      - name: "Cache Zshellcheck"
-        id: cache-zshellcheck
+      - id: cache-zshellcheck
+        name: "Cache Zshellcheck"
         uses: actions/cache@v5
         with:
           key: ${{ runner.os }}-go-install-zshellcheck
