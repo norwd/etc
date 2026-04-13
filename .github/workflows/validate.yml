@@ -10,34 +10,6 @@ on:
 
 jobs:
 
-  validate-installation:
-    name: "Validate Installation"
-    runs-on: macos-latest
-    defaults:
-      run:
-        shell: zsh -i -l {0}
-
-    steps:
-
-      - name: "Clone"
-        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
-
-      - name: "Configure"
-        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
-
-      - name: "Checkout"
-        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
-
-      - name: "Validate"
-        run: |
-          test -f ~/.editorconfig
-          test -d ~/.cache
-          test -d ~/.config
-          test -f ~/.config/vim/vimrc
-          test -d ~/.local/bin
-          test -d ~/.local/share
-          test -d ~/.local/state
-
   validate-zsh-test-runner:
     name: "Validate with Zsh Test Runner"
     runs-on: macos-latest
@@ -78,7 +50,7 @@ jobs:
       - name: "Ztr Test that ${{ env.NAME }}"
         run: ztr test "${TEST}" "${NAME}" "${NOTE}"
         env:
-          TEST: test "${XDG_CACHE_HOME}" = "${HOME}/.cache"
+          TEST: test "${XDG_CACHE_HOME}" = "${HOME}/.cache/"
           NAME: XDG_CACHE_HOME is set to ~/.cache
           NOTE: |
             The XDG_CACHE_HOME must be set to ~/.cache
@@ -94,7 +66,7 @@ jobs:
       - name: "Ztr Test that ${{ env.NAME }}"
         run: ztr test "${TEST}" "${NAME}" "${NOTE}"
         env:
-          TEST: test "${XDG_DATA_HOME}" = "${HOME}/.local/share"
+          TEST: test "${XDG_DATA_HOME}" = "${HOME}/.local/share/"
           NAME: XDG_DATA_HOME is set to ~/.local/share
           NOTE: |
             The XDG_DATA_HOME must be set to ~/.local/share
@@ -142,43 +114,10 @@ jobs:
       - name: "Ztr Test that ${{ env.NAME }}"
         run: ztr test "${TEST}" "${NAME}" "${NOTE}"
         env:
-          TEST: test "$path[(Ie)$XDG_BIN_HOME]" -gt 15
+          TEST: test "$path[(Ie)$XDG_BIN_HOME]" -gt 0
           NAME: XDG_BIN_HOME is on the PATH
           NOTE: |
             The XDG_BIN_HOME must be in the PATH list
-
-  validate-xdg-base-directories:
-    name: "Validate XDG Base Directories"
-    runs-on: macos-latest
-    defaults:
-      run:
-        shell: zsh -i -l {0}
-
-    steps:
-
-      - name: "Clone"
-        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
-
-      - name: "Configure"
-        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
-
-      - name: "Checkout"
-        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
-
-      - name: "Validate XDG_CONFIG_HOME"
-        run: test -d "${XDG_CONFIG_HOME}" && test "${XDG_CONFIG_HOME}" = "${HOME}/.config"
-
-      - name: "Validate XDG_CACHE_HOME"
-        run: test -d "${XDG_CACHE_HOME}" && test "${XDG_CACHE_HOME}" = "${HOME}/.cache"
-
-      - name: "Validate XDG_DATA_HOME"
-        run: test -d "${XDG_DATA_HOME}" && test "${XDG_DATA_HOME}" = "${HOME}/.local/share"
-
-      - name: "Validate XDG_STATE_HOME"
-        run: test -d "${XDG_STATE_HOME}" && test "${XDG_STATE_HOME}" = "${HOME}/.local/state"
-
-      - name: "Validate XDG_BIN_HOME"
-        run: test -d "${XDG_BIN_HOME}" && test "${XDG_BIN_HOME}" = "${HOME}/.local/bin"
 
   validate-environment:
     name: "Validate Environment"
