@@ -18,8 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: "Add PATH"
-        run: echo "${HOME}/.local/bin" | tee -a "${GITHUB_PATH}"
+      - name: "Configure PATH"
+        run: mkdir -p "${HOME}/.local/bin" && (echo "${HOME}/.local/bin" | tee -a "${GITHUB_PATH}")
 
       - name: "Checkout"
         uses: actions/checkout@v6
