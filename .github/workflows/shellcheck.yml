@@ -70,7 +70,6 @@ jobs:
           TAR_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
 
       - name: "ShellCheck (style)"
-        working-directory: repo_dir
         run: >
           shellcheck
           --rcfile .config/shellcheckrc
@@ -79,7 +78,6 @@ jobs:
           ${{ steps.linguist.outputs.shell-files }}
 
       - name: "ShellCheck (info)"
-        working-directory: repo_dir
         run: >
           shellcheck
           --rcfile .config/shellcheckrc
@@ -88,7 +86,6 @@ jobs:
           ${{ steps.linguist.outputs.shell-files }}
 
       - name: "ShellCheck (warning)"
-        working-directory: repo_dir
         run: >
           shellcheck
           --rcfile .config/shellcheckrc
@@ -97,7 +94,6 @@ jobs:
           ${{ steps.linguist.outputs.shell-files }}
 
       - name: "ShellCheck (error)"
-        working-directory: repo_dir
         run: >
           shellcheck
           --rcfile .config/shellcheckrc
