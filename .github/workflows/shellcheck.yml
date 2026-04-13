@@ -157,6 +157,9 @@ jobs:
         env:
           SCRIPT_URL: https://github.com/afadesigns/zshellcheck/raw/refs/heads/v0.1.226/install.sh
 
+      - if: always()
+        run: cat checksums.txt
+
       # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
       - name: "Fake .zshellcheckrc"
         run: |
