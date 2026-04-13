@@ -152,12 +152,12 @@ jobs:
       - name: "Fake go.mod"
         run: touch go.mod
 
-      - if: false
-        name: "Setup Go"
-        uses: actions/setup-go@v6
-        with:
-          go-version: stable
-          check-latest: false
+      - name: "Setup Go"
+        run: |
+          curl -sSL https://go.dev/dl/go1.26.2.linux-amd64.tar.gz | tar -xz -C /usr/local
+          export PATH="${PATH}:/usr/local/go/bin"
+          echo usr/local/go/bin | tee -a "${GITHUB_PATH}"
+          go version
 
       - name: "Install Zshellcheck"
         run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
