@@ -21,6 +21,12 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
+      - name: "Setup"
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+          bundler-cache: true
+
       - name: "Cache"
         id: cache
         uses: actions/cache@v5
@@ -28,13 +34,6 @@ jobs:
           key: ${{ runner.os }}-gems
           path: |
             /opt/hostedtoolcache/Ruby/**/bin/github-linguist
-
-      - if: steps.cache.outputs.cache-hit != 'true'
-        name: "Setup"
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ruby
-          bundler-cache: true
 
       - if: steps.cache.outputs.cache-hit != 'true'
         name: "Install"
