@@ -104,7 +104,7 @@ jobs:
 
   zshellcheck:
     name: "Lint zsh with ZShellCheck"
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
 
       - name: "Checkout"
