@@ -74,8 +74,6 @@ jobs:
           JSON: ${{ steps.linguist.outputs.shellcheck-config-json }}
           JQ_QUERY: '. | @sh "--rcfile \(.[])"'
 
-      - run: echo "${SHELLCHECK_OPTS}"
-
       - name: "ShellCheck (style)"
         run: >
           shellcheck
@@ -150,6 +148,9 @@ jobs:
             \(.key)-json=\(.value)
             \(.key)-files=\(.value | join(" "))e
             "
+
+      - name: "Fake go.mod"
+        run: touch go.mod
 
       - name: "Setup Go"
         uses: actions/setup-go@v6
