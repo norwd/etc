@@ -163,9 +163,52 @@ jobs:
 
       - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
         name: "Install Go"
-        run: curl -sSL "${TAR_URL}" | sudo tar xvz -C /usr/local --overwrite go/bin/go
+        run: curl -sSL "${BASE_URL}/$(curl -sSL "${ENDPOINT}" | jq "${JQ_QUERY}")" | sudo tar xvz -C /usr/local --overwrite go/bin/go
         env:
-          TAR_URL: https://go.dev/dl/go1.26.2.linux-amd64.tar.gz
+          BASE_URL: 'https://go.dev/dl'
+          ENDPOINT: 'https://go.dev/dl/?mode=json'
+          JQ_QUERY: |
+            # Sort by version
+            sort_by(
+              # Version looks like `go<Major>.<Minor>.<Patch>`
+              # This splits it into `Major,Minor,Patch` (note, no brackets)
+              # Which is equivalent to `sort_by(.version.major, .version.minor, .version.patch)`
+              .version | match("\\d+";"g").string | tonumber
+            ) |
+
+            # Take last element (latest version) as sort is ascending
+            .[-1] |
+
+            # From the latest version's files...
+            .files[] |
+
+            # Filter Archives (usually tar, but could be Zip, TODO?)
+            select(.kind == "archive") |
+
+            # Filter GOOS
+            select(
+              ( .os | ascii_downcase ) == ( "${{
+                case(
+                  runner.os == 'macOS' , 'darwin',
+                  runner.os
+                )
+              }}" | ascii_downcase )
+            ) |
+
+            # Filter GOARCH
+            select(
+              ( .arch | ascii_downcase ) == ( "${{
+                case(
+                  runner.arch == 'X64', 'amd64',
+                  runner.arch == 'X86', '386',
+                  runner.arch
+                )
+              }}" | ascii_downcase )
+            ) |
+
+            # Pick out the filename of the selected archive
+            .filename
+            
 
       - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
         name: "Install Zshellcheck"
