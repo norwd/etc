@@ -149,8 +149,15 @@ jobs:
             \(.key)-files=\(.value | join(" "))
             "
 
-      - id: go
-        name: "Setup Go"
+      - id: cache-zshellcheck
+        name: "Cache Zshellcheck"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-go-install-zshellcheck
+          path: ~/go/bin
+
+      - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
+        name: "Install Go"
         run: |
           curl -sSL https://go.dev/dl/go1.26.2.linux-amd64.tar.gz | sudo tar xvz -C /usr/local --overwrite go/bin/go
           export PATH="${PATH}:/usr/local/go/bin"
@@ -159,13 +166,6 @@ jobs:
           echo "binpath=$(go env GOPATH)/bin" | tee -a "${GITHUB_OUTPUT}"
           export PATH=${PATH}:`go env GOPATH`/bin
           go version
-
-      - id: cache-zshellcheck
-        name: "Cache Zshellcheck"
-        uses: actions/cache@v5
-        with:
-          key: ${{ runner.os }}-go-install-zshellcheck
-          path: ${{ steps.go.outputs.binpath }}
 
       - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
         name: "Install Zshellcheck"
