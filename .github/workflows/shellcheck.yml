@@ -160,8 +160,7 @@ jobs:
       - name: "Install Zshellcheck"
         run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
 
-      - if: always()
-        run: cat checksums.txt
+      - run: which zshellcheck
 
       # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
       - name: "Fake .zshellcheckrc"
