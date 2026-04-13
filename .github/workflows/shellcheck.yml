@@ -151,16 +151,10 @@ jobs:
             \(.key)-files=\(.value | join(" "))
             "
 
-      - name: "Fake go.mod"
-        run: touch go.mod
-
-      - name: "Setup Go"
-        uses: actions/setup-go@v6
-        with:
-          go-version: stable
-
       - name: "Install Zshellcheck"
-        run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
+        run: curl -sSL "${SCRIPT_URL}" | sh -x
+        env:
+          SCRIPT_URL: https://github.com/afadesigns/zshellcheck/raw/refs/heads/main/install.sh
 
       # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
       - name: "Fake .zshellcheckrc"
