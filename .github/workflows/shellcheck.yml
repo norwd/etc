@@ -146,25 +146,30 @@ jobs:
             .value |= (.files) |
             "
             \(.key)-json=\(.value)
-            \(.key)-files=\(.value | join(" "))e
+            \(.key)-files=\(.value | join(" "))
             "
 
-      - name: "Fake go.mod"
-        run: touch go.mod
-
-      - name: "Setup Go"
+      - id: go
+        name: "Setup Go"
         run: |
           curl -sSL https://go.dev/dl/go1.26.2.linux-amd64.tar.gz | sudo tar xvz -C /usr/local --overwrite
           export PATH="${PATH}:/usr/local/go/bin"
           echo "usr/local/go/bin" | tee -a "${GITHUB_PATH}"
           echo "$(go env GOPATH)/bin" | tee -a "${GITHUB_PATH}"
+          echo "binpath=$(go env GOPATH)/bin" | tee -a "${GITHUB_OUTPUT}"
           export PATH=${PATH}:`go env GOPATH`/bin
           go version
 
-      - name: "Install Zshellcheck"
-        run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
+      - name: "Cache Zshellcheck"
+        id: cache-zshellcheck
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-go-install-zshellcheck
+          path: ${{ steps.go.outputs.binpath }}
 
-      - run: which zshellcheck
+      - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
+        name: "Install Zshellcheck"
+        run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
 
       # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
       - name: "Fake .zshellcheckrc"
