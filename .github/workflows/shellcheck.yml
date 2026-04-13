@@ -64,7 +64,7 @@ jobs:
             "
 
       - name: "Install Shellcheck"
-        run: wget --quiet --output-document - "${TAR_URL}" | sudo tar xvJ -C /usr/bin --overwrite --strip-components=1 shellcheck-latest/shellcheck
+        run: curl -sSL "${TAR_URL}" | sudo tar xvJ -C /usr/bin --overwrite --strip-components=1 shellcheck-latest/shellcheck
         env:
           TAR_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
 
@@ -163,9 +163,9 @@ jobs:
 
       - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
         name: "Install Go"
-        run: |
-          curl -sSL https://go.dev/dl/go1.26.2.linux-amd64.tar.gz | sudo tar xvz -C /usr/local --overwrite go/bin/go
-          go version
+        run: curl -sSL "${TAR_URL}" | sudo tar xvz -C /usr/local --overwrite go/bin/go
+        env:
+          TAR_URL: https://go.dev/dl/go1.26.2.linux-amd64.tar.gz
 
       - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
         name: "Install Zshellcheck"
