@@ -38,6 +38,30 @@ jobs:
           test -d ~/.local/share
           test -d ~/.local/state
 
+  validate-zsh-test-runner:
+    name: "Validate with Zsh Test Runner"
+    runs-on: macos-latest
+    defaults:
+      run:
+        shell: zsh -i -l {0}
+
+    steps:
+
+      - name: "Clone"
+        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
+
+      - name: "Configure"
+        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+
+      - name: "Checkout"
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
+
+      - name: "Install Zsh Test Runner"
+        run: brew install olets/tap/zsh-test-runner
+
+      - name: "Show Ztr Summary"
+        run: ztr summary
+
   validate-xdg-base-directories:
     name: "Validate XDG Base Directories"
     runs-on: macos-latest
