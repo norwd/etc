@@ -147,7 +147,9 @@ jobs:
           NOTE: |
             The XDG_BIN_HOME must be in the PATH list
 
-      - run: echo "(($path[(Ie)$XDG_BIN_HOME]))"
+      - run: |
+          echo $path
+          echo "(($path[(Ie)$XDG_BIN_HOME]))"
 
   validate-xdg-base-directories:
     name: "Validate XDG Base Directories"
