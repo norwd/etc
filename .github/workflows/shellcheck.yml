@@ -63,7 +63,8 @@ jobs:
             \(.key)-files=\(.value | join(" "))
             "
 
-      - name: "Install Shellcheck"
+      - if: false
+        name: "Install Shellcheck"
         run: wget --quiet --output-document - "${TAR_URL}" | tar xvJ -C /usr/bin --strip-components=1 shellcheck-latest/shellcheck
         env:
           TAR_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
@@ -72,6 +73,7 @@ jobs:
         working-directory: repo_dir
         run: >
           shellcheck
+          --rcfile .config/shellcheckrc
           --shell=${{ matrix.shell }}
           --severity style
           ${{ steps.linguist.outputs.shell-files }}
@@ -80,6 +82,7 @@ jobs:
         working-directory: repo_dir
         run: >
           shellcheck
+          --rcfile .config/shellcheckrc
           --shell=${{ matrix.shell }}
           --severity info
           ${{ steps.linguist.outputs.shell-files }}
@@ -88,6 +91,7 @@ jobs:
         working-directory: repo_dir
         run: >
           shellcheck
+          --rcfile .config/shellcheckrc
           --shell=${{ matrix.shell }}
           --severity warning
           ${{ steps.linguist.outputs.shell-files }}
@@ -96,6 +100,7 @@ jobs:
         working-directory: repo_dir
         run: >
           shellcheck
+          --rcfile .config/shellcheckrc
           --shell=${{ matrix.shell }}
           --severity error
           ${{ steps.linguist.outputs.shell-files }}
