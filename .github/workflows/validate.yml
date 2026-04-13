@@ -57,19 +57,19 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
       - name: "Validate XDG_CONFIG_HOME"
-        run: test -d "${XDG_CONFIG_HOME}" && test "${XDG_CONFIG_HOME}" == "${HOME}/.config"
+        run: test -d "${XDG_CONFIG_HOME}" && test "${XDG_CONFIG_HOME}" = "${HOME}/.config"
 
       - name: "Validate XDG_CACHE_HOME"
-        run: test -d "${XDG_CACHE_HOME}" && test "${XDG_CACHE_HOME}" == "${HOME}/.cache"
+        run: test -d "${XDG_CACHE_HOME}" && test "${XDG_CACHE_HOME}" = "${HOME}/.cache"
 
       - name: "Validate XDG_DATA_HOME"
-        run: test -d "${XDG_DATA_HOME}" && test "${XDG_DATA_HOME}" == "${HOME}/.local/share"
+        run: test -d "${XDG_DATA_HOME}" && test "${XDG_DATA_HOME}" = "${HOME}/.local/share"
 
       - name: "Validate XDG_STATE_HOME"
-        run: test -d "${XDG_STATE_HOME}" && test "${XDG_STATE_HOME}" == "${HOME}/.local/state"
+        run: test -d "${XDG_STATE_HOME}" && test "${XDG_STATE_HOME}" = "${HOME}/.local/state"
 
       - name: "Validate XDG_BIN_HOME"
-        run: test -d "${XDG_BIN_HOME}" && test "${XDG_BIN_HOME}" == "${HOME}/.local/bin"
+        run: test -d "${XDG_BIN_HOME}" && test "${XDG_BIN_HOME}" = "${HOME}/.local/bin"
 
   validate-shell-environment:
     name: "Validate Shell Environment"
@@ -195,7 +195,6 @@ jobs:
           then
             echo "::error title=ERROR::Validation errors detected!"
             exit 1
-          fi
           fi
 
   validate-zsh-options:
