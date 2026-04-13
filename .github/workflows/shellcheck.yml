@@ -217,19 +217,20 @@ jobs:
 
       # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
       - name: "Fake .zshellcheckrc"
-        shell: tee -a .zshellcheckrc < {0} # Unholy hack
-        run: |
-          disabled_katas:
-          - ZC1040 # Glob pattern may error if no files match. Append '(N)' to enable nullglob behavior: '~/.config/profile.d/*.sh(N)'
-          - ZC1046 # Avoid `eval`. It allows execution of arbitrary code and is hard to debug.
-          - ZC1049 # Prefer functions over aliases. Aliases are expanded at parse time and can behave unexpectedly in scripts.
-          - ZC1010 # Use `[[ ... ]]` instead of `[ ... ]` or `test`. `[[` is safer and more powerful.
-          - ZC1104 # Use the `path` array instead of manually manipulating the `$PATH` string.
-          - ZC1080 # Glob will error if no matches found. Append `(N)` to make it nullglob.
-          - ZC1186 # Use `unset -v name` for variables or `unset -f name` for functions. Bare `unset` is ambiguous about what is being removed.
-          - ZC1188 # Use `path+=(dir)` instead of `export PATH=$PATH:dir`. Zsh ties the `path` array to `$PATH` for cleaner manipulation.
-          - ZC1098 # Use the `(q)` flag (or `(qq)`, `(q-)`) when using variables in `eval` to prevent injection.
-          - ZC1330 # Avoid `$INPUTRC` in Zsh — Zsh uses `bindkey` and ZLE, not readline. `INPUTRC` is Bash-specific.
+        run: echo "${ZSHELLCHECK}" | tee -a .zshellcheckrc
+        env:
+          ZSHELLCHECK: |
+            disabled_katas:
+              - ZC1040 # Glob pattern may error if no files match. Append '(N)' to enable nullglob behavior: '~/.config/profile.d/*.sh(N)'
+              - ZC1046 # Avoid `eval`. It allows execution of arbitrary code and is hard to debug.
+              - ZC1049 # Prefer functions over aliases. Aliases are expanded at parse time and can behave unexpectedly in scripts.
+              - ZC1010 # Use `[[ ... ]]` instead of `[ ... ]` or `test`. `[[` is safer and more powerful.
+              - ZC1104 # Use the `path` array instead of manually manipulating the `$PATH` string.
+              - ZC1080 # Glob will error if no matches found. Append `(N)` to make it nullglob.
+              - ZC1186 # Use `unset -v name` for variables or `unset -f name` for functions. Bare `unset` is ambiguous about what is being removed.
+              - ZC1188 # Use `path+=(dir)` instead of `export PATH=$PATH:dir`. Zsh ties the `path` array to `$PATH` for cleaner manipulation.
+              - ZC1098 # Use the `(q)` flag (or `(qq)`, `(q-)`) when using variables in `eval` to prevent injection.
+              - ZC1330 # Avoid `$INPUTRC` in Zsh — Zsh uses `bindkey` and ZLE, not readline. `INPUTRC` is Bash-specific.
 
       - name: "ZShellCheck (style)"
         run: >
