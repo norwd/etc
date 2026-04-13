@@ -63,9 +63,8 @@ jobs:
             \(.key)-files=\(.value | join(" "))
             "
 
-      - if: false
-        name: "Install Shellcheck"
-        run: wget --quiet --output-document - "${TAR_URL}" | tar xvJ -C /usr/bin --strip-components=1 shellcheck-latest/shellcheck
+      - name: "Install Shellcheck"
+        run: wget --quiet --output-document - "${TAR_URL}" | tar xvJ -C /usr/bin --overwrite --strip-components=1 shellcheck-latest/shellcheck
         env:
           TAR_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
 
