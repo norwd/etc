@@ -148,11 +148,12 @@ jobs:
             .value |= (.files) |
             "
             \(.key)-json=\(.value)
-            \(.key)-files=\(.value | join(" "))
+            \(.key)-files=\(.value | join(" "))e
             "
 
+      # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/311
       - name: "Install Zshellcheck"
-        run: curl -sSL "${SCRIPT_URL}" | sh -x
+        run: sh -x <(curl -sSL "${SCRIPT_URL}") --version v0.1.226
         env:
           SCRIPT_URL: https://github.com/afadesigns/zshellcheck/raw/refs/heads/main/install.sh
 
