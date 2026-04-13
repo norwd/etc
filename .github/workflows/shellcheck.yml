@@ -11,8 +11,8 @@ on:
 
 jobs:
 
-  shellcheck-linguist:
-    name: "Lint ${{ matrix.shell }} with ShellCheck via Linguist"
+  shellcheck:
+    name: "Lint ${{ matrix.shell }} with ShellCheck"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -68,10 +68,17 @@ jobs:
         env:
           TAR_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
 
+      - name: "Setup Shellcheck Opts"
+        run: echo "SHELLCHECK_OPTS=$(echo "${JSON}" | jq --raw-output "${JQ_QUERY}")" | tee -a "${GITHUB_ENV}"
+        env:
+          JSON: ${{ steps.linguist.outputs.shellcheck-config-json }}
+          JQ_QUERY: '. | @sh "--rcfile \(.[])"'
+
+      - run: echo "${SHELLCHECK_OPTS}"
+
       - name: "ShellCheck (style)"
         run: >
           shellcheck
-          --rcfile .config/shellcheckrc
           --shell=${{ matrix.shell }}
           --severity style
           ${{ steps.linguist.outputs.shell-files }}
@@ -79,7 +86,6 @@ jobs:
       - name: "ShellCheck (info)"
         run: >
           shellcheck
-          --rcfile .config/shellcheckrc
           --shell=${{ matrix.shell }}
           --severity info
           ${{ steps.linguist.outputs.shell-files }}
@@ -87,7 +93,6 @@ jobs:
       - name: "ShellCheck (warning)"
         run: >
           shellcheck
-          --rcfile .config/shellcheckrc
           --shell=${{ matrix.shell }}
           --severity warning
           ${{ steps.linguist.outputs.shell-files }}
@@ -95,13 +100,12 @@ jobs:
       - name: "ShellCheck (error)"
         run: >
           shellcheck
-          --rcfile .config/shellcheckrc
           --shell=${{ matrix.shell }}
           --severity error
           ${{ steps.linguist.outputs.shell-files }}
 
   zshellcheck:
-    name: "Lint zsh with ZShellCheck (${{ matrix.severity }})"
+    name: "Lint zsh with ZShellCheck"
     runs-on: macos-latest
     steps:
 
