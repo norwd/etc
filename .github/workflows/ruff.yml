@@ -21,7 +21,7 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - name: "Setup"
+      - name: "Setup Ruby"
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ruby
@@ -30,6 +30,11 @@ jobs:
       - id: gem
         name: "Get Gem User Dir"
         run: ruby -e 'puts "user_dir=" + Gem.user_dir' | tee -a "${GITHUB_OUTPUT}"
+
+      - name: "Add Gem User Dir to PATH"
+        run: echo "${GEM_USER_DIR}" | tee -a "${GITHUB_OUTPUT}"
+        env:
+          GEM_USER_DIR: ${{ steps.gem.outputs.user_dir }}
 
       - name: "Cache Linguist"
         id: cache-github-linguist
