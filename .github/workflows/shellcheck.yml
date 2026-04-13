@@ -5,27 +5,15 @@ run-name: "Run ShellCheck"
 permissions: {}
 
 on:
-  schedule: [ cron: '33 9 * * 2' ]
   push:
-    paths:
-      - '.github/workflows/shellcheck.yml'
-      - '**/*shellcheckrc'
-      - '.config/*shellcheck/**'
-      - '.config/profile'
-      - '.config/profile.d/**'
-      - '.config/zsh/**'
-      - '**/*.*sh*'
-      - '**/*.zlog*'
-      - '.zprofile'
-      - '**/*.zprofile'
+  schedule:
+    - cron: '33 9 * * 2'
 
 jobs:
 
   shellcheck-linguist:
     name: "Lint ${{ matrix.shell }} with ShellCheck via Linguist"
     runs-on: ubuntu-latest
-    container: ghcr.io/github-linguist/linguist:latest
-
     strategy:
       fail-fast: false
       matrix:
@@ -33,27 +21,52 @@ jobs:
 
     steps:
 
-      - name: "Install Git"
-        run: apk add git
+      - name: "Checkout"
+        uses: actions/checkout@v6
 
-      - name: "Install Jq"
-        run: apk add jq
+      - name: "Setup Ruby"
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+          bundler-cache: true
+
+      - id: gem
+        name: "Get Gem User Dir"
+        run: ruby -e 'puts "user_dir=" + Gem.user_dir' | tee -a "${GITHUB_OUTPUT}"
+
+      - name: "Add Gem User Dir to PATH"
+        run: echo "${GEM_USER_DIR}/bin" | tee -a "${GITHUB_PATH}"
+        env:
+          GEM_USER_DIR: ${{ steps.gem.outputs.user_dir }}
+
+      - name: "Cache Linguist"
+        id: cache-github-linguist
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-gem-install-github-linguist
+          path: ${{ steps.gem.outputs.user_dir }}
+
+      - if: steps.cache-github-linguist.outputs.cache-hit != 'true'
+        name: "Install Linguist"
+        run: gem install github-linguist --user-install
+
+      - id: linguist
+        name: "List Files by Language"
+        run: github-linguist --breakdown --strategies --json . | jq --raw-output "${JQ_QUERY}" | sed '/^$/d' | tee -a "${GITHUB_OUTPUT}"
+        env:
+          JQ_QUERY: |
+            to_entries[] |
+            .key |= (ascii_downcase | gsub("\\s"; "-"; "g")) |
+            .value |= (.files) |
+            "
+            \(.key)-json=\(.value)
+            \(.key)-files=\(.value | join(" "))
+            "
 
       - name: "Install Shellcheck"
         run: wget --quiet --output-document - "${TAR_URL}" | tar xvJ -C /usr/bin --strip-components=1 shellcheck-latest/shellcheck
         env:
           TAR_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
-
-      - name: "Checkout"
-        run: git clone "${GIT_URL}" repo_dir
-        env:
-          GIT_URL: ${{ github.server_url }}/${{ github.repository }}
-
-      - id: linguist
-        name: "List Shell Files"
-        run: github-linguist --breakdown --strategies --json repo_dir | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_OUTPUT}"
-        env:
-          JQ_QUERY: '[ .Shell.files[] | @sh "\(.)" ] | join(" ") | "shell-files=\(.)"'
 
       - name: "ShellCheck (style)"
         working-directory: repo_dir
@@ -104,6 +117,45 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
+      - name: "Setup Ruby"
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+          bundler-cache: true
+
+      - id: gem
+        name: "Get Gem User Dir"
+        run: ruby -e 'puts "user_dir=" + Gem.user_dir' | tee -a "${GITHUB_OUTPUT}"
+
+      - name: "Add Gem User Dir to PATH"
+        run: echo "${GEM_USER_DIR}/bin" | tee -a "${GITHUB_PATH}"
+        env:
+          GEM_USER_DIR: ${{ steps.gem.outputs.user_dir }}
+
+      - name: "Cache Linguist"
+        id: cache-github-linguist
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-gem-install-github-linguist
+          path: ${{ steps.gem.outputs.user_dir }}
+
+      - if: steps.cache-github-linguist.outputs.cache-hit != 'true'
+        name: "Install Linguist"
+        run: gem install github-linguist --user-install
+
+      - id: linguist
+        name: "List Files by Language"
+        run: github-linguist --breakdown --strategies --json . | jq --raw-output "${JQ_QUERY}" | sed '/^$/d' | tee -a "${GITHUB_OUTPUT}"
+        env:
+          JQ_QUERY: |
+            to_entries[] |
+            .key |= (ascii_downcase | gsub("\\s"; "-"; "g")) |
+            .value |= (.files) |
+            "
+            \(.key)-json=\(.value)
+            \(.key)-files=\(.value | join(" "))
+            "
+
       - name: "Fake go.mod"
         run: touch go.mod
 
@@ -135,13 +187,6 @@ jobs:
         run: >
           zshellcheck
           --severity ${{ matrix.severity }}
-          .config/profile
-          $(find . -type f -name "*.sh")
-          $(find . -type f -name "*.zsh")
-          $(find . -type f -name "*.zshenv")
-          $(find . -type f -name "*.zprofile")
-          $(find . -type f -name "*.zshrc")
-          $(find . -type f -name "*.zlogin")
-          $(find . -type f -name "*.zlogout")
+          ${{ steps.linguist.outputs.shell-files }}
 
 ...
