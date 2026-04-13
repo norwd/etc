@@ -142,13 +142,10 @@ jobs:
       - name: "Ztr Test that ${{ env.NAME }}"
         run: ztr test "${TEST}" "${NAME}" "${NOTE}"
         env:
-          TEST: (($path[(Ie)$XDG_BIN_HOME]))
+          TEST: ((${path}[(Ie)${XDG_BIN_HOME}aoeu]))
           NAME: XDG_BIN_HOME is on the PATH
           NOTE: |
             The XDG_BIN_HOME must be in the PATH list
-
-      - name: "Show Ztr Summary"
-        run: ztr summary
 
   validate-xdg-base-directories:
     name: "Validate XDG Base Directories"
