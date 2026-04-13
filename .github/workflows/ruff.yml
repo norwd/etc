@@ -32,12 +32,11 @@ jobs:
         uses: actions/cache@v5
         with:
           key: ${{ runner.os }}-gem-install-github-linguist
-          path: |
-            /usr/bin/github-linguist
+          path: /usr/bin/github-linguist
 
       - if: steps.cache.outputs.cache-hit != 'true'
         name: "Install"
-        run: gem install github-linguist --bindir /usr/bin
+        run: sudo gem install github-linguist --bindir /usr/bin
 
       - run: which github-linguist
 
