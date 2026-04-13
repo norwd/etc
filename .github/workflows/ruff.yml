@@ -46,7 +46,7 @@ jobs:
 
       - id: linguist
         name: "List Files by Language"
-        run: github-linguist --breakdown --strategies --json etc | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_OUTPUT}"
+        run: github-linguist --breakdown --strategies --json . | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_OUTPUT}"
         env:
           JQ_QUERY: 'to_entries[] | .key |= (ascii_downcase | gsub("\\s"; "-"; "g")) | .value |= ([.files[] | @sh] | join(" ")) | "\(.key)=\(.value)"'
 
