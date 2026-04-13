@@ -13,11 +13,11 @@ jobs:
   validate-installation:
     name: "Validate Installation"
     runs-on: macos-latest
-    steps:
+    defaults:
+      run:
+        shell: zsh -i -l {0}
 
-      - if: runner.debug == 1
-        name: "Show zsh version"
-        run: zsh --version
+    steps:
 
       - name: "Clone"
         run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
@@ -38,8 +38,8 @@ jobs:
           test -d ~/.local/share
           test -d ~/.local/state
 
-  validate-xdg-base-directorie:
-    name: "Validate XDG Base Directorie"
+  validate-xdg-base-directories:
+    name: "Validate XDG Base Directories"
     runs-on: macos-latest
     defaults:
       run:
@@ -71,9 +71,13 @@ jobs:
       - name: "Validate XDG_BIN_HOME"
         run: test -d "${XDG_BIN_HOME}" && test "${XDG_BIN_HOME}" = "${HOME}/.local/bin"
 
-  validate-shell-environment:
-    name: "Validate Shell Environment"
+  validate-environment:
+    name: "Validate Environment"
     runs-on: macos-latest
+    defaults:
+      run:
+        shell: zsh -i -l {0}
+
     steps:
 
       - name: "Clone"
@@ -85,130 +89,23 @@ jobs:
       - name: "Checkout"
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
-      - id: fake-bash-profile
-        name: "Fake Bash Profile"
-        run: echo '. ~/.config/profile' >> ~/.bashrc
+      - name: "Validate SHELL_SESSIONS_DISABLE"
+        run: test "${SHELL_SESSIONS_DISABLE}" = "1"
 
-      - if: always() && steps.fake-bash-profile.outcome == 'success'
-        name: "Validate .config/profile.d/005-environment.sh"
-        shell: bash --posix -i -l {0}
-        run: |
-          errfile="${{ runner.temp }}/errfile.txt"
+      - name: "Validate VISUAL"
+        run: test "${VISUAL}" = "vim"
 
-          if [ -z "${VISUAL+x}" ]
-          then
-            touch "${errfile}"
-            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1),title=ERROR::VISUAL is not set but should be set to vim in .config/profile.d/005-environment.sh"
-          elif [ ! "${VISUAL}" == "vim" ]
-          then
-            touch "${errfile}"
-            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1),title=ERROR::VISUAL is set to \"${VISUAL}\" but should be set to vim in .config/profile.d/005-environment.sh"
-          else
-            echo "::notice file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1)::VISUAL is set correctly in .config/profile.d/005-environment.sh"
-          fi
-
-          if [ -z "${EDITOR+x}" ]
-          then
-            touch "${errfile}"
-            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1),title=ERROR::EDITOR is not set but should be set to vim in .config/profile.d/005-environment.sh"
-          elif [ ! "${EDITOR}" == "vim" ]
-          then
-            touch "${errfile}"
-            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1),title=ERROR::EDITOR is set to \"${EDITOR}\" but should be set to vim in .config/profile.d/005-environment.sh"
-          else
-            echo "::notice file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1)::EDITOR is set correctly in .config/profile.d/005-environment.sh"
-          fi
-
-          if [ -f "${errfile}" ]
-          then
-            echo "::error title=ERROR::Validation errors detected!"
-            exit 1
-          fi
-
-  validate-zsh-environment:
-    name: "Validate Zsh Environment"
-    runs-on: macos-latest
-    steps:
-
-      - if: runner.debug == 1
-        name: "Show zsh version"
-        run: zsh --version
-
-      - name: "Clone"
-        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
-
-      - name: "Configure"
-        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
-
-      - name: "Checkout"
-        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
-
-      - name: "Validate .zprofile"
-        shell: zsh -i -l {0}
-        run: |
-          errfile="${{ runner.temp }}/errfile.txt"
-
-          if [ -z ${SHELL_SESSIONS_DISABLE+x} ]
-          then
-            touch "${errfile}"
-            echo "::error file=.zprofile,line=$(awk '/SHELL_SESSIONS_DISABLE/{print NR}' ~/.zprofile),title=ERROR::SHELL_SESSIONS_DISABLE is not set but should be set to 1 in .zprofile"
-          else
-            echo "::notice file=.zprofile,line=$(awk '/SHELL_SESSIONS_DISABLE/{print NR}' ~/.zprofile)::SHELL_SESSIONS_DISABLE is set correctly in .zprofile"
-          fi
-
-          if [ -f "${errfile}" ]
-          then
-            echo "::error title=ERROR::Validation errors detected!"
-            exit 1
-          fi
-
-      - name: "Validate .config/profile.d/005-environment.sh"
-        shell: zsh -i -l {0}
-        run: |
-          errfile="${{ runner.temp }}/errfile.txt"
-
-          if [ -z "${VISUAL+x}" ]
-          then
-            touch "${errfile}"
-            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1),title=ERROR::VISUAL is not set but should be set to vim in .config/profile.d/005-environment.sh"
-          elif [ ! "${VISUAL}" == "vim" ]
-          then
-            touch "${errfile}"
-            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1),title=ERROR::VISUAL is set to \"${VISUAL}\" but should be set to vim in .config/profile.d/005-environment.sh"
-          else
-            echo "::notice file=.config/profile.d/005-environment.sh,line=$(awk '/VISUAL=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1)::VISUAL is set correctly in .config/profile.d/005-environment.sh"
-          fi
-
-          if [ -z "${EDITOR+x}" ]
-          then
-            touch "${errfile}"
-            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1),title=ERROR::EDITOR is not set but should be set to vim in .config/profile.d/005-environment.sh"
-          elif [ ! "${EDITOR}" == "vim" ]
-          then
-            touch "${errfile}"
-            echo "::error file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1),title=ERROR::EDITOR is set to \"${EDITOR}\" but should be set to vim in .config/profile.d/005-environment.sh"
-          else
-            echo "::notice file=.config/profile.d/005-environment.sh,line=$(awk '/EDITOR=/{print NR}' ~/.config/profile.d/005-environment.sh | head -n 1)::EDITOR is set correctly in .config/profile.d/005-environment.sh"
-          fi
-
-          if [ -f "${errfile}" ]
-          then
-            echo "::error title=ERROR::Validation errors detected!"
-            exit 1
-          fi
+      - name: "Validate EDITOR"
+        run: test "${EDITOR}" = "vim"
 
   validate-zsh-options:
     name: "Validate Zsh Options"
     runs-on: macos-latest
+    defaults:
+      run:
+        shell: zsh -i -l {0}
+
     steps:
-
-      - if: runner.debug == 1
-        name: "Show yq version"
-        run: yq --version
-
-      - if: runner.debug == 1
-        name: "Show zsh version"
-        run: zsh --version
 
       - name: "Clone"
         run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
@@ -221,7 +118,6 @@ jobs:
 
       - id: zsh-options
         name: "Dump Zsh Options"
-        shell: zsh -i -l {0}
         run: |
           for key value in ${(kv)options}
           do
