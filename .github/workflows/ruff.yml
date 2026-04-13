@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: "Add PATH"
+        run: echo "${HOME}/.local/bin" | tee -a "${GITHUB_PATH}"
+
       - name: "Checkout"
         uses: actions/checkout@v6
 
@@ -28,15 +31,15 @@ jobs:
           bundler-cache: true
 
       - name: "Cache"
-        id: cache
+        id: cache-github-linguist
         uses: actions/cache@v5
         with:
           key: ${{ runner.os }}-gem-install-github-linguist
-          path: /usr/bin/github-linguist
+          path: ~/.local/bin/github-linguist
 
-      - if: steps.cache.outputs.cache-hit != 'true'
+      - if: steps.cache-github-linguist.outputs.cache-hit != 'true'
         name: "Install"
-        run: sudo gem install github-linguist --bindir /usr/bin
+        run: sudo gem install github-linguist --bindir "${HOME}/.local/bin"
 
       - id: linguist
         name: "List Files by Language"
