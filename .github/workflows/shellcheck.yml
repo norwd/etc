@@ -152,7 +152,7 @@ jobs:
       - id: go
         name: "Setup Go"
         run: |
-          curl -sSL https://go.dev/dl/go1.26.2.linux-amd64.tar.gz | sudo tar xvz -C /usr/bin --overwrite --strip-components=2 go/bin/go
+          curl -sSL https://go.dev/dl/go1.26.2.linux-amd64.tar.gz | sudo tar xvz -C /usr/local/bin --overwrite --strip-components=2 go/bin/go
           echo "$(go env GOPATH)/bin" | tee -a "${GITHUB_PATH}"
           echo "binpath=$(go env GOPATH)/bin" | tee -a "${GITHUB_OUTPUT}"
           export PATH=${PATH}:`go env GOPATH`/bin
