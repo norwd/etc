@@ -103,15 +103,6 @@ jobs:
   zshellcheck:
     name: "Lint zsh with ZShellCheck (${{ matrix.severity }})"
     runs-on: macos-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        severity:
-          - style
-          - info
-          - warning
-          - error
-
     steps:
 
       - name: "Checkout"
@@ -183,10 +174,28 @@ jobs:
           - ZC1098 # Use the `(q)` flag (or `(qq)`, `(q-)`) when using variables in `eval` to prevent injection.
           EOF
 
-      - name: "ZShellCheck"
+      - name: "ZShellCheck (style)"
         run: >
           zshellcheck
-          --severity ${{ matrix.severity }}
+          --severity style
+          ${{ steps.linguist.outputs.shell-files }}
+
+      - name: "ZShellCheck (info)"
+        run: >
+          zshellcheck
+          --severity info
+          ${{ steps.linguist.outputs.shell-files }}
+
+      - name: "ZShellCheck (warning)"
+        run: >
+          zshellcheck
+          --severity warning
+          ${{ steps.linguist.outputs.shell-files }}
+
+      - name: "ZShellCheck (error)"
+        run: >
+          zshellcheck
+          --severity error
           ${{ steps.linguist.outputs.shell-files }}
 
 ...
