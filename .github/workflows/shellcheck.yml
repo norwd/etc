@@ -209,7 +209,7 @@ jobs:
             ) |
 
             # Create link to filename of the selected archive
-            @uri "\(env.BASE_URL)/\(.filename)"
+            "\(env.BASE_URL)/\(.filename)"
 
       - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
         name: "Install Zshellcheck"
