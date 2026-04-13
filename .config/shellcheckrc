@@ -2,11 +2,13 @@
 # desc:    Suggest adding a default case in `case` statements
 # example: case $? in 0) echo 'Success';; esac
 # fix:     case $? in 0) echo 'Success';; *) echo 'Fail' ;; esac
+enable=add-default-case
 
 # name:    avoid-nullary-conditions
 # desc:    Suggest explicitly using -n in `[ $var ]`
 # example: [ "$var" ]
 # fix:     [ -n "$var" ]
+enable=avoid-nullary-conditions
 
 # name:    check-extra-masked-returns
 # desc:    Check for additional cases where exit codes are masked
