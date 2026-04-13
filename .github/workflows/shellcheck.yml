@@ -151,11 +151,14 @@ jobs:
             \(.key)-files=\(.value | join(" "))e
             "
 
-      # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/311
+      - name: "Setup Go"
+        uses: actions/setup-go@v6
+        with:
+          go-version: stable
+          check-latest: false
+
       - name: "Install Zshellcheck"
-        run: sh -x <(curl -sSL "${SCRIPT_URL}") --version v0.1.226
-        env:
-          SCRIPT_URL: https://github.com/afadesigns/zshellcheck/raw/refs/tags/v0.1.226/install.sh
+        run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
 
       - if: always()
         run: cat checksums.txt
