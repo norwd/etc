@@ -47,11 +47,9 @@ jobs:
             .key |= (ascii_downcase | gsub("\\s"; "-"; "g")) |
             .value |= (.files) |
             "
-            \(.key)-json=\(.value)
-            \(.key)-files=\([.value | @sh] | join(" "))
+            \(.key)-json=\(.value | map("./" + .))
+            \(.key)-files=\([.value | map("./" + .) | @sh] | join(" "))
             "
-
-      - run: pwd; ls -R; cat ${{ steps.linguist.outputs.python-files }}
 
       - name: "Run Ruff"
         uses: astral-sh/ruff-action@v3
