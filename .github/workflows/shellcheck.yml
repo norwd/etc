@@ -152,7 +152,7 @@ jobs:
       - name: "Add GOPATH to PATH"
         run: |
           echo "${HOME}/go/bin" | tee -a "${GITHUB_PATH}"
-          echo "usr/local/go/bin" | tee -a "${GITHUB_PATH}"
+          echo "/usr/local/go/bin" | tee -a "${GITHUB_PATH}"
 
       - id: cache-zshellcheck
         name: "Cache Zshellcheck"
