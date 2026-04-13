@@ -33,11 +33,13 @@ jobs:
         with:
           key: ${{ runner.os }}-gem-install-github-linguist
           path: |
-            /opt/hostedtoolcache/Ruby/**/bin/github-linguist
+            /usr/bin/github-linguist
 
       - if: steps.cache.outputs.cache-hit != 'true'
         name: "Install"
-        run: gem install github-linguist
+        run: gem install github-linguist --bindir /usr/bin
+
+      - run: which github-linguist
 
       - id: linguist
         name: "List Files by Language"
