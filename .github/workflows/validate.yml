@@ -57,7 +57,9 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
       - name: "Install Zsh Test Runner"
-        run: brew install olets/tap/zsh-test-runner
+        run: |
+          brew install olets/tap/zsh-test-runner
+          echo "source /opt/homebrew/share/zsh-test-runner/ztr.zsh" >> .zshrc
 
       - name: "Show Ztr Summary"
         run: ztr summary
