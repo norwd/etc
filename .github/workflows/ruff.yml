@@ -31,10 +31,10 @@ jobs:
         name: "Get Gem User Dir"
         run: ruby -e 'puts "user_dir=" + Gem.user_dir' | tee -a "${GITHUB_OUTPUT}"
 
-      # - name: "Add Gem User Dir to PATH"
-      #  run: echo "${GEM_USER_DIR}" | tee -a "${GITHUB_PATH}"
-      #  env:
-      #    GEM_USER_DIR: ${{ steps.gem.outputs.user_dir }}
+      - name: "Add Gem User Dir to PATH"
+        run: echo "${GEM_USER_DIR}" | tee -a "${GITHUB_PATH}"
+        env:
+          GEM_USER_DIR: ${{ steps.gem.outputs.user_dir }}
 
       - name: "Cache Linguist"
         id: cache-github-linguist
