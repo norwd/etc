@@ -38,8 +38,6 @@ jobs:
         name: "Install"
         run: sudo gem install github-linguist --bindir /usr/bin
 
-      - run: which github-linguist
-
       - id: linguist
         name: "List Files by Language"
         run: github-linguist --breakdown --strategies --json . | jq --raw-output "${JQ_QUERY}" | sed '/^$/d' | tee -a "${GITHUB_OUTPUT}"
@@ -52,6 +50,8 @@ jobs:
             \(.key)-json=\(.value)
             \(.key)-files=\([.value | @sh] | join(" "))
             "
+
+      - run: pwd; ls -R; cat ${{ steps.linguist.outputs.python-files }}
 
       - name: "Run Ruff"
         uses: astral-sh/ruff-action@v3
