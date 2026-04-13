@@ -229,6 +229,7 @@ jobs:
           - ZC1186 # Use `unset -v name` for variables or `unset -f name` for functions. Bare `unset` is ambiguous about what is being removed.
           - ZC1188 # Use `path+=(dir)` instead of `export PATH=$PATH:dir`. Zsh ties the `path` array to `$PATH` for cleaner manipulation.
           - ZC1098 # Use the `(q)` flag (or `(qq)`, `(q-)`) when using variables in `eval` to prevent injection.
+          - ZC1330 # Avoid `$INPUTRC` in Zsh — Zsh uses `bindkey` and ZLE, not readline. `INPUTRC` is Bash-specific.
           EOF
 
       - name: "ZShellCheck (style)"
