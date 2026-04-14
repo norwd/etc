@@ -17,70 +17,6 @@ jobs:
       run:
         shell: zsh -i -l {0}
 
-    strategy:
-      matrix:
-        include:
-
-          - TEST: test "${XDG_CONFIG_HOME}" = "${HOME}/.config"
-            NAME: XDG_CONFIG_HOME is set to ~/.config
-            NOTE: |
-              The XDG_CONFIG_HOME must be set to ~/.config
-
-          - TEST: test "${XDG_CONFIG_HOME}" = "${HOME}/.config"
-            NAME: XDG_CONFIG_HOME is set to ~/.config
-            NOTE: |
-              The XDG_CONFIG_HOME must be set to ~/.config
-
-          - TEST: test -d "${XDG_CONFIG_HOME}"
-            NAME: XDG_CONFIG_HOME is a dir
-            NOTE: |
-              The XDG_CONFIG_HOME must be a directory
-
-          - TEST: test "${XDG_CACHE_HOME}" = "${HOME}/.cache"
-            NAME: XDG_CACHE_HOME is set to ~/.cache
-            NOTE: |
-              The XDG_CACHE_HOME must be set to ~/.cache
-
-          - TEST: test -d "${XDG_CACHE_HOME}"
-            NAME: XDG_CACHE_HOME is a dir
-            NOTE: |
-              The XDG_CACHE_HOME must be a directory
-  
-          - TEST: test "${XDG_DATA_HOME}" = "${HOME}/.local/share"
-            NAME: XDG_DATA_HOME is set to ~/.local/share
-            NOTE: |
-              The XDG_DATA_HOME must be set to ~/.local/share
-  
-          - TEST: test -d "${XDG_DATA_HOME}"
-            NAME: XDG_DATA_HOME is a dir
-            NOTE: |
-              The XDG_DATA_HOME must be a directory
-  
-          - TEST: test "${XDG_STATE_HOME}" = "${HOME}/.local/state"
-            NAME: XDG_STATE_HOME is set to ~/.local/state
-            NOTE: |
-              The XDG_STATE_HOME must be set to ~/.local/state
-  
-          - TEST: test -d "${XDG_STATE_HOME}"
-            NAME: XDG_STATE_HOME is a dir
-            NOTE: |
-              The XDG_STATE_HOME must be a directory
-  
-          - TEST: test "${XDG_BIN_HOME}" = "${HOME}/.local/bin"
-            NAME: XDG_BIN_HOME is set to ~/.local/bin
-            NOTE: |
-              The XDG_BIN_HOME must be set to ~/.local/bin
-  
-          - TEST: test -d "${XDG_BIN_HOME}"
-            NAME: XDG_BIN_HOME is a dir
-            NOTE: |
-              The XDG_BIN_HOME must be a directory
-  
-          - TEST: test "$path[(Ie)$XDG_BIN_HOME]" -gt 0
-            NAME: XDG_BIN_HOME is on the PATH
-            NOTE: |
-              The XDG_BIN_HOME must be in the PATH list
-
     steps:
 
       - name: "Clone"
@@ -95,8 +31,71 @@ jobs:
       - name: "Install Zsh Test Runner"
         run: brew install olets/tap/zsh-test-runner
 
-      - name: "Ztr Test that ${{ matrix.NAME }}"
-        run: ztr test "${{ matrix.TEST }}" "${{ matrix.NAME }}" "${{ matrix.NOTE }}"
+      - name: "Ztr Test that ${{ env.NAME }}"
+        run: ztr test "${TEST}" "${NAME}"
+        env:
+          TEST: test "${XDG_CONFIG_HOME}" = "${HOME}/.config"
+          NAME: XDG_CONFIG_HOME must be set to ~/.config
+
+      - name: "Ztr Test that ${{ env.NAME }}"
+        run: ztr test "${TEST}" "${NAME}"
+        env:
+          TEST: test -d "${XDG_CONFIG_HOME}"
+          NAME: XDG_CONFIG_HOME must be a directory
+
+      - name: "Ztr Test that ${{ env.NAME }}"
+        run: ztr test "${TEST}" "${NAME}"
+        env:
+          TEST: test "${XDG_CACHE_HOME}" = "${HOME}/.cache"
+          NAME: XDG_CACHE_HOME must be set to ~/.cache
+
+      - name: "Ztr Test that ${{ env.NAME }}"
+        run: ztr test "${TEST}" "${NAME}"
+        env:
+          TEST: test -d "${XDG_CACHE_HOME}"
+          NAME: XDG_CACHE_HOME must be a directory
+
+      - name: "Ztr Test that ${{ env.NAME }}"
+        run: ztr test "${TEST}" "${NAME}"
+        env:
+          TEST: test "${XDG_DATA_HOME}" = "${HOME}/.local/share"
+          NAME: XDG_DATA_HOME must be set to ~/.local/share
+
+      - name: "Ztr Test that ${{ env.NAME }}"
+        run: ztr test "${TEST}" "${NAME}"
+        env:
+          TEST: test -d "${XDG_DATA_HOME}"
+          NAME: XDG_DATA_HOME must be a directory
+
+      - name: "Ztr Test that ${{ env.NAME }}"
+        run: ztr test "${TEST}" "${NAME}"
+        env:
+          TEST: test "${XDG_STATE_HOME}" = "${HOME}/.local/state"
+          NAME: XDG_STATE_HOME must be set to ~/.local/state
+
+      - name: "Ztr Test that ${{ env.NAME }}"
+        run: ztr test "${TEST}" "${NAME}"
+        env:
+          TEST: test -d "${XDG_STATE_HOME}"
+          NAME: XDG_STATE_HOME must be a directory
+
+      - name: "Ztr Test that ${{ env.NAME }}"
+        run: ztr test "${TEST}" "${NAME}"
+        env:
+          TEST: test "${XDG_BIN_HOME}" = "${HOME}/.local/bin"
+          NAME: XDG_BIN_HOME must be set to ~/.local/bin
+
+      - name: "Ztr Test that ${{ env.NAME }}"
+        run: ztr test "${TEST}" "${NAME}"
+        env:
+          TEST: test -d "${XDG_BIN_HOME}"
+          NAME: XDG_BIN_HOME must be a directory
+
+      - name: "Ztr Test that ${{ env.NAME }}"
+        run: ztr test "${TEST}" "${NAME}"
+        env:
+          TEST: test "$path[(Ie)$XDG_BIN_HOME]" -gt 0
+          NAME: XDG_BIN_HOME must be in the PATH list
 
   validate-environment:
     name: "Validate Environment"
