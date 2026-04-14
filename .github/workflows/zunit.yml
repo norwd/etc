@@ -1,0 +1,39 @@
+---
+
+name: "Run ZUnit"
+run-name: "Run ZUnit"
+permissions: {}
+
+on:
+  push:
+  schedule: [ cron: '33 9 * * 2' ]
+
+jobs:
+  zunit:
+    name: "Run ZUnit"
+    runs-on: ubuntu-latest-latest
+    steps:
+
+      - name: "Clone"
+        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
+
+      - name: "Configure"
+        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+
+      - name: "Checkout"
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
+
+      - name: "Install revolver"
+        run: sudo curl -L https://raw.githubusercontent.com/molovo/revolver/master/revolver > /usr/local/bin/revolver
+
+      - name: "Install ZUnit"
+        run: sudo curl -L https://github.com/zunit-zsh/zunit/releases/download/v0.8.2/zunit > /usr/local/bin/zunit
+
+      - name: "ZUnit Run Tests"
+        shell: zunit {0}
+        run: |
+          #!/usr/bin/env zunit
+
+          @test 'Example test' {
+            assert 'true' same_as 'false'
+          }
