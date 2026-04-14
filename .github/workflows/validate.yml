@@ -10,37 +10,6 @@ on:
 
 jobs:
 
-  validate-zunit:
-    name: "Validate with ZUnit"
-    runs-on: macos-latest
-    defaults:
-      run:
-        shell: zsh -i -l {0}
-
-    steps:
-
-      - name: "Clone"
-        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
-
-      - name: "Configure"
-        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
-
-      - name: "Checkout"
-        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
-
-      - # if: steps.cache-zunit.outputs.cache-hit != 'true'
-        name: "Install ZUnit"
-        run: brew install zunit-zsh/zunit/zunit
-
-      - name: "ZUnit Run Tests"
-        shell: zunit {0}
-        run: |
-          #!/usr/bin/env zunit
-
-          @test 'Example test' {
-            assert 'true' same_as 'false'
-          }
-
   validate-ztr:
     name: "Validate with Zsh Test Runner"
     runs-on: macos-latest
@@ -59,14 +28,14 @@ jobs:
       - name: "Checkout"
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
-      - id: cache-zsh-test-runner
-        name: "Cache Zsh Test Runner"
-        uses: actions/cache@v5
-        with:
-          key: ${{ runner.os }}-zsh-test-runner
-          path: /opt/homebrew/share/zsh-test-runner/ztr.zsh
+      # - id: cache-zsh-test-runner
+      #   name: "Cache Zsh Test Runner"
+      #   uses: actions/cache@v5
+      #   with:
+      #     key: ${{ runner.os }}-zsh-test-runner
+      #     path: /opt/homebrew/share/zsh-test-runner/ztr.zsh
 
-      - if: steps.cache-zsh-test-runner.outputs.cache-hit != 'true'
+      - # if: steps.cache-zsh-test-runner.outputs.cache-hit != 'true'
         name: "Install Zsh Test Runner"
         run: brew install olets/tap/zsh-test-runner
 
