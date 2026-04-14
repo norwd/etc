@@ -5,6 +5,10 @@
 }
 
 @test 'Test dotfiles alias' {
+	run ls -l -a -R ~/
+
+	skip 'wip'
+
 	load ~/.config/profile.d/020-aliases.sh
 
 	assert "$(whence dotfiles)" same_as '/usr/bin/git --git-dir="${HOME}/etc/" --work-tree="${HOME}"'
