@@ -1,29 +1,29 @@
 #!/usr/bin/env zunit
 
 @test 'Test XDG_CONFIG_HOME' {
-  load ~/.config/profile.d/010-xdg-base-dirs.sh
-  
-  assert "${XDG_CONFIG_HOME}" same_as "${HOME}/.config"
-  assert "${XDG_CONFIG_HOME}" is_dir
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	assert "${XDG_CONFIG_HOME}" same_as "${HOME}/.config"
+	assert "${XDG_CONFIG_HOME}" is_dir
 }
 
 @test 'Test XDG_CACHE_HOME' {
-  load ~/.config/profile.d/010-xdg-base-dirs.sh
-  
-  assert "${XDG_CACHE_HOME}" same_as "${HOME}/.cache"
-  assert "${XDG_CACHE_HOME}" is_dir
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	assert "${XDG_CACHE_HOME}" same_as "${HOME}/.cache"
+	assert "${XDG_CACHE_HOME}" is_dir
 }
 
 @test 'Test XDG_DATA_HOME' {
-  load ~/.config/profile.d/010-xdg-base-dirs.sh
-  
-  assert "${XDG_DATA_HOME}" same_as "${HOME}/.local/share"
-  assert "${XDG_DATA_HOME}" is_dir
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	assert "${XDG_DATA_HOME}" same_as "${HOME}/.local/share"
+	assert "${XDG_DATA_HOME}" is_dir
 }
 
 @test 'Test XDG_STATE_HOME' {
-  load ~/.config/profile.d/010-xdg-base-dirs.sh
-  
-  assert "${XDG_STATE_HOME}" same_as "${HOME}/.local/state"
-  assert "${XDG_STATE_HOME}" is_dir
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	assert "${XDG_STATE_HOME}" same_as "${HOME}/.local/state"
+	assert "${XDG_STATE_HOME}" is_dir
 }
