@@ -18,10 +18,19 @@ jobs:
         uses: actions/checkout@v6
 
       - name: "Install revolver"
-        run: sudo curl -L https://raw.githubusercontent.com/molovo/revolver/master/revolver > /usr/local/bin/revolver
+        run: |
+          git clone https://github.com/molovo/revolver "${{ runner.temp }}/revolver"
+          cd "${{ runner.temp }}/revolver"
+          chmod u+x ./revolver
+          cp ./revolver /usr/local/bin/
 
       - name: "Install ZUnit"
-        run: sudo curl -L https://github.com/zunit-zsh/zunit/releases/download/v0.8.2/zunit > /usr/local/bin/zunit
+        run: |
+          git clone https://github.com/zunit-zsh/zunit "${{ runner.temp }}/zunit"
+          cd "${{ runner.temp }}/zunit"
+          ./build.zsh
+          chmod u+x ./zunit
+          cp ./zunit /usr/local/bin/
 
       - name: "ZUnit Run Tests"
         shell: zunit {0}
