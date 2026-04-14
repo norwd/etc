@@ -27,19 +27,10 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
       - name: "Install revolver"
-        run: |
-          git clone https://github.com/molovo/revolver "${{ runner.temp }}/revolver"
-          cd "${{ runner.temp }}/revolver"
-          chmod u+x ./revolver
-          cp ./revolver /usr/local/bin/
+        run: brew install molovo/revolver/revolver
 
       - name: "Install ZUnit"
-        run: |
-          git clone https://github.com/zunit-zsh/zunit "${{ runner.temp }}/zunit"
-          cd "${{ runner.temp }}/zunit"
-          ./build.zsh
-          chmod u+x ./zunit
-          cp ./zunit /usr/local/bin/
+        run: brew install zunit-zsh/zunit/zunit
 
       - name: "ZUnit Run Tests"
         shell: zunit {0}
@@ -47,35 +38,35 @@ jobs:
           #!/usr/bin/env zunit
 
           @test 'Test XDG_CONFIG_HOME' {
-            load .config/profile.d/010-xdg-base-dirs.sh
+            load ~/.config/profile.d/010-xdg-base-dirs.sh
 
             assert "${XDG_CONFIG_HOME}" same_as "${HOME}/.config"
             assert "${XDG_CONFIG_HOME}" is_dir
           }
 
           @test 'Test XDG_CACHE_HOME' {
-            load .config/profile.d/010-xdg-base-dirs.sh
+            load ~/.config/profile.d/010-xdg-base-dirs.sh
 
             assert "${XDG_CACHE_HOME}" same_as "${HOME}/.cache"
             assert "${XDG_CACHE_HOME}" is_dir
           }
 
           @test 'Test XDG_DATA_HOME' {
-            load .config/profile.d/010-xdg-base-dirs.sh
+            load ~/.config/profile.d/010-xdg-base-dirs.sh
 
             assert "${XDG_DATA_HOME}" same_as "${HOME}/.local/share"
             assert "${XDG_DATA_HOME}" is_dir
           }
 
           @test 'Test XDG_STATE_HOME' {
-            load .config/profile.d/010-xdg-base-dirs.sh
+            load ~/.config/profile.d/010-xdg-base-dirs.sh
 
             assert "${XDG_STATE_HOME}" same_as "${HOME}/.local/state"
             assert "${XDG_STATE_HOME}" is_dir
           }
 
           @test 'Test XDG_BIN_HOME' {
-            load .config/profile.d/015-xdg-extra-dirs.sh
+            load ~/.config/profile.d/015-xdg-extra-dirs.sh
 
             assert "${XDG_BIN_HOME}" same_as "${HOME}/.local/bin"
             assert "${XDG_BIN_HOME}" is_dir
