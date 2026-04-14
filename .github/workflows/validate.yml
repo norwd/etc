@@ -50,7 +50,7 @@ jobs:
       - name: "Ztr Test that ${{ env.NAME }}"
         run: ztr test "${TEST}" "${NAME}" "${NOTE}"
         env:
-          TEST: test "${XDG_CACHE_HOME}" = "${HOME}/.cache/"
+          TEST: test "${XDG_CACHE_HOME}" = "${HOME}/.cache"
           NAME: XDG_CACHE_HOME is set to ~/.cache
           NOTE: |
             The XDG_CACHE_HOME must be set to ~/.cache
@@ -66,7 +66,7 @@ jobs:
       - name: "Ztr Test that ${{ env.NAME }}"
         run: ztr test "${TEST}" "${NAME}" "${NOTE}"
         env:
-          TEST: test "${XDG_DATA_HOME}" = "${HOME}/.local/share/"
+          TEST: test "${XDG_DATA_HOME}" = "${HOME}/.local/share"
           NAME: XDG_DATA_HOME is set to ~/.local/share
           NOTE: |
             The XDG_DATA_HOME must be set to ~/.local/share
