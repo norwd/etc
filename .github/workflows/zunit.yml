@@ -26,9 +26,6 @@ jobs:
       - name: "Checkout"
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
-      - name: "Install revolver"
-        run: brew install molovo/revolver/revolver
-
       - name: "Install ZUnit"
         run: brew install zunit-zsh/zunit/zunit
 
