@@ -11,7 +11,7 @@ on:
 jobs:
   zunit:
     name: "Run ZUnit"
-    runs-on: ubuntu-latest-latest
+    runs-on: ubuntu-latest
     steps:
 
       - name: "Checkout"
