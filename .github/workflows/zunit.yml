@@ -17,6 +17,10 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v6
 
+      - if: runner.os == 'Linux'
+        name: "Install Zsh"
+        run: sudo apt-get install -y zsh
+
       - name: "Install revolver"
         run: |
           git clone https://github.com/molovo/revolver "${{ runner.temp }}/revolver"
