@@ -10,7 +10,36 @@ on:
 
 jobs:
 
-  validate-zsh-test-runner:
+  validate-zunit:
+    name: "Validate with ZUnit"
+    runs-on: macos-latest
+    defaults:
+      run:
+        shell: zsh -i -l {0}
+
+    steps:
+
+      - name: "Clone"
+        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
+
+      - name: "Configure"
+        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+
+      - name: "Checkout"
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
+
+      - # if: steps.cache-zunit.outputs.cache-hit != 'true'
+        name: "Install ZUnit"
+        run: brew install zunit-zsh/zunit/zunit
+
+      - name: "ZUnit Run Tests"
+        shell: zunit {0}
+        run: |
+          @test 'Example test' {
+            assert 'true' same_as 'false'
+          }
+
+  validate-ztr:
     name: "Validate with Zsh Test Runner"
     runs-on: macos-latest
     defaults:
