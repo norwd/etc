@@ -11,15 +11,20 @@ on:
 jobs:
   zunit:
     name: "Run ZUnit"
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
 
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - if: runner.os == 'Linux'
-        name: "Install Zsh"
-        run: sudo apt-get install -y zsh
+      - name: "Clone"
+        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
+
+      - name: "Configure"
+        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+
+      - name: "Checkout"
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
       - name: "Install revolver"
         run: |
