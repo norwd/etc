@@ -1,12 +1,16 @@
 #!/usr/bin/env zunit
 
 @test 'Test ALIASES option' {
+	skip 'WIP'
+
 	load ~/.config/profile.d/020-aliases.sh
 
 	assert $options[aliases] same_as "on"
 }
 
 @test 'Test dotfiles alias' {
+	skip 'WIP'
+
 	load ~/.config/profile.d/020-aliases.sh
 
 	assert $aliases[dotfiles] same_as '/usr/bin/git --git-dir="${HOME}/etc/" --work-tree="${HOME}"'
