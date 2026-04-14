@@ -14,14 +14,8 @@ jobs:
     runs-on: ubuntu-latest-latest
     steps:
 
-      - name: "Clone"
-        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
-
-      - name: "Configure"
-        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
-
       - name: "Checkout"
-        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
+        uses: actions/checkout@v6
 
       - name: "Install revolver"
         run: sudo curl -L https://raw.githubusercontent.com/molovo/revolver/master/revolver > /usr/local/bin/revolver
@@ -36,4 +30,30 @@ jobs:
 
           @test 'Example test' {
             assert 'true' same_as 'false'
+          }
+
+          @test 'Test XDG_CONFIG_HOME' {
+            assert "${XDG_CONFIG_HOME}" same_as "${HOME}/.config"
+            assert "${XDG_CONFIG_HOME}" is_dir
+          }
+
+          @test 'Test XDG_CACHE_HOME' {
+            assert "${XDG_CACHE_HOME}" same_as "${HOME}/.cache"
+            assert "${XDG_CACHE_HOME}" is_dir
+          }
+
+          @test 'Test XDG_DATA_HOME' {
+            assert "${XDG_DATA_HOME}" same_as "${HOME}/.local/share"
+            assert "${XDG_DATA_HOME}" is_dir
+          }
+
+          @test 'Test XDG_STATE_HOME' {
+            assert "${XDG_STATE_HOME}" same_as "${HOME}/.local/state"
+            assert "${XDG_STATE_HOME}" is_dir
+          }
+
+          @test 'Test XDG_BIN_HOME' {
+            assert "${XDG_BIN_HOME}" same_as "${HOME}/.local/bin"
+            assert "${XDG_BIN_HOME}" is_dir
+            assert "$path[(Ie)$XDG_BIN_HOME]" is_greater_than 1
           }
