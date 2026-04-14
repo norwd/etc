@@ -9,6 +9,8 @@
 }
 
 @test 'Test dotfiles alias' {
+	ls -la -R ~/
+
 	load ~/.config/profile.d/020-aliases.sh
 
 	skip 'WIP'
