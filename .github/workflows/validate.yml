@@ -35,6 +35,8 @@ jobs:
       - name: "ZUnit Run Tests"
         shell: zunit {0}
         run: |
+          #!/usr/bin/env zunit
+
           @test 'Example test' {
             assert 'true' same_as 'false'
           }
