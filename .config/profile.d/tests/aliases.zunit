@@ -9,9 +9,11 @@
 }
 
 @test 'Test dotfiles alias' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile.d/005-environment.sh
 
 	skip 'WIP'
+
+	load ~/.config/profile.d/020-aliases.sh
 
 	assert $aliases[dotfiles] same_as '/usr/bin/git --git-dir="${HOME}/etc/" --work-tree="${HOME}"'
 }
