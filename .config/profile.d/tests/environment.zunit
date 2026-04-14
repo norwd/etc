@@ -1,13 +1,13 @@
 #!/usr/bin/env zunit
 
 @test 'Test VISUAL' {
-  load ~/.config/profile.d/005-environment.sh
+	load ~/.config/profile.d/005-environment.sh
 
-  assert "${VISUAL}" same_as "vim"
+	assert "${VISUAL}" same_as "vim"
 }
 
 @test 'Test EDITOR' {
-  load ~/.config/profile.d/005-environment.sh
+	load ~/.config/profile.d/005-environment.sh
 
-  assert "${EDITOR}" same_as "${VISUAL}"
+	assert "${EDITOR}" same_as "${VISUAL}"
 }
