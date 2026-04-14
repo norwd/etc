@@ -30,4 +30,4 @@ jobs:
         run: brew install zunit-zsh/zunit/zunit
 
       - name: "ZUnit Run Tests"
-        run: zunit --tap $(find . -type f -name "*.zunit")
+        run: zunit --verbose --tap $(find . -type f -name "*.zunit")
