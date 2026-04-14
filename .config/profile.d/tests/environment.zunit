@@ -2,12 +2,12 @@
 
 @test 'Test VISUAL' {
   load ~/.config/profile.d/005-environment.sh
-  
+
   assert "${VISUAL}" same_as "vim"
 }
 
 @test 'Test EDITOR' {
   load ~/.config/profile.d/005-environment.sh
-  
+
   assert "${EDITOR}" same_as "${VISUAL}"
 }
