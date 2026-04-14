@@ -18,6 +18,6 @@ indent_style = space
 indent_size  = 8
 indent_style = tab
 
-[*.{sh,bash,bashrc,zsh,zshenv,zprofile,zshrc,zlogin,zlogout}]
+[*.{sh,bash,bashrc,zsh,zshenv,zprofile,zshrc,zlogin,zlogout,zunit}]
 indent_size  = 4
 indent_style = tab
