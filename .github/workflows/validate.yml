@@ -28,7 +28,15 @@ jobs:
       - name: "Checkout"
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
-      - name: "Install Zsh Test Runner"
+      - id: cache-zsh-test-runner
+        name: "Cache Zsh Test Runner"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-zsh-test-runner
+          path: /opt/homebrew/share/zsh-test-runner/ztr.zsh
+
+      - if: steps.cache-zsh-test-runner.outputs.cache-hit != 'true'
+        name: "Install Zsh Test Runner"
         run: brew install olets/tap/zsh-test-runner
 
       - name: "Ztr Test that ${{ env.NAME }}"
