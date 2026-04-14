@@ -1,4 +1,4 @@
-# #!/bin/sh
+#!/bin/sh
 
 # # Dotfiles
 # alias dotfiles='/usr/bin/git --git-dir="${HOME}/etc/" --work-tree="${HOME}"'
