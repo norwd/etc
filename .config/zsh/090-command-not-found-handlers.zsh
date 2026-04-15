@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-#shellcheck disable=SC2155
 
 if [[ -x "$(command -v pkgfile)" ]]
 then
