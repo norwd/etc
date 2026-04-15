@@ -10,11 +10,11 @@ alias ll='ls -l'
 alias la='ll -A'
 
 # Drop in replacements
-if [ -x "$(command -v bat)"       ] ; then alias cat=bat fi
-if [ -x "$(command -v batman)"    ] ; then alias man=batman fi
-if [ -x "$(command -v bfs)"       ] ; then alias find=bfs fi
-if [ -x "$(command -v btop)"      ] ; then alias htop=btop fi
-if [ -x "$(command -v fastfetch)" ] ; then alias neofetch='fastfetch --config neofetch.jsonc' fi
+if [ -x "$(command -v bat)"       ] ; then alias cat=bat ; fi
+if [ -x "$(command -v batman)"    ] ; then alias man=batman ; fi
+if [ -x "$(command -v bfs)"       ] ; then alias find=bfs ; fi
+if [ -x "$(command -v btop)"      ] ; then alias htop=btop ; fi
+if [ -x "$(command -v fastfetch)" ] ; then alias neofetch='fastfetch --config neofetch.jsonc' ; fi
 
 # Drop in replacement for grep is more complex
 if [ -x "$(command -v ug)" ]
