@@ -3,7 +3,7 @@
 @test 'Test Ruby Gem User Bin Dir' {
 	if [[ ! -x "$(command -v ruby)" ]]
 	then
-    skip 'Ruby is not installed'
+		skip 'Ruby is not installed'
 	fi
 
 	if [[ ! -x "$(command -v gem)" ]]
