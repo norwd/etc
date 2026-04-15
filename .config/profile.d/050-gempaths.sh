@@ -1,5 +1,4 @@
 #!/bin/sh
-# shellcheck disable=SC2154
 
 if [ -x "$(command -v ruby)" ] && [ -x "$(command -v gem)" ]
 then
