@@ -11,10 +11,12 @@
 		skip 'Gem is not installed'
 	fi
 
-	load ~/.config/profile.d/050-gempaths.sh
-
 	_ruby_gem_user_dir_bin="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
 
-	# assert "${_ruby_gem_user_dir_bin}" is_dir
+	run gem install github-markup
+
+	load ~/.config/profile.d/050-gempaths.sh
+
 	assert "${path[(Ie)${_ruby_gem_user_dir_bin}]}" is_greater_than 1
+	assert "${_ruby_gem_user_dir_bin}" is_dir
 }
