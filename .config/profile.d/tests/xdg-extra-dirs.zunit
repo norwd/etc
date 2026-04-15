@@ -1,9 +1,12 @@
 #!/usr/bin/env zunit
+# shellcheck disable=SC2154
+# shellcheck disable=SC2016
+# shellcheck disable=SC3054
 
 @test 'Test XDG_BIN_HOME' {
 	load ~/.config/profile.d/015-xdg-extra-dirs.sh
 
 	assert "${XDG_BIN_HOME}" same_as "${HOME}/.local/bin"
 	assert "${XDG_BIN_HOME}" is_dir
-	assert "$path[(Ie)$XDG_BIN_HOME]" is_greater_than 1
+	assert "${path[(Ie)${XDG_BIN_HOME}]}" is_greater_than 1
 }
