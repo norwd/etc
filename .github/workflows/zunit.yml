@@ -26,23 +26,28 @@ jobs:
       - name: "Checkout"
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force "${GITHUB_REF}"
 
-      - name: "Install ZUnit"
+      - id: cache-zunit
+        name: "Cache ZUnit"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-install-zunit
+          path: /usr/local/bin/zunit
+
+      - if: steps.cache-zunit.outputs.cache-hit != 'true'
+        working-directory: ${{ runner.temp }}
+        name: "Install Revolver"
         run: |
-          # brew install zunit-zsh/zunit/zunit
+          git clone https://github.com/molovo/revolver
+          chmod u+x revolver/revolver
+          cp revolver/revolver /usr/local/bin
 
-          # Install revolver
-          git clone https://github.com/molovo/revolver ${{ runner.temp }}/revolver
-          cd ${{ runner.temp }}/revolver
-          chmod u+x revolver
-          mv revolver /usr/local/bin
-
-          # Build ZUnit from source
-          git clone https://github.com/zunit-zsh/zunit ${{ runner.temp }}/zunit
-          cd ${{ runner.temp }}/zunit
-          ./build.zsh
-
-          # Copy zunit into $path
-          cp zunit /usr/local/bin
+      - if: steps.cache-zunit.outputs.cache-hit != 'true'
+        working-directory: ${{ runner.temp }}
+        name: "Install ZUnit"
+        run: |
+          git clone https://github.com/zunit-zsh/zunit
+          ./zunit/build.zsh
+          cp zunit/zunit /usr/local/bin
 
       - name: "ZUnit Run Tests"
         run: zunit --verbose $(find . -type f -name "*.zunit")
