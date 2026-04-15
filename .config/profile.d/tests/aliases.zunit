@@ -1,14 +1,11 @@
 #!/usr/bin/env zunit
 
 @test 'Test ALIASES option' {
-	# shellcheck disable=SC2154
-	# shellcheck disable=SC3054
 	assert "${options[aliases]}" same_as "on"
 }
 
 @test 'Test dotfiles alias' {
 	load ~/.config/profile.d/020-aliases.sh
 
-	# shellcheck disable=SC2016
 	assert "$(whence dotfiles)" same_as '/usr/bin/git --git-dir="${HOME}/etc/" --work-tree="${HOME}"'
 }
