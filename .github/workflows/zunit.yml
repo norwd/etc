@@ -27,7 +27,19 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force "${GITHUB_REF}"
 
       - name: "Install ZUnit"
-        run: brew install zunit-zsh/zunit/zunit
+        run: |
+          # brew install zunit-zsh/zunit/zunit
+
+          # Install revolver
+          curl -L https://raw.githubusercontent.com/molovo/revolver/master/revolver > /usr/local/bin/revolver
+
+          # Build ZUnit from source
+          git clone https://github.com/zunit-zsh/zunit
+          cd zunit
+          ./build.zsh
+
+          # Copy zunit into $path
+          cp zunit /usr/local/bin
 
       - name: "ZUnit Run Tests"
         run: zunit --verbose $(find . -type f -name "*.zunit")
