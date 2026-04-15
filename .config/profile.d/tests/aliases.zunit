@@ -5,7 +5,9 @@
 }
 
 @test 'Test dotfiles alias' {
-	cat ~/.config/profile.d/020-aliases.sh
+	run ~/.config/profile.d/020-aliases.sh
+
+	assert $state equals 0
 
 	skip 'wip'
 
