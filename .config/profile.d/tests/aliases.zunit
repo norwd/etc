@@ -12,3 +12,27 @@
 	# shellcheck disable=SC2016
 	assert "$(whence dotfiles)" same_as '/usr/bin/git --git-dir="${HOME}/etc/" --work-tree="${HOME}"'
 }
+
+@test 'Test grep alias' {
+	load ~/.config/profile.d/020-aliases.sh
+
+	assert "$(whence grep)" same_as 'grep --color=auto'
+}
+
+@test 'Test ls alias' {
+	load ~/.config/profile.d/020-aliases.sh
+
+	assert "$(whence ls)" same_as 'ls -F --color=auto'
+}
+
+@test 'Test ll alias' {
+	load ~/.config/profile.d/020-aliases.sh
+
+	assert "$(whence ll)" same_as 'ls -l'
+}
+
+@test 'Test la alias' {
+	load ~/.config/profile.d/020-aliases.sh
+
+	assert "$(whence la)" same_as 'll -A'
+}
