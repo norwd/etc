@@ -13,7 +13,7 @@
 
 	_ruby_gem_user_dir_bin="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
 
-	run gem install github-markup
+	run gem install github-markup --user-install
 
 	load ~/.config/profile.d/050-gempaths.sh
 
