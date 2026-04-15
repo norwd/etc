@@ -5,7 +5,7 @@
 }
 
 @test 'Test dotfiles alias' {
-	run ls -l -a -R ~/
+	run ls -l -a -R ~/.config/
 
 	skip 'wip'
 
