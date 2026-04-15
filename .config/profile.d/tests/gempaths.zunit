@@ -18,5 +18,6 @@
 	_ruby_gem_user_dir_bin="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
 
 	assert "${_ruby_gem_user_dir_bin}" is_dir
+	# shellcheck disable=SC2086 # Double quote to prevent globbing and word splitting.
 	assert "${_ruby_gem_user_dir_bin}" in ${path}
 }
