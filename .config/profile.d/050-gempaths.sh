@@ -2,6 +2,9 @@
 
 if [ -x "$(command -v ruby)" ] && [ -x "$(command -v gem)" ]
 then
-	# shellcheck disable=SC2155
-	export PATH="${PATH}:$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
+	_ruby_gem_user_dir_bin="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
+	if [ -d "${_ruby_gem_user_dir_bin}" ]
+	then
+		export PATH="${PATH}:${_ruby_gem_user_dir_bin}"
+	fi
 fi
