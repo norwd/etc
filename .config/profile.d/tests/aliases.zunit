@@ -5,8 +5,7 @@
 }
 
 @test 'Test dotfiles alias' {
-	#run ~/.config/profile.d/020-aliases.sh
-	run ~/.config/profile.d/005-environment.sh
+	run zsh -v ~/.config/profile.d/020-aliases.sh
 
 	#skip "$output"
 
