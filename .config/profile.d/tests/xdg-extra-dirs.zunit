@@ -1,5 +1,4 @@
 #!/usr/bin/env zunit
-# shellcheck disable=SC2154 # (warning): options is referenced but not assigned. # TEMP
 # shellcheck disable=SC2016
 # shellcheck disable=SC3054
 
