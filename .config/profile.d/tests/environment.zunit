@@ -1,4 +1,5 @@
 #!/usr/bin/env zunit
+# shellcheck disable=SC2154
 
 @test 'Test VISUAL' {
 	load ~/.config/profile.d/005-environment.sh
