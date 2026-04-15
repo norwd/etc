@@ -1,5 +1,7 @@
 # This directory only contains zsh files, so don't fuss about POSIX strictness
 
+disable=SC2016 # (info): Expressions don't expand in single quotes, use double quotes for that.
+disable=SC2154 # (warning): options is referenced but not assigned.
 disable=SC3001 # (warning): In POSIX sh, process substitution is undefined.
 disable=SC3010 # (warning): In POSIX sh, [[ ]] is undefined.
 disable=SC3014 # (warning): In POSIX sh, == in place of = is undefined.
