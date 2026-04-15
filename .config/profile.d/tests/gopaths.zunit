@@ -1,0 +1,19 @@
+#!/usr/bin/env zunit
+
+@test 'Test Ruby Gem User Bin Dir' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile.d/040-gopaths.sh
+
+	assert "${XDG_DATA_HOME}" is_dir
+	assert "${XDG_CACHE_HOME}" is_dir
+	assert "${XDG_CACHE_HOME}" same_as "${HOME}/.cache"
+	assert "${XDG_DATA_HOME}" same_as "${HOME}/.local/share"
+
+	assert "${GOPATH}" is_dir
+	assert "${GOPATH}/bin" is_dir
+	assert "${GOMODCACHE}" is_dir
+	assert "${GOPATH}" same_as "${XDG_DATA_HOME}/go"
+	assert "${GOMODCACHE}" same_as "${XDG_CACHE_HOME}/go/mod"
+
+	assert "${path[(Ie)${GOPATH}/bin]}" is_greater_than 1
+}
