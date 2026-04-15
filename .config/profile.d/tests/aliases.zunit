@@ -31,5 +31,5 @@
 @test 'Test la alias' {
 	load ~/.config/profile.d/020-aliases.sh
 
-	assert "$(whence la)" same_as ll -A'
+	assert "$(whence la)" same_as 'll -A'
 }
