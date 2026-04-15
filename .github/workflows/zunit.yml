@@ -24,10 +24,10 @@ jobs:
         run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
 
       - name: "Checkout"
-        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force "${GITHUB_REF}"
 
       - name: "Install ZUnit"
         run: brew install zunit-zsh/zunit/zunit
 
       - name: "ZUnit Run Tests"
-        run: zunit $(find . -type f -name "*.zunit")
+        run: zunit --verbose $(find . -type f -name "*.zunit")

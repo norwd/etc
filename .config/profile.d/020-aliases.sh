@@ -10,11 +10,11 @@ alias ll='ls -l'
 alias la='ll -A'
 
 # Drop in replacements
-[ -x "$(command -v bat)"       ] && alias cat=bat
-[ -x "$(command -v batman)"    ] && alias man=batman
-[ -x "$(command -v bfs)"       ] && alias find=bfs
-[ -x "$(command -v btop)"      ] && alias htop=btop
-[ -x "$(command -v fastfetch)" ] && alias neofetch='fastfetch --config neofetch.jsonc'
+if [ -x "$(command -v bat)"       ] ; then alias cat=bat ; fi
+if [ -x "$(command -v batman)"    ] ; then alias man=batman ; fi
+if [ -x "$(command -v bfs)"       ] ; then alias find=bfs ; fi
+if [ -x "$(command -v btop)"      ] ; then alias htop=btop ; fi
+if [ -x "$(command -v fastfetch)" ] ; then alias neofetch='fastfetch --config neofetch.jsonc' ; fi
 
 # Drop in replacement for grep is more complex
 if [ -x "$(command -v ug)" ]
@@ -37,6 +37,7 @@ then
 fi
 
 # Fuzz
-[ -x "$(command -v bat)" ] &&
-[ -x "$(command -v fzf)" ] &&
-alias fvim='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}" --bind "enter:become(vim {})"'
+if [ -x "$(command -v bat)" ] && [ -x "$(command -v fzf)" ]
+then
+	alias fvim='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}" --bind "enter:become(vim {})"'
+fi
