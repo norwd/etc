@@ -68,12 +68,6 @@ jobs:
         env:
           TAR_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
 
-      - name: "Setup Shellcheck Opts"
-        run: echo "SHELLCHECK_OPTS=$(echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | xargs)" | tee -a "${GITHUB_ENV}"
-        env:
-          JSON: ${{ steps.linguist.outputs.shellcheck-config-json }}
-          JQ_QUERY: '. | @sh "--rcfile \(.[])"'
-
       - name: "ShellCheck (style)"
         run: >
           shellcheck
