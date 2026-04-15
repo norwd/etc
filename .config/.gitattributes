@@ -1,3 +1,5 @@
-profile linguist-language=sh linguist-detectable
-shellcheckrc linguist-language=shellcheckrc linguist-detectable
-*.zunit linguist-language=sh linguist-detectable diff=zsh eol=lf
+* linguist-detectable
+
+profile linguist-language=sh
+shellcheckrc linguist-language=shellcheckrc
+*.zunit linguist-language=sh diff=zsh eol=lf
