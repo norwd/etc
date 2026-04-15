@@ -5,5 +5,5 @@
 
 	assert "${XDG_BIN_HOME}" same_as "${HOME}/.local/bin"
 	assert "${XDG_BIN_HOME}" is_dir
-	assert "${path[(Ie)${XDG_BIN_HOME}]}" is_greater_than 1
+	assert "${XDG_BIN_HOME}" in ${path}
 }
