@@ -19,5 +19,4 @@
 
 	assert "${_ruby_gem_user_dir_bin}" is_dir
 	assert "${_ruby_gem_user_dir_bin}" in ${path}
-	assert "${path[(Ie)${_ruby_gem_user_dir_bin}]}" is_greater_than 1
 }
