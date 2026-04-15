@@ -7,7 +7,7 @@
 @test 'Test dotfiles alias' {
 	run ~/.config/profile.d/020-aliases.sh
 
-	skip "$output"
+	#skip "$output"
 
 	assert $state equals 0
 
