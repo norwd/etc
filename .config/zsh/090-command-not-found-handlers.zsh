@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-#shellcheck disable=SC2155
 
 if [[ -x "$(command -v pkgfile)" ]]
 then
@@ -34,7 +33,9 @@ if [[ -x "$(command -v brew)" ]] && ! functions command_not_found_handler >/dev/
 then
 	command_not_found_handler() {
 		local cmd="$1"
-		local pkg="$(brew which-formula --skip-update "${cmd}" 2>/dev/null)"
+		local pkg
+
+		pkg="$(brew which-formula --skip-update "${cmd}" 2>/dev/null)"
 
 		if [[ -n "${pkg}" ]]
 		then
