@@ -1,7 +1,7 @@
 #!/usr/bin/env zunit
 
 @test 'Test ALIASES option' {
-	assert "$options[aliases]" same_as "on"
+	assert "${options[aliases]}" same_as "on"
 }
 
 @test 'Test dotfiles alias' {
