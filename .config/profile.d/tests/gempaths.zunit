@@ -1,0 +1,22 @@
+#!/usr/bin/env zunit
+
+@test 'Test Ruby Gem User Bin Dir' {
+	if [[ ! -x "$(command -v ruby)" ]]
+	then
+		skip 'Ruby is not installed'
+	fi
+
+	if [[ ! -x "$(command -v gem)" ]]
+	then
+		skip 'Gem is not installed'
+	fi
+
+	_ruby_gem_user_dir_bin="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
+
+	run gem install github-markup --user-install
+
+	load ~/.config/profile.d/050-gempaths.sh
+
+	assert "${path[(Ie)${_ruby_gem_user_dir_bin}]}" is_greater_than 1
+	assert "${_ruby_gem_user_dir_bin}" is_dir
+}
