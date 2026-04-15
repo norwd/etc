@@ -33,7 +33,7 @@ jobs:
           # Install revolver
           git clone https://github.com/molovo/revolver ${{ runner.temp }}/revolver
           cd ${{ runner.temp }}/revolver
-          chmod u+x revolver/revolver
+          chmod u+x revolver
           mv revolver /usr/local/bin
 
           # Build ZUnit from source
