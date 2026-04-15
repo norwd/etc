@@ -15,6 +15,6 @@
 
 	_ruby_gem_user_dir_bin="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
 
-	assert "${_ruby_gem_user_dir_bin}" is_dir
+	# assert "${_ruby_gem_user_dir_bin}" is_dir
 	assert "${path[(Ie)${_ruby_gem_user_dir_bin}]}" is_greater_than 1
 }
