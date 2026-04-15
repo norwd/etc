@@ -24,7 +24,7 @@ enable=avoid-nullary-conditions
 # desc:    Warn when uppercase variables are unassigned
 # example: echo $VAR
 # fix:     VAR=hello; echo $VAR
-disable=check-unassigned-uppercase # This causes SC2154 and is annoying
+# enable=check-unassigned-uppercase # This causes SC2154 and is annoying
 
 # name:    deprecate-which
 # desc:    Suggest 'command -v' instead of 'which'
