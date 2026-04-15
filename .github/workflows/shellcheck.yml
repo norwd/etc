@@ -76,7 +76,7 @@ jobs:
           JQ_QUERY: '. | @sh "--rcfile \(.[])"'
 
       - name: "ShellCheck (style)"
-        run: echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | sh
+        run: echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | sh -e
         env:
           JSON: ${{ steps.linguist.outputs.shell-json }}
           JQ_QUERY: >
@@ -88,7 +88,7 @@ jobs:
             "
 
       - name: "ShellCheck (info)"
-        run: echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | sh
+        run: echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | sh -e
         env:
           JSON: ${{ steps.linguist.outputs.shell-json }}
           JQ_QUERY: >
@@ -100,7 +100,7 @@ jobs:
             "
 
       - name: "ShellCheck (warning)"
-        run: echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | sh
+        run: echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | sh -e
         env:
           JSON: ${{ steps.linguist.outputs.shell-json }}
           JQ_QUERY: >
@@ -112,7 +112,7 @@ jobs:
             "
 
       - name: "ShellCheck (error)"
-        run: echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | sh
+        run: echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | sh -e
         env:
           JSON: ${{ steps.linguist.outputs.shell-json }}
           JQ_QUERY: >
