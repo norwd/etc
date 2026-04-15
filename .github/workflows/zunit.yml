@@ -31,11 +31,14 @@ jobs:
           # brew install zunit-zsh/zunit/zunit
 
           # Install revolver
-          curl -L https://raw.githubusercontent.com/molovo/revolver/master/revolver > /usr/local/bin/revolver
+          git clone https://github.com/molovo/revolver ${{ runner.temp }}/revolver
+          cd ${{ runner.temp }}/revolver
+          chmod u+x revolver/revolver
+          mv revolver /usr/local/bin
 
           # Build ZUnit from source
-          git clone https://github.com/zunit-zsh/zunit
-          cd zunit
+          git clone https://github.com/zunit-zsh/zunit ${{ runner.temp }}/zunit
+          cd ${{ runner.temp }}/zunit
           ./build.zsh
 
           # Copy zunit into $path
