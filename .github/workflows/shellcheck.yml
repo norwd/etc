@@ -68,39 +68,60 @@ jobs:
         env:
           TAR_URL: https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
 
-      - name: "Setup Shellcheck Opts"
+      - if: false
+        name: "Setup Shellcheck Opts"
         run: echo "SHELLCHECK_OPTS=$(echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | xargs)" | tee -a "${GITHUB_ENV}"
         env:
           JSON: ${{ steps.linguist.outputs.shellcheck-config-json }}
           JQ_QUERY: '. | @sh "--rcfile \(.[])"'
 
       - name: "ShellCheck (style)"
-        run: >
-          shellcheck
-          --shell=${{ matrix.shell }}
-          --severity style
-          ${{ steps.linguist.outputs.shell-files }}
+        run: echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | sh
+        env:
+          JSON: ${{ steps.linguist.outputs.shell-json }}
+          JQ_QUERY: >
+            . | @sh "
+            shellcheck
+            --shell=${{ matrix.shell }}
+            --severity style
+            \(.[])
+            "
 
       - name: "ShellCheck (info)"
-        run: >
-          shellcheck
-          --shell=${{ matrix.shell }}
-          --severity info
-          ${{ steps.linguist.outputs.shell-files }}
+        run: echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | sh
+        env:
+          JSON: ${{ steps.linguist.outputs.shell-json }}
+          JQ_QUERY: >
+            . | @sh "
+            shellcheck
+            --shell=${{ matrix.shell }}
+            --severity info
+            \(.[])
+            "
 
       - name: "ShellCheck (warning)"
-        run: >
-          shellcheck
-          --shell=${{ matrix.shell }}
-          --severity warning
-          ${{ steps.linguist.outputs.shell-files }}
+        run: echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | sh
+        env:
+          JSON: ${{ steps.linguist.outputs.shell-json }}
+          JQ_QUERY: >
+            . | @sh "
+            shellcheck
+            --shell=${{ matrix.shell }}
+            --severity warning
+            \(.[])
+            "
 
       - name: "ShellCheck (error)"
-        run: >
-          shellcheck
-          --shell=${{ matrix.shell }}
-          --severity error
-          ${{ steps.linguist.outputs.shell-files }}
+        run: echo "${JSON}" | jq --raw-output "${JQ_QUERY}" | sh
+        env:
+          JSON: ${{ steps.linguist.outputs.shell-json }}
+          JQ_QUERY: >
+            . | @sh "
+            shellcheck
+            --shell=${{ matrix.shell }}
+            --severity error
+            \(.[])
+            "
 
   zshellcheck:
     name: "Lint zsh with ZShellCheck"
