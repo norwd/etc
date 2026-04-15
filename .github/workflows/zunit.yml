@@ -46,7 +46,7 @@ jobs:
         name: "Install ZUnit"
         run: |
           git clone https://github.com/zunit-zsh/zunit
-          ./zunit/build.zsh
+          (cd zunit./build.zsh)
           cp zunit/zunit /usr/local/bin
 
       - name: "ZUnit Run Tests"
