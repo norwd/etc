@@ -11,3 +11,4 @@ disable=SC3043 # (warning): In POSIX sh, 'local' is undefined.
 disable=SC3045 # (warning): In POSIX sh, read -q is undefined.
 disable=SC3046 # (warning): In POSIX sh, 'source' in place of '.' is undefined.
 disable=SC3051 # (warning): In POSIX sh, 'source' in place of '.' is undefined.
+disable=SC3054 # (warning): In POSIX sh, array references are undefined.
