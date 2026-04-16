@@ -1,6 +1,32 @@
 #!/usr/bin/env zunit
 
-@test 'Test Ruby Gem User Bin Dir' {
+@test 'Test PATH is not changed when ruby is not installed' {
+	if [[ -x "$(command -v ruby)" ]]
+	then
+		skip 'Ruby is installed'
+	fi
+
+	oldPath = "$PATH"
+
+	load ~/.config/profile.d/050-gempaths.sh
+
+	assert "$oldPath" same_as "$PATH"
+}
+
+@test 'Test PATH is not changed when gem is not installed' {
+	if [[ -x "$(command -v gem)" ]]
+	then
+		skip 'Gem is installed'
+	fi
+
+	oldPath = "$PATH"
+
+	load ~/.config/profile.d/050-gempaths.sh
+
+	assert "$oldPath" same_as "$PATH"
+}
+
+@test 'Test Ruby Gem User Dir is in XDG_DATA_HOME if ruby and gem are installed' {
 	if [[ ! -x "$(command -v ruby)" ]]
 	then
 		skip 'Ruby is not installed'
@@ -11,13 +37,34 @@
 		skip 'Gem is not installed'
 	fi
 
-	#run gem install github-markup --user-install
+	load ~/.config/profile.d/050-gempaths.sh
+
+	_ruby_gem_user_dir="$(ruby -r rubygems -e 'puts Gem.user_dir')"
+
+	assert "${_ruby_gem_user_dir}" is_not_empty
+	assert "${_ruby_gem_user_dir}" matches "${XDG_DATA_HOME}/gem/ruby/[0-9]+.[0-9]+.[0-9]+"
+}
+
+@test 'Test Ruby Gem User Bin Dir is on path if it exists and is a directory' {
+	if [[ ! -x "$(command -v ruby)" ]]
+	then
+		skip 'Ruby is not installed'
+	fi
+
+	if [[ ! -x "$(command -v gem)" ]]
+	then
+		skip 'Gem is not installed'
+	fi
 
 	load ~/.config/profile.d/050-gempaths.sh
 
 	_ruby_gem_user_dir_bin="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
 
-	assert "${_ruby_gem_user_dir_bin}" is_dir
-	# shellcheck disable=SC2086 # Double quote to prevent globbing and word splitting.
-	assert "${_ruby_gem_user_dir_bin}" in ${path}
+	if [[ -d "${_ruby_gem_user_dir_bin}" ]]
+	then
+		# shellcheck disable=SC2086 # Double quote to prevent globbing and word splitting.
+		assert "${_ruby_gem_user_dir_bin}" in ${path}
+	else
+		skip 'Ruby gem user bin directory does not exist'
+	fi
 }
