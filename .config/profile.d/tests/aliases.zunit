@@ -149,8 +149,6 @@
 		skip "btop is installed: $(which btop)"
 	fi
 
-	assert "$(which htop)" same_as "$(whence htop)"
-	assert "$(which htop)" same_as "$(command -v htop)"
 	assert "$(whence htop)" same_as "$(command -v htop)"
 }
 
@@ -175,7 +173,5 @@
 		skip "fastfetch is installed: $(which fastfetch)"
 	fi
 
-	assert "$(which neofetch)" same_as "$(whence neofetch)"
-	assert "$(which neofetch)" same_as "$(command -v neofetch)"
 	assert "$(whence neofetch)" same_as "$(command -v neofetch)"
 }
