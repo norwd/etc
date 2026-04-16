@@ -193,6 +193,8 @@
 
 	assert "${actual}" same_as "${expected}"
 	assert "${actual}" is_not_empty
+
+	pass 'These files are not tracked'
 	assert "${actual}" is_file
 	assert "${actual}" is_readable
 	assert "${actual}" is_writable
@@ -206,6 +208,8 @@
 
 	assert "${actual}" same_as "${expected}"
 	assert "${actual}" is_not_empty
+
+	pass 'These files are not tracked'
 	assert "${actual}" is_file
 	assert "${actual}" is_readable
 	assert "${actual}" is_writable
@@ -219,6 +223,8 @@
 
 	assert "${actual}" same_as "${expected}"
 	assert "${actual}" is_not_empty
+
+	pass 'These files are not tracked'
 	assert "${actual}" is_file
 	assert "${actual}" is_readable
 	assert "${actual}" is_writable
