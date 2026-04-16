@@ -22,7 +22,7 @@
 	load ~/.config/profile.d/020-aliases.sh
 
 	assert "$(whence grep)" same_as 'grep --color=auto'
-	assert "$(which grep" same_as 'grep: aliased to grep --color=auto'
+	assert "$(which grep)" same_as 'grep: aliased to grep --color=auto'
 	assert "$(command -v grep)" same_as "alias grep='grep --color=auto'"
 }
 
@@ -30,7 +30,7 @@
 	load ~/.config/profile.d/020-aliases.sh
 
 	assert "$(whence ls)" same_as 'ls -F --color=auto'
-	assert "$(which ls" same_as 'ls: aliased to ls -F --color=auto'
+	assert "$(which ls)" same_as 'ls: aliased to ls -F --color=auto'
 	assert "$(command -v ls)" same_as "alias ls='ls -F --color=auto'"
 }
 
@@ -38,7 +38,7 @@
 	load ~/.config/profile.d/020-aliases.sh
 
 	assert "$(whence ll)" same_as 'ls -l'
-	assert "$(which ll" same_as 'll: aliased to ls -l'
+	assert "$(which ll)" same_as 'll: aliased to ls -l'
 	assert "$(command -v ll)" same_as "alias ll='ls -l'"
 }
 
@@ -46,7 +46,7 @@
 	load ~/.config/profile.d/020-aliases.sh
 
 	assert "$(whence la)" same_as 'll -A'
-	assert "$(which la" same_as 'la: aliased to ll -A'
+	assert "$(which la)" same_as 'la: aliased to ll -A'
 	assert "$(command -v la)" same_as "alias la='ll -A'"
 }
 
@@ -59,7 +59,7 @@
 	fi
 
 	assert "$(whence cat)" same_as "bat"
-	assert "$(which cat" same_as 'cat: aliased to bat'
+	assert "$(which cat)" same_as 'cat: aliased to bat'
 	assert "$(command -v cat)" same_as "alias cat='bat'"
 }
 
@@ -111,7 +111,7 @@
 	fi
 
 	assert "$(whence find)" same_as "bfs"
-	assert "$(which find" same_as 'find: aliased to bfs'
+	assert "$(which find)" same_as 'find: aliased to bfs'
 	assert "$(command -v find)" same_as "alias find='bfs'"
 }
 
@@ -137,7 +137,7 @@
 	fi
 
 	assert "$(whence htop)" same_as "btop"
-	assert "$(which htop" same_as 'htop: aliased to btop'
+	assert "$(which htop)" same_as 'htop: aliased to btop'
 	assert "$(command -v htop)" same_as "alias htop='btop'"
 }
 
@@ -163,7 +163,7 @@
 	fi
 
 	assert "$(whence neofetch)" same_as "fastfetch --config neofetch.jsonc"
-	assert "$(which neofetch" same_as 'neofetch: aliased to fastfetch --config neofetch.jsonc'
+	assert "$(which neofetch)" same_as 'neofetch: aliased to fastfetch --config neofetch.jsonc'
 	assert "$(command -v neofetch)" same_as "alias neofetch='fastfetch --config neofetch.jsonc'"
 }
 
