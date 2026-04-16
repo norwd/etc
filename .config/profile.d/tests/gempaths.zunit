@@ -7,11 +7,11 @@
 		PATH="/fake/${RANDOM}/path/${RANDOM}/to/${RANDOM}/bin"
 	fi
 
-	oldPath = "$PATH"
+	oldPath="${PATH}"
 
 	load ~/.config/profile.d/050-gempaths.sh
 
-	assert "$oldPath" same_as "$PATH"
+	assert "${oldPath}" same_as "${PATH}"
 }
 
 @test 'Test PATH is not changed when gem is not installed' {
@@ -21,11 +21,11 @@
 		PATH="/fake/${RANDOM}/path/${RANDOM}/to/${RANDOM}/bin"
 	fi
 
-	oldPath = "$PATH"
+	oldPath="${PATH}"
 
 	load ~/.config/profile.d/050-gempaths.sh
 
-	assert "$oldPath" same_as "$PATH"
+	assert "${oldPath}" same_as "${PATH}"
 }
 
 @test 'Test Ruby Gem User Dir is in XDG_DATA_HOME if ruby and gem are installed' {
