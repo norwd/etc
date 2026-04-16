@@ -82,7 +82,7 @@
 @test 'Test NUGET_PACKAGES' {
 	load ~/.config/profile.d/010-xdg-base-dirs.sh
 
-	expected="${XDG_CACHE_HOME}/NuGetPackages"
+	expected="${XDG_CACHE_HOME}/nuget/packages"
 	actual="${NUGET_PACKAGES}"
 
 	assert "${actual}" same_as "${expected}"
@@ -98,6 +98,8 @@
 
 	assert "${actual}" same_as "${expected}"
 	assert "${actual}" is_not_empty
+
+	pass 'History files are not tracked'
 	assert "${actual}" is_file
 	assert "${actual}" is_readable
 	assert "${actual}" is_writable
@@ -146,6 +148,8 @@
 
 	assert "${actual}" same_as "${expected}"
 	assert "${actual}" is_not_empty
+
+	pass 'Credential files are not tracked'
 	assert "${actual}" is_file
 	assert "${actual}" is_readable
 	assert "${actual}" is_writable
@@ -159,6 +163,8 @@
 
 	assert "${actual}" same_as "${expected}"
 	assert "${actual}" is_not_empty
+
+	pass 'Credential files are not tracked'
 	assert "${actual}" is_file
 	assert "${actual}" is_readable
 	assert "${actual}" is_writable
@@ -172,6 +178,8 @@
 
 	assert "${actual}" same_as "${expected}"
 	assert "${actual}" is_not_empty
+
+	pass 'History files are not tracked'
 	assert "${actual}" is_file
 	assert "${actual}" is_readable
 	assert "${actual}" is_writable
