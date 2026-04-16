@@ -33,3 +33,14 @@
 
 	assert "$(whence la)" same_as 'll -A'
 }
+
+@test 'Test cat alias' {
+	load ~/.config/profile.d/020-aliases.sh
+
+	if [ -x "$(command -v bat)" ]
+	then
+		assert "$(whence cat)" same_as "bat"
+	else
+		assert "$(whence cat)" same_as "$(command -v cat)"
+	fi
+}
