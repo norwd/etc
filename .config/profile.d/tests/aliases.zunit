@@ -34,15 +34,26 @@
 	assert "$(whence la)" same_as 'll -A'
 }
 
-@test 'Test cat alias' {
+@test 'Test cat is aliased to bat if it exists' {
 	load ~/.config/profile.d/020-aliases.sh
 
 	if [ -x "$(command -v bat)" ]
 	then
 		assert "$(whence cat)" same_as "bat"
 	else
-		assert "$(whence cat)" same_as "$(command -v cat)"
+		skip 'bat is not installed'
 	fi
+}
+
+@test 'Test cat is not aliased when bat is not installed' {
+	load ~/.config/profile.d/020-aliases.sh
+
+	if [ -x "$(command -v bat)" ]
+	then
+		skip 'bat is installed'
+	fi
+
+	assert "$(whence cat)" same_as "$(command -v cat)"
 }
 
 @test 'Test man alias' {
