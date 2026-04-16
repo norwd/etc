@@ -60,13 +60,13 @@
 
 	load ~/.config/profile.d/050-gempaths.sh
 
-	_ruby_gem_user_dir_bin="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
+	_ruby_gem_user_dir="$(ruby -r rubygems -e 'puts Gem.user_dir')"
 
-	if [[ -d "${_ruby_gem_user_dir_bin}" ]]
+	if [[ -d "${_ruby_gem_user_dir}" ]]
 	then
 		# shellcheck disable=SC2086 # Double quote to prevent globbing and word splitting.
-		assert "${_ruby_gem_user_dir_bin}" in ${path}
+		assert "${_ruby_gem_user_dir}/bin" in ${path}
 	else
-		skip 'Ruby gem user bin directory does not exist'
+		skip 'Ruby gem user directory does not exist'
 	fi
 }
