@@ -3,7 +3,8 @@
 @test 'Test PATH is not changed when ruby is not installed' {
 	if [[ -x "$(command -v ruby)" ]]
 	then
-		skip 'Ruby is installed'
+		# Fake PATH to hide Ruby
+		PATH="/fake/${RANDOM}/path/${RANDOM}/to/${RANDOM}/bin"
 	fi
 
 	oldPath = "$PATH"
@@ -16,7 +17,8 @@
 @test 'Test PATH is not changed when gem is not installed' {
 	if [[ -x "$(command -v gem)" ]]
 	then
-		skip 'Gem is installed'
+		# Fake PATH to hide Gem
+		PATH="/fake/${RANDOM}/path/${RANDOM}/to/${RANDOM}/bin"
 	fi
 
 	oldPath = "$PATH"
