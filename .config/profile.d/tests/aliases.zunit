@@ -44,3 +44,47 @@
 		assert "$(whence cat)" same_as "$(command -v cat)"
 	fi
 }
+
+@test 'Test man alias' {
+	load ~/.config/profile.d/020-aliases.sh
+
+	if [ -x "$(command -v batman)" ]
+	then
+		assert "$(whence man)" same_as "batman"
+	else
+		assert "$(whence man)" same_as "$(command -v man)"
+	fi
+}
+
+@test 'Test find alias' {
+	load ~/.config/profile.d/020-aliases.sh
+
+	if [ -x "$(command -v bfs)" ]
+	then
+		assert "$(whence find)" same_as "bfs"
+	else
+		assert "$(whence find)" same_as "$(command -v find)"
+	fi
+}
+
+@test 'Test htop alias' {
+	load ~/.config/profile.d/020-aliases.sh
+
+	if [ -x "$(command -v btop)" ]
+	then
+		assert "$(whence htop)" same_as "btop"
+	else
+		assert "$(whence htop)" same_as "$(command -v htop)"
+	fi
+}
+
+@test 'Test neofetch alias' {
+	load ~/.config/profile.d/020-aliases.sh
+
+	if [ -x "$(command -v fastfetch)" ]
+	then
+		assert "$(whence neofetch)" same_as "fastfetch"
+	else
+		assert "$(whence neofetch)" same_as "$(command -v neofetch)"
+	fi
+}
