@@ -3,27 +3,239 @@
 @test 'Test XDG_CONFIG_HOME' {
 	load ~/.config/profile.d/010-xdg-base-dirs.sh
 
-	assert "${XDG_CONFIG_HOME}" same_as "${HOME}/.config"
-	assert "${XDG_CONFIG_HOME}" is_dir
+	expected="${HOME}/.config"
+	actual="${XDG_CONFIG_HOME}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_dir
 }
 
 @test 'Test XDG_CACHE_HOME' {
 	load ~/.config/profile.d/010-xdg-base-dirs.sh
 
-	assert "${XDG_CACHE_HOME}" same_as "${HOME}/.cache"
-	assert "${XDG_CACHE_HOME}" is_dir
+	expected="${HOME}/.cache"
+	actual="${XDG_CACHE_HOME}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_dir
 }
 
 @test 'Test XDG_DATA_HOME' {
 	load ~/.config/profile.d/010-xdg-base-dirs.sh
 
-	assert "${XDG_DATA_HOME}" same_as "${HOME}/.local/share"
-	assert "${XDG_DATA_HOME}" is_dir
+	expected="${HOME}/.local/share"
+	actual="${XDG_DATA_HOME}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_dir
 }
 
 @test 'Test XDG_STATE_HOME' {
 	load ~/.config/profile.d/010-xdg-base-dirs.sh
 
-	assert "${XDG_STATE_HOME}" same_as "${HOME}/.local/state"
-	assert "${XDG_STATE_HOME}" is_dir
+	expected="${HOME}/.local/state"
+	actual="${XDG_STATE_HOME}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_dir
+}
+
+@test 'Test W3M_DIR' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_STATE_HOME}/w3m"
+	actual="${W3M_DIR}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_dir
+}
+
+@test 'Test WGETRC' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_CONFIG_HOME}/wget/wgetrc"
+	actual="${WGETRC}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_file
+	assert "${actual}" is_readable
+	assert "${actual}" is_writable
+}
+
+@test 'Test GNUPGHOME' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_CONFIG_HOME}/gnupg"
+	actual="${GNUPGHOME}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_dir
+}
+
+@test 'Test NUGET_PACKAGES' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_CACHE_HOME}/NuGetPackages"
+	actual="${NUGET_PACKAGES}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_dir
+}
+
+@test 'Test PYTHON_HISTORY' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_STATE_HOME}/python_history"
+	actual="${PYTHON_HISTORY}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_file
+	assert "${actual}" is_readable
+	assert "${actual}" is_writable
+}
+
+@test 'Test PYTHONPYCACHEPREFIX' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_CACHE_HOME}/python"
+	actual="${PYTHONPYCACHEPREFIX}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_dir
+}
+
+@test 'Test PYTHONUSERBASE' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_DATA_HOME}/python"
+	actual="${PYTHONUSERBASE}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_dir
+}
+
+@test 'Test NPM_CONFIG_USERCONFIG' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_CONFIG_HOME}/npm/npmrc"
+	actual="${NPM_CONFIG_USERCONFIG}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_file
+	assert "${actual}" is_readable
+	assert "${actual}" is_writable
+}
+
+@test 'Test AWS_CONFIG_FILE' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_CONFIG_HOME}/aws/config"
+	actual="${AWS_CONFIG_FILE}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_file
+	assert "${actual}" is_readable
+	assert "${actual}" is_writable
+}
+
+@test 'Test AWS_SHARED_CREDENTIALS_FILE' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_CONFIG_HOME}/aws/credentials"
+	actual="${AWS_SHARED_CREDENTIALS_FILE}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_file
+	assert "${actual}" is_readable
+	assert "${actual}" is_writable
+}
+
+@test 'Test AWS_CLI_HISTORY_FILE' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_STATE_HOME}/aws/history.db"
+	actual="${AWS_CLI_HISTORY_FILE}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_file
+	assert "${actual}" is_readable
+	assert "${actual}" is_writable
+}
+
+@test 'Test INPUTRC' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_CONFIG_HOME}/readline/inputrc"
+	actual="${INPUTRC}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_file
+	assert "${actual}" is_readable
+	assert "${actual}" is_writable
+}
+
+@test 'Test XINITRC' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_CONFIG_HOME}/X11/xinitrc"
+	actual="${XINITRC}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_file
+	assert "${actual}" is_readable
+	assert "${actual}" is_writable
+}
+
+@test 'Test XSERVERRC' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_CONFIG_HOME}/X11/xserverrc"
+	actual="${XSERVERRC}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_file
+	assert "${actual}" is_readable
+	assert "${actual}" is_writable
+}
+
+@test 'Test DOCKER_CONFIG' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_CONFIG_HOME}/docker"
+	actual="${DOCKER_CONFIG}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_dir
+}
+
+@test 'Test NPM_CONFIG_USERCONFIG' {
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+
+	expected="${XDG_CONFIG_HOME}/npm/npmrc"
+	actual="${NPM_CONFIG_USERCONFIG}"
+
+	assert "${actual}" same_as "${expected}"
+	assert "${actual}" is_not_empty
+	assert "${actual}" is_file
+	assert "${actual}" is_readable
+	assert "${actual}" is_writable
 }
