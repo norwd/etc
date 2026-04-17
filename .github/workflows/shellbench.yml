@@ -11,7 +11,7 @@ on:
 jobs:
   shellbench:
     name: "Run ShellBench"
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
 
       - name: "Checkout"
@@ -65,7 +65,7 @@ jobs:
       - name: "Run ShellBench"
         run: >
           shellbench
-          --shell sh,bash,ksh,mksh,posh,zsh
+          --shell sh,bash,zsh
           --time 3
           --warmup 1
           --correct
