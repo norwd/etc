@@ -59,8 +59,8 @@ jobs:
       - name: "Install ShellBench"
         run: |
           git clone https://github.com/shellspec/shellbench
-          chmod u+x shellspec/shellbench
-          cp shellspec/shellbench /usr/local/bin
+          chmod u+x shellbench/shellbench
+          cp shellbench/shellbench /usr/local/bin
 
       - name: "Run ShellBench"
         run: >
