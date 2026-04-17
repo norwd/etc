@@ -66,8 +66,4 @@ jobs:
         run: >
           shellbench
           --shell sh
-          --time 3
-          --warmup 1
-          --correct
-          --error
           .config/profile.d/005-environment.sh
