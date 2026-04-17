@@ -1,0 +1,73 @@
+---
+
+name: "Run ShellBench"
+run-name: "Run ShellBench"
+permissions: {}
+
+on:
+  push:
+  schedule: [ cron: '33 9 * * 2' ]
+
+jobs:
+  shellbench:
+    name: "Run ShellBench"
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - name: "Setup Ruby"
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+          bundler-cache: true
+
+      - id: gem
+        name: "Get Gem User Dir"
+        run: ruby -e 'puts "user_dir=" + Gem.user_dir' | tee -a "${GITHUB_OUTPUT}"
+
+      - name: "Add Gem User Dir to PATH"
+        run: echo "${GEM_USER_DIR}/bin" | tee -a "${GITHUB_PATH}"
+        env:
+          GEM_USER_DIR: ${{ steps.gem.outputs.user_dir }}
+
+      - id: cache-github-linguist
+        name: "Cache Linguist"
+        uses: actions/cache@v5
+        with:
+          key: ${{ runner.os }}-gem-install-github-linguist
+          path: ${{ steps.gem.outputs.user_dir }}
+
+      - if: steps.cache-github-linguist.outputs.cache-hit != 'true'
+        name: "Install Linguist"
+        run: gem install github-linguist --user-install
+
+      - id: linguist
+        name: "List Files by Language"
+        run: github-linguist --breakdown --strategies --json . | jq --raw-output "${JQ_QUERY}" | sed '/^$/d' | tee -a "${GITHUB_OUTPUT}"
+        env:
+          JQ_QUERY: |
+            to_entries[] |
+            .key |= (ascii_downcase | gsub("\\s"; "-"; "g")) |
+            .value |= (.files) |
+            "
+            \(.key)-json=\(.value)
+            \(.key)-files=\(.value | join(" "))
+            "
+
+      - name: "Install ShellBench"
+        run: |
+          git clone https://github.com/shellspec/shellbench
+          chmod u+x shellspec/shellbench
+          cp shellspec/shellbench /usr/local/bin
+
+      - name: "Run ShellBench"
+        run: >
+          shellbench
+          --shell sh,bash,ksh,mksh,posh,zsh
+          --time 3
+          --warmup 1
+          --correct
+          --error
+          ${{ steps.linguist.outputs.shell-files }}
