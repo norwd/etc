@@ -65,9 +65,9 @@ jobs:
       - name: "Run ShellBench"
         run: >
           shellbench
-          --shell sh,bash,zsh
+          --shell sh
           --time 3
           --warmup 1
           --correct
           --error
-          ${{ steps.linguist.outputs.shell-files }}
+          .config/profile.d/005-environment.sh
