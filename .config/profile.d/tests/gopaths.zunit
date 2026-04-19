@@ -1,6 +1,6 @@
 #!/usr/bin/env zunit
 
-@test 'Test Ruby Gem User Bin Dir' {
+@test 'Test GO Paths' {
 	load ~/.config/profile.d/010-xdg-base-dirs.sh
 	load ~/.config/profile.d/040-gopaths.sh
 
