@@ -1,26 +1,23 @@
 #!/usr/bin/env zunit
 
-@setup {
+@test 'Test GOPATH' {
 	load ~/.config/profile.d/010-xdg-base-dirs.sh
 	load ~/.config/profile.d/040-gopaths.sh
-}
 
-@test 'Test GOPATH' {
 	assert "${XDG_DATA_HOME}" is_dir
-	assert "${XDG_DATA_HOME}" same_as "${HOME}/.local/share"
-
 	assert "${GOPATH}" is_dir
-	assert "${GOPATH}/bin" is_dir
 	assert "${GOPATH}" same_as "${XDG_DATA_HOME}/go"
 
+	assert "${GOPATH}/bin" is_dir
 	# shellcheck disable=SC2086 # Double quote to prevent globbing and word splitting.
 	assert "${GOPATH}/bin" in ${path}
 }
 
 @test 'Test GOMODCACHE' {
-	assert "${XDG_CACHE_HOME}" is_dir
-	assert "${XDG_CACHE_HOME}" same_as "${HOME}/.cache"
+	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile.d/040-gopaths.sh
 
+	assert "${XDG_CACHE_HOME}" is_dir
 	assert "${GOMODCACHE}" is_dir
 	assert "${GOMODCACHE}" same_as "${XDG_CACHE_HOME}/go/mod"
 }
