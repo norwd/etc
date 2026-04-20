@@ -233,7 +233,7 @@ jobs:
             # Create link to filename of the selected archive
             "\(env.BASE_URL)/\(.filename)"
 
-      - run: go env
+      - run: /usr/local/go/bin/go env
 
       - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
         name: "Install Zshellcheck"
