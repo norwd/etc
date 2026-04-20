@@ -256,27 +256,58 @@ jobs:
               - ZC1330 # Avoid `$INPUTRC` in Zsh — Zsh uses `bindkey` and ZLE, not readline. `INPUTRC` is Bash-specific.
 
       - name: "ZShellCheck (style)"
-        run: >
-          zshellcheck
-          --severity style
-          ${{ steps.linguist.outputs.shell-files }}
+        run: echo "$SHELL_FILES_JSON" | jq --raw-output '.[]' | xargs -IFILE bash -eo pipefail -c "${Z_SHELL_CHECK_SH}"
+        env:
+          SHELL_FILES_JSON: ${{ steps.linguist.outputs.shell-json }}
+          Z_SHELL_CHECK_SH: >
+            zshellcheck
+            --severity style
+            --format json
+            FILE |
+            jq --raw-output '
+              .[] |
+              "::notice file=FILE,line=\(.Line),col=\(.Column),title=\(.KataID)::\(.Message)"
+            '
 
       - name: "ZShellCheck (info)"
-        run: >
-          zshellcheck
-          --severity info
-          ${{ steps.linguist.outputs.shell-files }}
+        run: echo "$SHELL_FILES_JSON" | jq --raw-output '.[]' | xargs -IFILE bash -eo pipefail -c "${Z_SHELL_CHECK_SH}"
+        env:
+          SHELL_FILES_JSON: ${{ steps.linguist.outputs.shell-json }}
+          Z_SHELL_CHECK_SH: >
+            zshellcheck
+            --severity info
+            --format json
+            FILE |
+            jq --raw-output '
+              .[] |
+              "::notice file=FILE,line=\(.Line),col=\(.Column),title=\(.KataID)::\(.Message)"
+            '
 
       - name: "ZShellCheck (warning)"
-        run: >
-          zshellcheck
-          --severity warning
-          ${{ steps.linguist.outputs.shell-files }}
+        run: echo "$SHELL_FILES_JSON" | jq --raw-output '.[]' | xargs -IFILE bash -eo pipefail -c "${Z_SHELL_CHECK_SH}"
+        env:
+          SHELL_FILES_JSON: ${{ steps.linguist.outputs.shell-json }}
+          Z_SHELL_CHECK_SH: >
+            zshellcheck
+            --severity warning
+            --format json
+            FILE |
+            jq --raw-output '
+              .[] |
+              "::warning file=FILE,line=\(.Line),col=\(.Column),title=\(.KataID)::\(.Message)"
+            '
 
       - name: "ZShellCheck (error)"
-        run: >
-          zshellcheck
-          --severity error
-          ${{ steps.linguist.outputs.shell-files }}
-
+        run: echo "$SHELL_FILES_JSON" | jq --raw-output '.[]' | xargs -IFILE bash -eo pipefail -c "${Z_SHELL_CHECK_SH}"
+        env:
+          SHELL_FILES_JSON: ${{ steps.linguist.outputs.shell-json }}
+          Z_SHELL_CHECK_SH: >
+            zshellcheck
+            --severity error
+            --format json
+            FILE |
+            jq --raw-output '
+              .[] |
+              "::error file=FILE,line=\(.Line),col=\(.Column),title=\(.KataID)::\(.Message)"
+            '
 ...
