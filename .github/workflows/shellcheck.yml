@@ -89,6 +89,9 @@ jobs:
           --shell=${{ matrix.shell }}
           --severity style
           ${{ steps.linguist.outputs.shell-files }}
+          --format json1
+          |
+          jq --raw-output "${JQ_QUERY}"
 
       - name: "ShellCheck (info)"
         run: >
