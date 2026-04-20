@@ -2,7 +2,9 @@
 
 name: "Run ShellCheck"
 run-name: "Run ShellCheck"
-permissions: {}
+permissions:
+  contents: read
+  security-events: write
 
 on:
   push:
@@ -95,6 +97,9 @@ jobs:
           --shell=${{ matrix.shell }}
           --severity error
           ${{ steps.linguist.outputs.shell-files }}
+
+      - name: "Fake requirements.txt"
+        run: touch requirements.txt
 
       - name: "ShellCheck Scan SARIF"
         uses: reactive-firewall/shellcheck-scan@v1
