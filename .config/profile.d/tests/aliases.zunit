@@ -175,3 +175,5 @@
 
 	assert "$(whence neofetch)" same_as "$(command -v neofetch)"
 }
+
+# zshellcheck disable=ZC1909
