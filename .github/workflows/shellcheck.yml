@@ -171,71 +171,11 @@ jobs:
             \(.key)-files=\(.value | join(" "))
             "
 
-      - name: "Add GOPATH to PATH"
-        run: |
-          echo "${HOME}/go/bin" | tee -a "${GITHUB_PATH}"
-          echo "/usr/local/go/bin" | tee -a "${GITHUB_PATH}"
-
-      - id: cache-zshellcheck
-        name: "Cache Zshellcheck"
-        uses: actions/cache@v5
-        with:
-          key: ${{ runner.os }}-${{ runner.arch }}-go-install-zshellcheck
-          path: ~/go/bin
-
-      - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
-        name: "Install Go"
-        run: curl -sSL "$(curl -sSL "${ENDPOINT}" | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_STEP_SUMMARY}")" | sudo tar xvz -C /usr/local --overwrite go/bin/go
+      - name: "Install Zshellcheck"
+        working-directory: ${{ runner.temp }}
+        run: git clone "${REPO_URL}" && cd zshellcheck && ./install.sh
         env:
-          BASE_URL: 'https://go.dev/dl'
-          ENDPOINT: 'https://go.dev/dl/?mode=json'
-          JQ_QUERY: |
-            # Sort by version
-            sort_by(
-              # Version looks like `go<Major>.<Minor>.<Patch>`
-              # This splits it into `Major,Minor,Patch` (note, no brackets)
-              # Which is equivalent to `sort_by(.version.major, .version.minor, .version.patch)`
-              .version | match("\\d+";"g").string | tonumber
-            ) |
-
-            # Take last element (latest version) as sort is ascending
-            .[-1] |
-
-            # From the latest version's files...
-            .files[] |
-
-            # Filter Archives (usually tar, but could be Zip, TODO?)
-            select(.kind == "archive") |
-
-            # Filter GOOS
-            select(
-              # Note: `runner.os` is often correct, but capitalised differently
-              ( .os | ascii_downcase ) == ( "${{
-                case(
-                  runner.os == 'macOS' , 'darwin',
-                  runner.os
-                )
-              }}" | ascii_downcase )
-            ) |
-
-            # Filter GOARCH
-            select(
-              # Note: `runner.arch` is often correct, but capitalised differently
-              ( .arch | ascii_downcase ) == ( "${{
-                case(
-                  runner.arch == 'X64', 'amd64',
-                  runner.arch == 'X86', '386',
-                  runner.arch
-                )
-              }}" | ascii_downcase )
-            ) |
-
-            # Create link to filename of the selected archive
-            "\(env.BASE_URL)/\(.filename)"
-
-      - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
-        name: "Install Zshellcheck"
-        run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
+          REPO_URL: https://github.com/afadesigns/zshellcheck.git
 
       - name: "ZShellCheck (style)"
         run: echo "$SHELL_FILES_JSON" | jq --raw-output '.[]' | xargs -IFILE bash -eo pipefail -c "${Z_SHELL_CHECK_SH}"
