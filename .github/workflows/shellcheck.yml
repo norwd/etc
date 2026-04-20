@@ -273,24 +273,24 @@ jobs:
         run: echo "$SHELL_FILES_JSON" | jq --raw-output '.[]' | xargs -IFILE bash -eo pipefail -c "${Z_SHELL_CHECK_SH}"
         env:
           SHELL_FILES_JSON: ${{ steps.linguist.outputs.shell-json }}
-          Z_SHELL_CHECK_SH: zshellcheck --severity style --format json FILE | jq "${JQ_QUERY}"
+          Z_SHELL_CHECK_SH: zshellcheck --severity style --format json FILE | jq --raw-output "${JQ_QUERY}"
 
       - name: "ZShellCheck (info)"
         run: echo "$SHELL_FILES_JSON" | jq --raw-output '.[]' | xargs -IFILE bash -eo pipefail -c "${Z_SHELL_CHECK_SH}"
         env:
           SHELL_FILES_JSON: ${{ steps.linguist.outputs.shell-json }}
-          Z_SHELL_CHECK_SH: zshellcheck --severity info --format json FILE | jq "${JQ_QUERY}"
+          Z_SHELL_CHECK_SH: zshellcheck --severity info --format json FILE | jq --raw-output "${JQ_QUERY}"
 
       - name: "ZShellCheck (warning)"
         run: echo "$SHELL_FILES_JSON" | jq --raw-output '.[]' | xargs -IFILE bash -eo pipefail -c "${Z_SHELL_CHECK_SH}"
         env:
           SHELL_FILES_JSON: ${{ steps.linguist.outputs.shell-json }}
-          Z_SHELL_CHECK_SH: zshellcheck --severity warning --format json FILE | jq "${JQ_QUERY}"
+          Z_SHELL_CHECK_SH: zshellcheck --severity warning --format json FILE | jq --raw-output "${JQ_QUERY}"
 
       - name: "ZShellCheck (error)"
         run: echo "$SHELL_FILES_JSON" | jq --raw-output '.[]' | xargs -IFILE bash -eo pipefail -c "${Z_SHELL_CHECK_SH}"
         env:
           SHELL_FILES_JSON: ${{ steps.linguist.outputs.shell-json }}
-          Z_SHELL_CHECK_SH: zshellcheck --severity error --format json FILE | jq "${JQ_QUERY}"
+          Z_SHELL_CHECK_SH: zshellcheck --severity error --format json FILE | jq --raw-output "${JQ_QUERY}"
 
 ...
