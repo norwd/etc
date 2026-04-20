@@ -17,7 +17,7 @@ jobs:
 
   shellcheck:
     name: "Lint ${{ matrix.shell }} with ShellCheck"
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
@@ -39,6 +39,15 @@ jobs:
 
       - name: "Checkout"
         uses: actions/checkout@v6
+
+      - name: "Clone"
+        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
+
+      - name: "Configure"
+        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+
+      - name: "Checkout"
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force "${GITHUB_REF}"
 
       - name: "Setup Ruby"
         uses: ruby/setup-ruby@v1
@@ -126,11 +135,20 @@ jobs:
 
   zshellcheck:
     name: "Lint zsh with ZShellCheck"
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
 
       - name: "Checkout"
         uses: actions/checkout@v6
+
+      - name: "Clone"
+        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
+
+      - name: "Configure"
+        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+
+      - name: "Checkout"
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force "${GITHUB_REF}"
 
       - name: "Setup Ruby"
         uses: ruby/setup-ruby@v1
