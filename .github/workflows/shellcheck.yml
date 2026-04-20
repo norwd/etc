@@ -233,6 +233,8 @@ jobs:
             # Create link to filename of the selected archive
             "\(env.BASE_URL)/\(.filename)"
 
+      - run: which go
+
       - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
         name: "Install Zshellcheck"
         run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
