@@ -17,7 +17,7 @@ jobs:
 
   shellcheck:
     name: "Lint ${{ matrix.shell }} with ShellCheck"
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -135,7 +135,7 @@ jobs:
 
   zshellcheck:
     name: "Lint zsh with ZShellCheck"
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
 
       - name: "Checkout"
