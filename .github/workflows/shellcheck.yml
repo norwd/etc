@@ -9,6 +9,10 @@ on:
   schedule:
     - cron: '33 9 * * 2'
 
+defaults:
+  run:
+    shell: bash # force pipe-fail
+
 jobs:
 
   shellcheck:
@@ -87,7 +91,7 @@ jobs:
           ${{ steps.linguist.outputs.shell-files }}
           --format json1
           |
-          jq "${JQ_QUERY}"
+          jq --raw-output "${JQ_QUERY}"
 
       - name: "ShellCheck (info)"
         run: >
@@ -97,7 +101,7 @@ jobs:
           ${{ steps.linguist.outputs.shell-files }}
           --format json1
           |
-          jq "${JQ_QUERY}"
+          jq --raw-output "${JQ_QUERY}"
 
       - name: "ShellCheck (warning)"
         run: >
@@ -107,7 +111,7 @@ jobs:
           ${{ steps.linguist.outputs.shell-files }}
           --format json1
           |
-          jq "${JQ_QUERY}"
+          jq --raw-output "${JQ_QUERY}"
 
       - name: "ShellCheck (error)"
         run: >
@@ -117,7 +121,7 @@ jobs:
           ${{ steps.linguist.outputs.shell-files }}
           --format json1
           |
-          jq "${JQ_QUERY}"
+          jq --raw-output "${JQ_QUERY}"
 
   zshellcheck:
     name: "Lint zsh with ZShellCheck"
