@@ -96,6 +96,14 @@ jobs:
           --severity error
           ${{ steps.linguist.outputs.shell-files }}
 
+      - name: "ShellCheck Scan SARIF"
+        uses: reactive-firewall/shellcheck-scan@v1
+        with:
+          path: ${{ steps.linguist.outputs.shell-files }}
+          match: ${{ steps.linguist.outputs.shell-files }}
+          # severity: 'warning'
+          shell-format: ${{ matrix.shell }}
+
   zshellcheck:
     name: "Lint zsh with ZShellCheck"
     runs-on: ubuntu-latest
