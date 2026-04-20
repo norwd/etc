@@ -251,7 +251,8 @@ jobs:
         run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
 
       # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
-      - name: "Fake .zshellcheckrc"
+      - if: false
+        name: "Fake .zshellcheckrc"
         run: echo "${ZSHELLCHECK}" | tee -a .zshellcheckrc
         env:
           ZSHELLCHECK: |
