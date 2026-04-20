@@ -175,6 +175,7 @@ jobs:
         run: |
           echo "${HOME}/go/bin" | tee -a "${GITHUB_PATH}"
           echo "/usr/local/go/bin" | tee -a "${GITHUB_PATH}"
+          echo "GOPROXY=direct" | tee -a "${GITHUB_ENV}"
           echo "GOROOT=/usr/local/go" | tee -a "${GITHUB_ENV}"
 
       - id: cache-zshellcheck
