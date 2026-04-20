@@ -238,6 +238,8 @@ jobs:
       - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
         name: "Install Zshellcheck"
         run: go install github.com/afadesigns/zshellcheck/cmd/zshellcheck@latest
+        env:
+          GOROOT: /usr/local/go
 
       # TEMP: waiting for https://github.com/afadesigns/zshellcheck/issues/309
       - name: "Fake .zshellcheckrc"
