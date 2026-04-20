@@ -10,4 +10,7 @@ disabled_katas:
   - ZC1186 # Use `unset -v name` for variables or `unset -f name` for functions. Bare `unset` is ambiguous about what is being removed.
   - ZC1188 # Use `path+=(dir)` instead of `export PATH=$PATH:dir`. Zsh ties the `path` array to `$PATH` for cleaner manipulation.
   - ZC1330 # Avoid `$INPUTRC` in Zsh — Zsh uses `bindkey` and ZLE, not readline. `INPUTRC` is Bash-specific.
+  - ZC1787 # Warn on setopt AUTO_CD — bare word that names a directory silently changes $PWD
+  - ZC1789 # Warn on setopt CORRECT / CORRECT_ALL — Zsh spellcheck silently rewrites script tokens
   - ZC1909 # Warn on kexec -l / -e — jumps to an alternate kernel, bypasses bootloader and Secure Boot
+  - ZC1928 # Warn on setopt SHARE_HISTORY — every session writes its history into every sibling session
