@@ -127,6 +127,19 @@ jobs:
   zshellcheck:
     name: "Lint zsh with ZShellCheck"
     runs-on: ubuntu-latest
+
+    env:
+      JQ_QUERY: |
+        .[] |
+        .Level = (
+          if .Level == "style" or .Level == "info"
+          then "notice"
+          else .Level
+          end
+        ) |
+        .title = .KataID |
+        "::\(.Level) file=FILE,line=\(.Line),col=\(.Column),title=\(.title)::\(.Message)"
+
     steps:
 
       - name: "Checkout"
@@ -256,27 +269,27 @@ jobs:
               - ZC1330 # Avoid `$INPUTRC` in Zsh — Zsh uses `bindkey` and ZLE, not readline. `INPUTRC` is Bash-specific.
 
       - name: "ZShellCheck (style)"
-        run: >
-          zshellcheck
-          --severity style
-          ${{ steps.linguist.outputs.shell-files }}
+        run: echo "$SHELL_FILES_JSON" | jq --raw-output '.[]' | xargs -IFILE zshellcheck --severity style
+        env:
+          SHELL_FILES_JSON: ${{ steps.linguist.outputs.shell-json }}
+          Z_SHELL_CHECK_SH: zshellcheck --severity style --format json FILE | jq "${JQ_QUERY}"
 
       - name: "ZShellCheck (info)"
-        run: >
-          zshellcheck
-          --severity info
-          ${{ steps.linguist.outputs.shell-files }}
+        run: echo "$SHELL_FILES_JSON" | jq --raw-output '.[]' | xargs -IFILE zshellcheck --severity style
+        env:
+          SHELL_FILES_JSON: ${{ steps.linguist.outputs.shell-json }}
+          Z_SHELL_CHECK_SH: zshellcheck --severity info --format json FILE | jq "${JQ_QUERY}"
 
       - name: "ZShellCheck (warning)"
-        run: >
-          zshellcheck
-          --severity warning
-          ${{ steps.linguist.outputs.shell-files }}
+        run: echo "$SHELL_FILES_JSON" | jq --raw-output '.[]' | xargs -IFILE zshellcheck --severity style
+        env:
+          SHELL_FILES_JSON: ${{ steps.linguist.outputs.shell-json }}
+          Z_SHELL_CHECK_SH: zshellcheck --severity warning --format json FILE | jq "${JQ_QUERY}"
 
       - name: "ZShellCheck (error)"
-        run: >
-          zshellcheck
-          --severity error
-          ${{ steps.linguist.outputs.shell-files }}
+        run: echo "$SHELL_FILES_JSON" | jq --raw-output '.[]' | xargs -IFILE zshellcheck --severity style
+        env:
+          SHELL_FILES_JSON: ${{ steps.linguist.outputs.shell-json }}
+          Z_SHELL_CHECK_SH: zshellcheck --severity error --format json FILE | jq "${JQ_QUERY}"
 
 ...
