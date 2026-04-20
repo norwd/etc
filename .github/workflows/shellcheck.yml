@@ -175,6 +175,7 @@ jobs:
         run: |
           echo "${HOME}/go/bin" | tee -a "${GITHUB_PATH}"
           echo "/usr/local/go/bin" | tee -a "${GITHUB_PATH}"
+          echo "GOROOT=/usr/local/go" | tee -a "${GITHUB_ENV}"
 
       - id: cache-zshellcheck
         name: "Cache Zshellcheck"
@@ -183,7 +184,7 @@ jobs:
           key: ${{ runner.os }}-${{ runner.arch }}-go-install-zshellcheck
           path: ~/go/bin
 
-      - if: false && steps.cache-zshellcheck.outputs.cache-hit != 'true'
+      - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
         name: "Install Go"
         run: curl -sSL "$(curl -sSL "${ENDPOINT}" | jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_STEP_SUMMARY}")" | sudo tar xvz -C /usr/local --overwrite go/bin/go
         env:
@@ -232,8 +233,6 @@ jobs:
 
             # Create link to filename of the selected archive
             "\(env.BASE_URL)/\(.filename)"
-
-      - run: sudo apt-get install go
 
       - if: steps.cache-zshellcheck.outputs.cache-hit != 'true'
         name: "Install Zshellcheck"
