@@ -32,7 +32,10 @@ jobs:
           else .level
           end
         ) |
-        "::\(.level) file=\(.file),line=\(.line),endLine=\(.endLine),title=SC\(.code)::\(.message)"
+        .title = "SC\(.code)" |
+        "::\(.level) file=\(.file),line=\(.line),endLine=\(.endLine),title=\(.title)::\(.message)
+
+        https://www.shellcheck.net/wiki/SC\(.code)"
 
     steps:
 
