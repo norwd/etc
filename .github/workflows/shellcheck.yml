@@ -19,6 +19,17 @@ jobs:
       matrix:
         shell: [ sh, ksh, bash ]
 
+    env:
+      JQ_QUERY: |
+        .comments[] |
+        .level = (
+          if .level == "style" or .level == "info"
+          then "notice"
+          else .level
+          end
+        ) |
+        "::\(.level) file=\(.file),line=\(.line),endLine=\(.endLine),title=SC\(.code)::\(.message)"
+
     steps:
 
       - name: "Checkout"
@@ -74,6 +85,9 @@ jobs:
           --shell=${{ matrix.shell }}
           --severity style
           ${{ steps.linguist.outputs.shell-files }}
+          --format json1
+          |
+          jq "${JQ_QUERY}"
 
       - name: "ShellCheck (info)"
         run: >
@@ -81,6 +95,9 @@ jobs:
           --shell=${{ matrix.shell }}
           --severity info
           ${{ steps.linguist.outputs.shell-files }}
+          --format json1
+          |
+          jq "${JQ_QUERY}"
 
       - name: "ShellCheck (warning)"
         run: >
@@ -88,6 +105,9 @@ jobs:
           --shell=${{ matrix.shell }}
           --severity warning
           ${{ steps.linguist.outputs.shell-files }}
+          --format json1
+          |
+          jq "${JQ_QUERY}"
 
       - name: "ShellCheck (error)"
         run: >
@@ -95,6 +115,9 @@ jobs:
           --shell=${{ matrix.shell }}
           --severity error
           ${{ steps.linguist.outputs.shell-files }}
+          --format json1
+          |
+          jq "${JQ_QUERY}"
 
   zshellcheck:
     name: "Lint zsh with ZShellCheck"
