@@ -39,7 +39,7 @@ set dictionary+=/usr/share/dict/words
 syntax enable
 
 set background=dark
-silent! colorscheme vimdark
+silent! colorscheme gruvbox8
 
 if has("unix")
 	let s:uname = system("uname -s")
@@ -47,7 +47,7 @@ if has("unix")
 		let isDark = system("osascript -e 'tell application \"System Events\" to tell appearance preferences to get dark mode'")
 		if isDark != 'true'
 			set background=light
-			silent! colorscheme vimlight
+			silent! colorscheme gruvbox8
 		endif
 	endif
 endif
