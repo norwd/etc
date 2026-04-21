@@ -1,12 +1,13 @@
 #!/usr/bin/env zsh
 
-if [[ -x "$(command -v pkgfile)" ]]
+
+if ! functions command_not_found_handler >/dev/null && [[ -x "$(command -v pkgfile)" ]]
 then
 	# shellcheck source=/dev/null
 	source /usr/share/doc/pkgfile/command-not-found.zsh
 fi
 
-if [[ -x "$(command -v apt-get)" ]] && ! functions command_not_found_handler >/dev/null
+if ! functions command_not_found_handler >/dev/null && [[ -x "$(command -v apt-get)" ]]
 then
 	command_not_found_handler() {
 		local cmd="$1"
@@ -29,7 +30,7 @@ then
 	}
 fi
 
-if [[ -x "$(command -v brew)" ]] && ! functions command_not_found_handler >/dev/null
+if ! functions command_not_found_handler >/dev/null && [[ -x "$(command -v brew)" ]]
 then
 	command_not_found_handler() {
 		local cmd="$1"
