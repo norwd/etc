@@ -1,8 +1,6 @@
 disabled_katas:
-  #- ZC1010 # Use `[[ ... ]]` instead of `[ ... ]` or `test`. `[[` is safer and more powerful.
-  - ZC1040 # Glob pattern may error if no files match. Append '(N)' to enable nullglob behavior: '~/.config/profile.d/*.sh(N)'
+  - ZC1010 # Use `[[ ... ]]` instead of `[ ... ]` or `test`. `[[` is safer and more powerful.
   - ZC1046 # Avoid `eval`. It allows execution of arbitrary code and is hard to debug.
-  - ZC1049 # Prefer functions over aliases. Aliases are expanded at parse time and can behave unexpectedly in scripts.
   - ZC1075 # Unquoted array access is subject to globbing. Quote it.
   - ZC1080 # Glob will error if no matches found. Append `(N)` to make it nullglob.
   - ZC1098 # Use the `(q)` flag (or `(qq)`, `(q-)`) when using variables in `eval` to prevent injection.
