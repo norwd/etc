@@ -30,7 +30,47 @@ then
 	}
 fi
 
-if ! functions command_not_found_handler >/dev/null && [[ -x "$(command -v brew)" ]]
+if ! functions command_not_found_handler >/dev/null &&
+	[[ -x "$(command -v brew)" ]] &&
+	[[ -x "$(command -v gum)" ]]
+then
+	command_not_found_handler() {
+		local cmd="$1"
+		local pkg
+
+		pkg="$(brew which-formula --skip-update "${cmd}" 2>/dev/null)"
+
+		if [[ -n "${pkg}" ]]
+		then
+			if gum confirm \
+				--default=false \
+				--affirmative="Yes" \
+				--negative="No" \
+				"Command ${cmd} not found, install via with homebrew?"
+			then
+				pkg="$(
+					echo "${pkg}" |
+					gum choose \
+						--select-if-one \
+						--header "Which formula would you like to provide the ${cmd} command?"
+				)"
+
+				brew install "${pkg}"
+
+				return 0
+			else
+				gum log --level=info "Not installing ${cmd}"
+			fi
+		else
+			gum log --level=error "Command not found: ${cmd}"
+		fi
+
+		return 127
+	}
+fi
+
+if ! functions command_not_found_handler >/dev/null &&
+	[[ -x "$(command -v brew)" ]] &&
 then
 	command_not_found_handler() {
 		local cmd="$1"
