@@ -19,12 +19,12 @@ unset -v _zshrc
 unsetopt BEEP
 
 # Setup spelling
-setopt CORRECT_ALL
-setopt CORRECT
+setopt CORRECT_ALL # zshellcheck disable=ZC1789
+setopt CORRECT # zshellcheck disable=ZC1789
 setopt DVORAK
 
 # Setup navigation
-setopt AUTO_CD
+setopt AUTO_CD # zshellcheck disable=ZC1787
 
 # Setup history
 setopt INC_APPEND_HISTORY
