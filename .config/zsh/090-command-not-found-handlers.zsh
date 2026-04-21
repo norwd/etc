@@ -56,7 +56,7 @@ then
 	}
 fi
 
-if ! functions command_not_found_handler >/dev/null && [[ -x "$(command -v brew)" ]] &&
+if ! functions command_not_found_handler >/dev/null && [[ -x "$(command -v brew)" ]]
 then
 	command_not_found_handler() {
 		local cmd="$1"
