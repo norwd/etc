@@ -42,21 +42,10 @@ then
 
 		if [[ -n "${pkg}" ]]
 		then
-			if gum confirm \
-				--default=false \
-				--affirmative="Yes" \
-				--negative="No" \
-				"Command ${cmd} not found, install via with homebrew?"
+			if gum confirm --default=false --affirmative="Yes" --negative="No" "Command ${cmd} not found, install via with homebrew?"
 			then
-				pkg="$(
-					echo "${pkg}" |
-					gum choose \
-						--select-if-one \
-						--header "Which formula would you like to provide the ${cmd} command?"
-				)"
-
+				pkg="$(echo "${pkg}" | gum choose --select-if-one --header "Which formula would you like to provide the ${cmd} command?")"
 				brew install "${pkg}"
-
 				return 0
 			else
 				gum log --level=info "Not installing ${cmd}"
