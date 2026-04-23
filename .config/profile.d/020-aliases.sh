@@ -41,3 +41,5 @@ if [ -x "$(command -v bat)" ] && [ -x "$(command -v fzf)" ]
 then
 	alias fvim='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}" --bind "enter:become(vim {})"'
 fi
+
+# zshellcheck disable=ZC1049 # Allow aliases.

@@ -25,7 +25,7 @@ export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
 export AWS_CONFIG_FILE="${XDG_CONFIG_HOME}/aws/config"
 export AWS_SHARED_CREDENTIALS_FILE="${XDG_CONFIG_HOME}/aws/credentials"
 export AWS_CLI_HISTORY_FILE="${XDG_STATE_HOME}/aws/history.db"
-export INPUTRC="${XDG_CONFIG_HOME}/readline/inputrc"
+export INPUTRC="${XDG_CONFIG_HOME}/readline/inputrc" # zshellcheck disable=ZC1330: # `INPUTRC` is Bash-specific.
 export XINITRC="${XDG_CONFIG_HOME}/X11/xinitrc"
 export XSERVERRC="${XDG_CONFIG_HOME}/X11/xserverrc"
 export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
