@@ -1,7 +1,7 @@
 #!/usr/bin/env zunit
 
 @test 'Test XDG_CONFIG_HOME' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${HOME}/.config"
 	actual="${XDG_CONFIG_HOME}"
@@ -12,7 +12,7 @@
 }
 
 @test 'Test XDG_CACHE_HOME' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${HOME}/.cache"
 	actual="${XDG_CACHE_HOME}"
@@ -23,7 +23,7 @@
 }
 
 @test 'Test XDG_DATA_HOME' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${HOME}/.local/share"
 	actual="${XDG_DATA_HOME}"
@@ -34,7 +34,7 @@
 }
 
 @test 'Test XDG_STATE_HOME' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${HOME}/.local/state"
 	actual="${XDG_STATE_HOME}"
@@ -45,7 +45,7 @@
 }
 
 @test 'Test W3M_DIR' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_STATE_HOME}/w3m"
 	actual="${W3M_DIR}"
@@ -56,7 +56,7 @@
 }
 
 @test 'Test WGETRC' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_CONFIG_HOME}/wget/wgetrc"
 	actual="${WGETRC}"
@@ -69,7 +69,7 @@
 }
 
 @test 'Test GNUPGHOME' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_CONFIG_HOME}/gnupg"
 	actual="${GNUPGHOME}"
@@ -80,7 +80,7 @@
 }
 
 @test 'Test NUGET_PACKAGES' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_CACHE_HOME}/nuget/packages"
 	actual="${NUGET_PACKAGES}"
@@ -91,7 +91,7 @@
 }
 
 @test 'Test PYTHON_HISTORY' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_STATE_HOME}/python_history"
 	actual="${PYTHON_HISTORY}"
@@ -106,7 +106,7 @@
 }
 
 @test 'Test PYTHONPYCACHEPREFIX' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_CACHE_HOME}/python"
 	actual="${PYTHONPYCACHEPREFIX}"
@@ -117,7 +117,7 @@
 }
 
 @test 'Test PYTHONUSERBASE' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_DATA_HOME}/python"
 	actual="${PYTHONUSERBASE}"
@@ -128,7 +128,7 @@
 }
 
 @test 'Test NPM_CONFIG_USERCONFIG' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_CONFIG_HOME}/npm/npmrc"
 	actual="${NPM_CONFIG_USERCONFIG}"
@@ -141,7 +141,7 @@
 }
 
 @test 'Test AWS_CONFIG_FILE' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_CONFIG_HOME}/aws/config"
 	actual="${AWS_CONFIG_FILE}"
@@ -156,7 +156,7 @@
 }
 
 @test 'Test AWS_SHARED_CREDENTIALS_FILE' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_CONFIG_HOME}/aws/credentials"
 	actual="${AWS_SHARED_CREDENTIALS_FILE}"
@@ -171,7 +171,7 @@
 }
 
 @test 'Test AWS_CLI_HISTORY_FILE' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_STATE_HOME}/aws/history.db"
 	actual="${AWS_CLI_HISTORY_FILE}"
@@ -186,7 +186,7 @@
 }
 
 @test 'Test INPUTRC' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_CONFIG_HOME}/readline/inputrc"
 	actual="${INPUTRC}"
@@ -201,7 +201,7 @@
 }
 
 @test 'Test XINITRC' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_CONFIG_HOME}/X11/xinitrc"
 	actual="${XINITRC}"
@@ -216,7 +216,7 @@
 }
 
 @test 'Test XSERVERRC' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_CONFIG_HOME}/X11/xserverrc"
 	actual="${XSERVERRC}"
@@ -231,7 +231,7 @@
 }
 
 @test 'Test DOCKER_CONFIG' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_CONFIG_HOME}/docker"
 	actual="${DOCKER_CONFIG}"
@@ -242,7 +242,7 @@
 }
 
 @test 'Test NPM_CONFIG_USERCONFIG' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
+	load ~/.config/profile
 
 	expected="${XDG_CONFIG_HOME}/npm/npmrc"
 	actual="${NPM_CONFIG_USERCONFIG}"

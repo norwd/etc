@@ -5,7 +5,7 @@
 }
 
 @test 'Test dotfiles alias' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	assert "$(whence dotfiles)" same_as '/usr/bin/git --git-dir="${HOME}/etc/" --work-tree="${HOME}"'
 	assert "$(which dotfiles)" same_as 'dotfiles: aliased to /usr/bin/git --git-dir="${HOME}/etc/" --work-tree="${HOME}"'
@@ -19,7 +19,7 @@
 		skip "ug is installed: $(which ug)"
 	fi
 
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	assert "$(whence grep)" same_as 'grep --color=auto'
 	assert "$(which grep)" same_as 'grep: aliased to grep --color=auto'
@@ -27,7 +27,7 @@
 }
 
 @test 'Test ls alias' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	assert "$(whence ls)" same_as 'ls -F --color=auto'
 	assert "$(which ls)" same_as 'ls: aliased to ls -F --color=auto'
@@ -35,7 +35,7 @@
 }
 
 @test 'Test ll alias' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	assert "$(whence ll)" same_as 'ls -l'
 	assert "$(which ll)" same_as 'll: aliased to ls -l'
@@ -43,7 +43,7 @@
 }
 
 @test 'Test la alias' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	assert "$(whence la)" same_as 'll -A'
 	assert "$(which la)" same_as 'la: aliased to ll -A'
@@ -51,7 +51,7 @@
 }
 
 @test 'Test cat is aliased to bat if it exists' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	if [[ ! -x "$(command -v bat)" ]]
 	then
@@ -64,7 +64,7 @@
 }
 
 @test 'Test cat is not aliased when bat is not installed' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	if [[ -x "$(command -v bat)" ]]
 	then
@@ -77,7 +77,7 @@
 }
 
 @test 'Test man is aliased to batman if it exists' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	if [[ ! -x "$(command -v batman)" ]]
 	then
@@ -90,7 +90,7 @@
 }
 
 @test 'Test man is not aliased when batman is not installed' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	if [[ -x "$(command -v batman)" ]]
 	then
@@ -103,7 +103,7 @@
 }
 
 @test 'Test find is aliased to bfs if it exists' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	if [[ ! -x "$(command -v bfs)" ]]
 	then
@@ -116,7 +116,7 @@
 }
 
 @test 'Test find is not aliased when bfs is not installed' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	if [[ -x "$(command -v bfs)" ]]
 	then
@@ -129,7 +129,7 @@
 }
 
 @test 'Test htop is aliased to btop if it exists' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	if [[ ! -x "$(command -v btop)" ]]
 	then
@@ -142,7 +142,7 @@
 }
 
 @test 'Test htop is not aliased when btop is not installed' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	if [[ -x "$(command -v btop)" ]]
 	then
@@ -153,7 +153,7 @@
 }
 
 @test 'Test neofetch is aliased to fastfetch if it exists' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	if [[ ! -x "$(command -v fastfetch)" ]]
 	then
@@ -166,7 +166,7 @@
 }
 
 @test 'Test neofetch is not aliased when fastfetch is not installed' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	if [[ -x "$(command -v fastfetch)" ]]
 	then
