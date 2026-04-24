@@ -1,8 +1,7 @@
 #!/usr/bin/env zunit
 
 @test 'Test GOPATH' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
-	load ~/.config/profile.d/040-gopaths.sh
+	load ~/.config/profile
 
 	assert "${XDG_DATA_HOME}" is_dir
 	assert "${GOPATH}" is_dir
@@ -14,8 +13,7 @@
 }
 
 @test 'Test GOMODCACHE' {
-	load ~/.config/profile.d/010-xdg-base-dirs.sh
-	load ~/.config/profile.d/040-gopaths.sh
+	load ~/.config/profile
 
 	assert "${XDG_CACHE_HOME}" is_dir
 	assert "${GOMODCACHE}" is_dir
