@@ -116,7 +116,7 @@
 }
 
 @test 'Test find is not aliased when bfs is not installed' {
-	load ~/.config/profile.d/020-aliases.sh
+	load ~/.config/profile
 
 	if [[ -x "$(command -v bfs)" ]]
 	then
