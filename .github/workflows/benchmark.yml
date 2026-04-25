@@ -22,7 +22,7 @@ jobs:
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
       - name: "Install Zbench"
-        working-directory: /urs/local/bin
+        working-directory: /usr/local/bin
         run: curl -sSLO "${URL}"
         env:
           URL: https://raw.githubusercontent.com/romkatv/zsh-bench/refs/heads/master/zsh-bench
