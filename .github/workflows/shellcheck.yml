@@ -37,9 +37,6 @@ jobs:
 
     steps:
 
-      - name: "Checkout"
-        uses: actions/checkout@v6
-
       - name: "Clone"
         run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
 
@@ -137,9 +134,6 @@ jobs:
     name: "Lint zsh with ZShellCheck"
     runs-on: ubuntu-latest
     steps:
-
-      - name: "Checkout"
-        uses: actions/checkout@v6
 
       - name: "Clone"
         run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
