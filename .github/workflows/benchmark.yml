@@ -29,7 +29,7 @@ jobs:
 
       - name: "Run Benchmark"
         shell: zsh -i -l {0}
-        run: zsh-bench | tee -a output.txt
+        run: zsh-bench --iters 1 | tee -a output.txt
         env:
           JSON: |
             [
