@@ -9,14 +9,27 @@ jobs:
 
   benchmark:
     name: "Performance regression check"
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
 
+      - name: "Clone"
+        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
+
+      - name: "Configure"
+        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+
       - name: "Checkout"
-        uses: actions/checkout@v6
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
+
+      - name: "Install Zbench"
+        working-directory: /urs/local/bin
+        run: curl -sSLO "${URL}"
+        env:
+          URL: https://raw.githubusercontent.com/romkatv/zsh-bench/refs/heads/master/zsh-bench
 
       - name: "Run Benchmark"
-        run: echo "${JSON}" > output.txt
+        shell: zsh -i -l {0}
+        run: zsh-bench | tee -a output.txt
         env:
           JSON: |
             [
