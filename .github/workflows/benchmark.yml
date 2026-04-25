@@ -23,7 +23,7 @@ jobs:
 
       - name: "Install Zbench"
         working-directory: /usr/local/bin
-        run: curl -sSLO "${URL}" && chmod +x *
+        run: curl -sSLO "${URL}" && chmod +x zsh-bench
         env:
           URL: https://raw.githubusercontent.com/romkatv/zsh-bench/refs/heads/master/zsh-bench
 
