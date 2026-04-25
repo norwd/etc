@@ -2,7 +2,7 @@ HIPPOCRATIC LICENSE
 
 Version 3.0, October 2021
 
-https://firstdonoharm.dev/version/3/0/core.txt
+https://firstdonoharm.dev/version/3/0/cl.txt
 
 TERMS AND CONDITIONS
 
@@ -276,7 +276,10 @@ entitled to equitable relief, including injunctive relief or specific
 performance of the terms hereof, in addition to any other remedy to which they
 are entitled at law or in equity.
 
-8.3. Severability: If any term or provision of this License is determined to be
+8.3. Copyleft: Modified software, source code, or other derivative work must be
+licensed, in its entirety, under the exact same conditions as this License.
+
+8.4. Severability: If any term or provision of this License is determined to be
 invalid, illegal, or unenforceable by a court of competent jurisdiction, any
 such determination of invalidity, illegality, or unenforceability shall not
 affect any other term or provision of this License or invalidate or render
@@ -286,22 +289,22 @@ competent jurisdiction pertains to the terms or provisions contained in the
 Ethical Standards section of this License, all rights in the Software granted to
 Licensee shall be deemed null and void as between Licensor and Licensee.
 
-8.4. Section Titles: Section titles are solely written for organizational
+8.5. Section Titles: Section titles are solely written for organizational
 purposes and should not be used to interpret the language within each section.
 
-8.5. Citations: Citations are solely written to provide context for the source
+8.6. Citations: Citations are solely written to provide context for the source
 of the provisions in the Ethical Standards.
 
-8.6. Section Summaries: Some sections have a brief italicized description which
+8.7. Section Summaries: Some sections have a brief italicized description which
 is provided for the sole purpose of briefly describing the section and should
 not be used to interpret the terms of the License.
 
-8.7. Entire License: This is the entire License between the Licensor and
+8.8. Entire License: This is the entire License between the Licensor and
 Licensee with respect to the claims released herein and that the consideration
 stated herein is the only consideration or compensation to be paid or exchanged
 between them for this License. This License cannot be modified or amended except
 in a writing signed by Licensor and Licensee.
 
-8.8. Successors and Assigns: This License shall be binding upon and inure to the
+8.9. Successors and Assigns: This License shall be binding upon and inure to the
 benefit of the Licensor’s and Licensee’s respective heirs, successors, and
 assigns.
