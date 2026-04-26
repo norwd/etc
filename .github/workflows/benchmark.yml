@@ -27,17 +27,13 @@ jobs:
       - name: "Run Benchmarks"
         run: >-
           hyperfine
-
           --warmup 10
           --min-runs 10
           --max-runs 100
-
-          --export-json "raw-benchmarks.json"
+          --export-json raw-benchmarks.json
           --shell 'zsh -i -l'
-
           --command-name 'Source Zshrc'
           'source ~/.zshrc'
-
           --command-name 'Startup and Exit Zsh'
           'zsh -i -l -c exit'
  
