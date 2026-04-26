@@ -32,10 +32,10 @@ jobs:
           --max-runs 100
           --export-json raw-benchmarks.json
           --shell 'zsh -i -l'
-          --command-name 'Source Zshrc'
-          'source ~/.zshrc'
-          --command-name 'Startup and Exit Zsh'
-          'zsh -i -l -c exit'
+          --command-name 'Source Zshrc'           'source ~/.zshrc'
+          --command-name 'Source Zsh Profile'     'source ~/.zprofile'
+          --command-name 'Source Login Profile'   'source ~/.config/profile'
+          --command-name 'Startup and Exit Zsh'   'zsh -i -l -c exit'
  
       - name: "Process Benchmark"
         run: jq "${JQ_QUERY}" raw-benchmarks.json | tee -a benchmark-data.json
