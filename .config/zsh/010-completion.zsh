@@ -18,12 +18,13 @@ create-site-functions() {
 	fi
 }
 
-create-site-functions cheat --completion         zsh
-create-site-functions hexyl --completion         zsh
-create-site-functions bat   --completion         zsh
-create-site-functions gh      completion --shell zsh
-create-site-functions glow    completion         zsh
-create-site-functions gum     completion         zsh
+create-site-functions cheat    --completion            zsh
+create-site-functions hexyl    --completion            zsh
+create-site-functions bat      --completion            zsh
+create-site-functions gh         completion --shell    zsh
+create-site-functions glow       completion            zsh
+create-site-functions gum        completion            zsh
+create-site-functions onefetch              --generate zsh
 
 unfunction create-site-functions
 
