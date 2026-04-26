@@ -2,6 +2,7 @@
 
 @test 'Test ALIASES option' {
 	assert "${options[aliases]}" same_as "on"
+	[[ -o aliases ]] || fail 'option aliases is not set'
 }
 
 @test 'Test dotfiles alias' {
