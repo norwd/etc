@@ -24,8 +24,6 @@ jobs:
       - name: "Install Hyperfine"
         run: brew install hyperfine
 
-      - run: cat ~/.zshrc
-
       - name: "Run Benchmark"
         run: hyperfine --export-json=raw-benchmarks.json --shell="${HY_SHELL}" "${HY_CMD_1}" "${HY_CMD_2}"
         env:
@@ -77,7 +75,10 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ./cache
-          key: ${{ runner.os }}-benchmark
+          key: ${{ runner.os }}-benchmark-${{ github.ref_name}}-${{ hashFiles('~/.github/workflows/benchmark.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-benchmark-${{ github.ref_name}}-
+            ${{ runner.os }}-benchmark-
 
       - name: "Store benchmark result"
         uses: benchmark-action/github-action-benchmark@v1
