@@ -30,6 +30,7 @@ jobs:
           --warmup 10
           --min-runs 10
           --max-runs 100
+          --time-unit millisecond
           --export-json raw-benchmarks.json
           --shell 'zsh -i -l'
           --command-name 'Source Zshrc'           'source ~/.zshrc'
