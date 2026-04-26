@@ -67,8 +67,8 @@ jobs:
                   name: "Max Time - \(.command)",
                   unit: "Seconds",
                   value: .max,
-                },
-              ] | .[]
+                }
+              ][]
             ]
 
       - name: "Download previous benchmark data"
