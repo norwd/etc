@@ -37,7 +37,7 @@ jobs:
           --command-name 'Source Zsh Profile'     'source ~/.zprofile'
           --command-name 'Source Login Profile'   'source ~/.config/profile'
           --command-name 'Startup and Exit Zsh'   'zsh -i -l -c exit'
- 
+
       - name: "Process Benchmark"
         run: jq "${JQ_QUERY}" raw-benchmarks.json | tee -a benchmark-data.json
         env:
