@@ -36,18 +36,10 @@ jobs:
           --shell 'zsh -i -l'
 
           --command-name 'Source Zshrc'
-          #--setup ''
-          #--prepare ''
           'source ~/.zshrc'
-          #--conclude ''
-          #--cleanup ''
 
           --command-name 'Startup and Exit Zsh'
-          #--setup ''
-          #--prepare ''
           'zsh -i -l -c exit'
-          #--conclude ''
-          #--cleanup ''
  
       - name: "Process Benchmark"
         run: jq "${JQ_QUERY}" raw-benchmarks.json | tee -a benchmark-data.json
