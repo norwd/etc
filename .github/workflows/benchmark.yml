@@ -37,33 +37,33 @@ jobs:
                 {
                   name: "Zsh Startup - Mean - \(.command)",
                   unit: "Seconds",
-                  value: .mean,
+                  value: .mean
                 },
                 {
                   name: "Zsh Startup - Median - \(.command)",
                   unit: "Seconds",
-                  value: .median,
+                  value: .median
                 },
                 {
                   name: "Zsh Startup - User Time - \(.command)",
                   unit: "Seconds",
-                  value: .user,
+                  value: .user
                 },
                 {
                   name: "Zsh Startup - System Time - \(.command)",
                   unit: "Seconds",
-                  value: .system,
+                  value: .system
                 },
                 {
                   name: "Zsh Startup - Min - \(.command)",
                   unit: "Seconds",
-                  value: .min,
+                  value: .min
                 },
                 {
                   name: "Zsh Startup - Max - \(.command)",
                   unit: "Seconds",
-                  value: .max,
-                },
+                  value: .max
+                }
               ][]
             ]
 
