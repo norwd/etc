@@ -78,6 +78,7 @@ jobs:
           key: ${{ runner.os }}-benchmark-${{ github.ref_name}}-${{ hashFiles('~/.github/workflows/benchmark.yml') }}
           restore-keys: |
             ${{ runner.os }}-benchmark-${{ github.ref_name}}-
+            ${{ runner.os }}-benchmark-main-
             ${{ runner.os }}-benchmark-
 
       - name: "Store benchmark result"
