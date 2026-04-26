@@ -41,4 +41,4 @@ PS1="%1~ %B%#%b "
 # shellcheck disable=SC2155
 export GPG_TTY="$(tty)"
 
-sleep 1
+sleep 0
