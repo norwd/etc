@@ -45,32 +45,32 @@ jobs:
               .results[] |
               [
                 {
-                  name: "Mean Time - \(.command)",
+                  name: "\(.command) - Mean Time",
                   unit: "Seconds",
                   value: .mean,
                 },
                 {
-                  name: "Median Time - \(.command)",
+                  name: "\(.command) - Median Time",
                   unit: "Seconds",
                   value: .median,
                 },
                 {
-                  name: "User Time - \(.command)",
+                  name: "\(.command) - User Time",
                   unit: "Seconds",
                   value: .user,
                 },
                 {
-                  name: "System Time - \(.command)",
+                  name: "\(.command) - System Time",
                   unit: "Seconds",
                   value: .system,
                 },
                 {
-                  name: "Min Time - \(.command)",
+                  name: "\(.command) - Min Time",
                   unit: "Seconds",
                   value: .min,
                 },
                 {
-                  name: "Max Time - \(.command)",
+                  name: "\(.command) - Max Time",
                   unit: "Seconds",
                   value: .max,
                 }
