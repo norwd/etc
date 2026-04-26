@@ -25,11 +25,15 @@ jobs:
         run: brew install hyperfine
 
       - name: "Run Benchmark"
-        run: hyperfine --export-json=- --shell="${HY_SHELL}" "${HY_CMD_1}" "${HY_CMD_2}" | jq "${JQ_QUERY}" | tee -a benchmark.json
+        run: hyperfine --export-json=raw-benchmarks.json --shell="${HY_SHELL}" "${HY_CMD_1}" "${HY_CMD_2}"
         env:
           HY_SHELL: zsh -i -l
           HY_CMD_1: source ~/.zshrc
           HY_CMD_2: zsh -i -l -c exit
+
+      - name: "Process Benchmark"
+        run: jq "${JQ_QUERY}" raw-benchmarks.json | tee -a benchmark-data.json
+        env:
           JQ_QUERY: |
             [
               .results[] |
@@ -77,7 +81,7 @@ jobs:
         uses: benchmark-action/github-action-benchmark@v1
         with:
           tool: customSmallerIsBetter
-          output-file-path: benchmark.json
+          output-file-path: benchmark-data.json
           external-data-json-path: ./cache/benchmark-data.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-on-alert: true
