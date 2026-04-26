@@ -24,6 +24,8 @@ jobs:
       - name: "Install Hyperfine"
         run: brew install hyperfine
 
+      - run: cat ~/.zshrc
+
       - name: "Run Benchmark"
         run: hyperfine --export-json=raw-benchmarks.json --shell="${HY_SHELL}" "${HY_CMD_1}" "${HY_CMD_2}"
         env:
