@@ -1,5 +1,5 @@
-name: "Benchmark"
-run-name: "Benchmark"
+name: "Run Benchmark"
+run-name: "Run Benchmark"
 on: push
 
 permissions:
@@ -8,7 +8,7 @@ permissions:
 jobs:
 
   benchmark:
-    name: "Performance regression check"
+    name: "Run Benchmark"
     runs-on: macos-latest
     steps:
 
