@@ -24,13 +24,31 @@ jobs:
       - name: "Install Hyperfine"
         run: brew install hyperfine
 
-      - name: "Run Benchmark"
-        run: hyperfine --export-json=raw-benchmarks.json --shell="${HY_SHELL}" "${HY_CMD_1}" "${HY_CMD_2}"
-        env:
-          HY_SHELL: zsh -i -l
-          HY_CMD_1: source ~/.zshrc
-          HY_CMD_2: zsh -i -l -c exit
+      - name: "Run Benchmarks"
+        run: >-
+          hyperfine
 
+          --warmup 10
+          --min-runs 10
+          --max-runs 100
+
+          --export-json "raw-benchmarks.json"
+          --shell 'zsh -i -l'
+
+          --command-name 'Source Zshrc'
+          --setup ''
+          --prepare ''
+          'source ~/.zshrc'
+          --conclude ''
+          --cleanup ''
+
+          --command-name 'Startup and Exit Zsh'
+          --setup ''
+          --prepare ''
+          'zsh -i -l -c exit'
+          --conclude ''
+          --cleanup ''
+ 
       - name: "Process Benchmark"
         run: jq "${JQ_QUERY}" raw-benchmarks.json | tee -a benchmark-data.json
         env:
