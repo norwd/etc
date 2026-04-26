@@ -21,30 +21,50 @@ jobs:
       - name: "Checkout"
         run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
 
-      - name: "Install Zbench"
-        working-directory: /usr/local/bin
-        run: curl -sSLO "${URL}" && chmod +x zsh-bench
-        env:
-          URL: https://raw.githubusercontent.com/romkatv/zsh-bench/refs/heads/master/zsh-bench
+      - name: "Install Hyperfine"
+        run: brew install hyperfine
 
       - name: "Run Benchmark"
-        shell: zsh -i -l {0}
-        run: zsh-bench --iters 1 | tee -a output.txt
+        run: hyperfine --export-json=- --shell="${HY_SHELL}" "${HY_CMD_1}" "${HY_CMD_2}" | jq "${JQ_QUERY}" | tee -a benchmark.json
         env:
-          JSON: |
+          HY_SHELL: zsh -i -l
+          HY_CMD_1: source ~/.zshrc
+          HY_CMD_2: zsh -i -l -c exit
+          JQ_QUERY: |
             [
-              {
-                "name": "My Custom Smaller Is Better Benchmark - CPU Load",
-                "unit": "Percent",
-                "value": 50
-              },
-              {
-                "name": "My Custom Smaller Is Better Benchmark - Memory Used",
-                "unit": "Megabytes",
-                "value": 100,
-                "range": "3",
-                "extra": "Value for Tooltip: 25\nOptional Num #2: 100\nAnything Else!"
-              }
+              .results[] |
+              [
+                {
+                  name: "Zsh Startup - Mean - \(.command)",
+                  unit: "Seconds",
+                  value: .mean,
+                },
+                {
+                  name: "Zsh Startup - Median - \(.command)",
+                  unit: "Seconds",
+                  value: .median,
+                },
+                {
+                  name: "Zsh Startup - User Time - \(.command)",
+                  unit: "Seconds",
+                  value: .user,
+                },
+                {
+                  name: "Zsh Startup - System Time - \(.command)",
+                  unit: "Seconds",
+                  value: .system,
+                },
+                {
+                  name: "Zsh Startup - Min - \(.command)",
+                  unit: "Seconds",
+                  value: .min,
+                },
+                {
+                  name: "Zsh Startup - Max - \(.command)",
+                  unit: "Seconds",
+                  value: .max,
+                },
+              ][]
             ]
 
       - name: "Download previous benchmark data"
@@ -57,7 +77,7 @@ jobs:
         uses: benchmark-action/github-action-benchmark@v1
         with:
           tool: customSmallerIsBetter
-          output-file-path: output.txt
+          output-file-path: benchmark.json
           external-data-json-path: ./cache/benchmark-data.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-on-alert: true
