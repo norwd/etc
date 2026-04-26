@@ -39,35 +39,35 @@ jobs:
               .results[] |
               [
                 {
-                  name: "Zsh Startup - Mean - \(.command)",
+                  name: "Mean Time - \(.command)",
                   unit: "Seconds",
-                  value: .mean
+                  value: .mean,
                 },
                 {
-                  name: "Zsh Startup - Median - \(.command)",
+                  name: "Median Time - \(.command)",
                   unit: "Seconds",
-                  value: .median
+                  value: .median,
                 },
                 {
-                  name: "Zsh Startup - User Time - \(.command)",
+                  name: "User Time - \(.command)",
                   unit: "Seconds",
-                  value: .user
+                  value: .user,
                 },
                 {
-                  name: "Zsh Startup - System Time - \(.command)",
+                  name: "System Time - \(.command)",
                   unit: "Seconds",
-                  value: .system
+                  value: .system,
                 },
                 {
-                  name: "Zsh Startup - Min - \(.command)",
+                  name: "Min Time - \(.command)",
                   unit: "Seconds",
-                  value: .min
+                  value: .min,
                 },
                 {
-                  name: "Zsh Startup - Max - \(.command)",
+                  name: "Max Time - \(.command)",
                   unit: "Seconds",
-                  value: .max
-                }
+                  value: .max,
+                },
               ][]
             ]
 
