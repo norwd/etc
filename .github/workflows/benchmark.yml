@@ -68,7 +68,7 @@ jobs:
                   unit: "Seconds",
                   value: .max,
                 },
-              ][]
+              ] | .[]
             ]
 
       - name: "Download previous benchmark data"
