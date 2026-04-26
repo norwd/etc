@@ -19,7 +19,7 @@ jobs:
         run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
 
       - name: "Checkout"
-        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force '${{ github.ref_name}}'
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force "${GITHUB_REF}"
 
       - name: "Install Hyperfine"
         run: brew install hyperfine
