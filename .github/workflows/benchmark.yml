@@ -27,12 +27,13 @@ jobs:
       - name: "Run Benchmarks"
         run: >-
           hyperfine
-          --warmup 10
-          --min-runs 10
+          --warmup 50
+          --min-runs 50
           --max-runs 100
           --time-unit millisecond
           --export-json raw-benchmarks.json
           --shell 'zsh -i -l'
+          --setup 'sleep 1'
           --command-name 'Source Zshrc'           'source ~/.zshrc'
           --command-name 'Source Zsh Profile'     'source ~/.zprofile'
           --command-name 'Source Login Profile'   'source ~/.config/profile'
