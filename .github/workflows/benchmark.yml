@@ -101,13 +101,13 @@ jobs:
     steps:
 
       - name: "Download Benchmark Data - Mainline"
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v8
         with:
           name: benchmark-data-main
           path: benchmark-data-main.json
 
       - name: "Download Benchmark Data - Current Changes"
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v8
         with:
           name: benchmark-data-${{ github.sha }}
           path: benchmark-data-${{ github.sha }}.json
