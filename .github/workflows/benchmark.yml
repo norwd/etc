@@ -44,7 +44,7 @@ jobs:
           --command-name 'Startup and Exit Zsh'   'zsh -i -l -c exit'
 
       - name: "Process Benchmark"
-        run: jq "${JQ_QUERY}" raw-benchmarks.json | tee -a benchmark-data.json
+        run: jq "${JQ_QUERY}" raw-benchmarks.json | tee -a benchmark-data-${{ matrix.ref }}.json
         env:
           JQ_QUERY: |
             [
@@ -86,8 +86,8 @@ jobs:
       - name: "Upload Benchmark Data"
         uses: actions/upload-artifact@v7
         with:
-          name: benchmark-data-${{ matrix.ref }}
-          path: benchmark-data.json
+          path: benchmark-data-${{ matrix.ref }}.json
+          archive: false
           if-no-files-found: error
 
   check-benchmarks:
@@ -102,14 +102,12 @@ jobs:
       - name: "Download Benchmark Data - Mainline"
         uses: actions/download-artifact@v8
         with:
-          name: benchmark-data-main
-          path: benchmark-data-main.json
+          name: benchmark-data-main.json
 
       - name: "Download Benchmark Data - Current Changes"
         uses: actions/download-artifact@v8
         with:
-          name: benchmark-data-${{ github.sha }}
-          path: benchmark-data-${{ github.sha }}.json
+          name: benchmark-data-${{ github.sha }}.json
 
       - run: cat benchmark-data-${{ github.sha }}.json benchmark-data-main.json
 
