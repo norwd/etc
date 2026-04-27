@@ -90,8 +90,8 @@ jobs:
           archive: false
           if-no-files-found: error
 
-  check-benchmarks:
-    name: "Check Benchmark Results"
+  results:
+    name: "Benchmark Results"
     needs: benchmark
     runs-on: ubuntu-latest
     permissions:
@@ -108,8 +108,6 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: benchmark-data-${{ github.sha }}.json
-
-      - run: cat benchmark-data-${{ github.sha }}.json benchmark-data-main.json
 
       - name: "Compare Benchmark Results"
         uses: benchmark-action/github-action-benchmark@v1
