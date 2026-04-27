@@ -2,14 +2,17 @@ name: "Run Benchmark"
 run-name: "Run Benchmark"
 on: push
 
-permissions:
-  contents: write
-
 jobs:
 
   benchmark:
     name: "Run Benchmark"
     runs-on: macos-latest
+    strategy:
+      matrix:
+        ref:
+          - main
+          - ${{ github.sha }}
+
     steps:
 
       - name: "Clone"
@@ -19,7 +22,9 @@ jobs:
         run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
 
       - name: "Checkout"
-        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force "${GITHUB_REF}"
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force "${REF}"
+        env:
+          REF: ${{ matrix.ref }}
 
       - name: "Install Hyperfine"
         run: brew install hyperfine
@@ -79,21 +84,40 @@ jobs:
               ][]
             ]
 
-      - name: "Download previous benchmark data"
-        uses: actions/cache@v5
+      - name: "Upload Benchmark Data"
+        uses: actions/upload-artifact@v7
         with:
-          path: ./cache
-          key: ${{ runner.os }}-benchmark-${{ github.ref_name}}-${{ github.sha }}-${{ github.run_number }}-${{ github.run_attempt }}
-          restore-keys: |
-            ${{ runner.os }}-benchmark-main-
-            ${{ runner.os }}-benchmark-
+          name: benchmark-data-${{ matrix.ref }}
+          path: benchmark-data.json
+          if-no-files-found: error
 
-      - name: "Store benchmark result"
+  compare-benchmarks:
+    name: "Compare Benchmark Results"
+    needs: benchmark
+    runs-on: ubuntu-slim
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: "Download Benchmark Data - Mainline"
+        uses: actions/download-artifact@v3
+        with:
+          name: benchmark-data-main
+          path: benchmark-data-main.json
+
+      - name: "Download Benchmark Data - Current Changes"
+        uses: actions/download-artifact@v3
+        with:
+          name: benchmark-data-${{ github.sha }}
+          path: benchmark-data-${{ github.sha }}.json
+
+      - name: "Compare Benchmark Results"
         uses: benchmark-action/github-action-benchmark@v1
         with:
           tool: customSmallerIsBetter
-          output-file-path: benchmark-data.json
-          external-data-json-path: ./cache/benchmark-data.json
+          output-file-path: benchmark-data-${{ github.sha }}.json
+          external-data-json-path: benchmark-data-main.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-on-alert: true
           summary-always: true
