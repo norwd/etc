@@ -48,7 +48,7 @@ jobs:
           --command-name 'Startup and Exit Zsh'   'zsh -i -l -c exit'
 
       - name: "Process Benchmark"
-        run: jq "${JQ_QUERY}" raw-benchmarks.json | tee -a benchmark-data-${{ matrix.ref }}.json
+        run: jq "${JQ_QUERY}" raw-benchmarks.json | tee -a benchmark-data.json
         env:
           JQ_QUERY: |
             [
@@ -87,59 +87,27 @@ jobs:
               ][]
             ]
 
-      - name: "Upload Benchmark Data"
-        uses: actions/upload-artifact@v7
-        with:
-          path: benchmark-data-${{ matrix.ref }}.json
-          archive: false
-          if-no-files-found: error
-
-  results:
-    name: "Benchmark Results"
-    needs: benchmark
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-
-      - name: "Download Benchmark Data - Mainline"
+      - if: matrix.ref != 'main'
+        name: "Download Benchmark Data"
         uses: actions/download-artifact@v8
         with:
-          name: benchmark-data-main.json
-
-      - name: "Download Benchmark Data - Current Changes"
-        uses: actions/download-artifact@v8
-        with:
-          name: benchmark-data-${{ github.sha }}.json
+          name: external-data.json
 
       - name: "Compare Benchmark Results"
         uses: benchmark-action/github-action-benchmark@v1
         with:
-          ref: main
           tool: customSmallerIsBetter
-          output-file-path: benchmark-data-main.json
+          output-file-path: benchmark-data.json
           external-data-json-path: external-data.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-on-alert: true
           summary-always: true
           fail-on-alert: true
 
-      - name: "Upload Benchmark Data"
+      - if: matrix.ref == 'main'
+        name: "Upload Benchmark Data"
         uses: actions/upload-artifact@v7
         with:
           path: external-data.json
           archive: false
           if-no-files-found: error
-
-      - name: "Compare Benchmark Results"
-        uses: benchmark-action/github-action-benchmark@v1
-        with:
-          ref: ${{ github.sha }}
-          tool: customSmallerIsBetter
-          output-file-path: benchmark-data-${{ github.sha }}.json
-          external-data-json-path: external-data.json
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          comment-on-alert: true
-          summary-always: true
-          fail-on-alert: true
