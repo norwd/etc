@@ -32,13 +32,12 @@ jobs:
       - name: "Run Benchmarks"
         run: >-
           hyperfine
-          --warmup 25
-          --min-runs 50
+          --warmup 5
+          --min-runs 10
           --max-runs 100
           --time-unit millisecond
           --export-json raw-benchmarks.json
           --shell 'zsh -i -l'
-          --setup 'sleep 0.25'
           --command-name 'Source Zshrc'           'source ~/.zshrc'
           --command-name 'Source Zsh Profile'     'source ~/.zprofile'
           --command-name 'Source Login Profile'   'source ~/.config/profile'
@@ -111,6 +110,8 @@ jobs:
         with:
           name: benchmark-data-${{ github.sha }}
           path: benchmark-data-${{ github.sha }}.json
+
+      - run: ls -lAR
 
       - name: "Compare Benchmark Results"
         uses: benchmark-action/github-action-benchmark@v1
