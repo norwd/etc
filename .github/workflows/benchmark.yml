@@ -111,7 +111,7 @@ jobs:
           name: benchmark-data-${{ github.sha }}
           path: benchmark-data-${{ github.sha }}.json
 
-      - run: ls -lAR
+      - run: cat benchmark-data-${{ github.sha }}.json benchmark-data-main.json
 
       - name: "Compare Benchmark Results"
         uses: benchmark-action/github-action-benchmark@v1
