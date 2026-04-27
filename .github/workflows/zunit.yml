@@ -49,4 +49,4 @@ jobs:
           cp zunit/zunit /usr/local/bin
 
       - name: "ZUnit Run Tests"
-        run: zunit --verbose --tap $(find ~ -type f -name "*.zunit")
+        run: find . -type f -name "*.zunit" -exec zunit --verbose --tap '{}' +

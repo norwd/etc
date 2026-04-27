@@ -26,7 +26,7 @@ jobs:
         run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
 
       - name: "Checkout"
-        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout -f
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force "${GITHUB_REF}"
 
       - id: zsh-options
         name: "Dump Zsh Options"
