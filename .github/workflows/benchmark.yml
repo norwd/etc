@@ -2,6 +2,10 @@ name: "Run Benchmark"
 run-name: "Run Benchmark"
 on: push
 
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow_ref }}
+
 jobs:
 
   benchmark:
@@ -113,8 +117,19 @@ jobs:
         uses: benchmark-action/github-action-benchmark@v1
         with:
           tool: customSmallerIsBetter
+          output-file-path: benchmark-data-main.json
+          external-data-json-path: external-data.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-on-alert: true
+          summary-always: true
+          fail-on-alert: true
+
+      - name: "Compare Benchmark Results"
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: customSmallerIsBetter
           output-file-path: benchmark-data-${{ github.sha }}.json
-          external-data-json-path: benchmark-data-main.json
+          external-data-json-path: external-data.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-on-alert: true
           summary-always: true
