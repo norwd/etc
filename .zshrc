@@ -14,29 +14,3 @@ do
 done
 
 unset -v _zshrc
-
-# Do not beep on error
-unsetopt BEEP
-
-# Setup spelling
-setopt CORRECT_ALL # zshellcheck disable=ZC1789
-setopt CORRECT # zshellcheck disable=ZC1789
-setopt DVORAK
-
-# Setup navigation
-setopt AUTO_CD # zshellcheck disable=ZC1787
-
-# Setup history
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
-
-export HISTFILE="${XDG_STATE_HOME:-${HOME}/.local/state}/zsh/history"
-export HISTSIZE=2000
-export SAVEHIST=1000
-
-# Setup prompt
-PS1="%1~ %B%#%b "
-
-# Misc
-# shellcheck disable=SC2155
-export GPG_TTY="$(tty)"
