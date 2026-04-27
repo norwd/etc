@@ -91,10 +91,10 @@ jobs:
           path: benchmark-data.json
           if-no-files-found: error
 
-  compare-benchmarks:
-    name: "Compare Benchmark Results"
+  check-benchmarks:
+    name: "Check Benchmark Results"
     needs: benchmark
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     permissions:
       contents: write
 
