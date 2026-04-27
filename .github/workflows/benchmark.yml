@@ -88,6 +88,8 @@ jobs:
             ${{ runner.os }}-benchmark-main-
             ${{ runner.os }}-benchmark-
 
+      - run: ls cache/
+
       - name: "Store benchmark result"
         uses: benchmark-action/github-action-benchmark@v1
         with:
@@ -98,5 +100,3 @@ jobs:
           comment-on-alert: true
           summary-always: true
           fail-on-alert: true
-
-      - run: ls cache/
