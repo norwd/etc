@@ -98,3 +98,5 @@ jobs:
           comment-on-alert: true
           summary-always: true
           fail-on-alert: true
+
+      - run: ls cache/
