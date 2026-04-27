@@ -124,6 +124,13 @@ jobs:
           summary-always: true
           fail-on-alert: true
 
+      - name: "Upload Benchmark Data"
+        uses: actions/upload-artifact@v7
+        with:
+          path: external-data.json
+          archive: false
+          if-no-files-found: error
+
       - name: "Compare Benchmark Results"
         uses: benchmark-action/github-action-benchmark@v1
         with:
