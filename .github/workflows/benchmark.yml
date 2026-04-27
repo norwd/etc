@@ -116,6 +116,7 @@ jobs:
       - name: "Compare Benchmark Results"
         uses: benchmark-action/github-action-benchmark@v1
         with:
+          ref: main
           tool: customSmallerIsBetter
           output-file-path: benchmark-data-main.json
           external-data-json-path: external-data.json
@@ -134,6 +135,7 @@ jobs:
       - name: "Compare Benchmark Results"
         uses: benchmark-action/github-action-benchmark@v1
         with:
+          ref: ${{ github.sha }}
           tool: customSmallerIsBetter
           output-file-path: benchmark-data-${{ github.sha }}.json
           external-data-json-path: external-data.json
