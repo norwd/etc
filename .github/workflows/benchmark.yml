@@ -2,14 +2,17 @@ name: "Run Benchmark"
 run-name: "Run Benchmark"
 on: push
 
-permissions:
-  contents: write
-
 jobs:
 
   benchmark:
     name: "Run Benchmark"
     runs-on: macos-latest
+    strategy:
+      matrix:
+        ref:
+          - main
+          - ${{ github.sha }}
+
     steps:
 
       - name: "Clone"
@@ -19,7 +22,9 @@ jobs:
         run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
 
       - name: "Checkout"
-        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force "${GITHUB_REF}"
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force "${REF}"
+        env:
+          REF: ${{ matrix.ref }}
 
       - name: "Install Hyperfine"
         run: brew install hyperfine
@@ -31,7 +36,7 @@ jobs:
           --min-runs 50
           --max-runs 100
           --time-unit millisecond
-          --export-json raw-benchmarks.json
+          --export-json benchmarks.json
           --shell 'zsh -i -l'
           --setup 'sleep 0.25'
           --command-name 'Source Zshrc'           'source ~/.zshrc'
@@ -39,62 +44,9 @@ jobs:
           --command-name 'Source Login Profile'   'source ~/.config/profile'
           --command-name 'Startup and Exit Zsh'   'zsh -i -l -c exit'
 
-      - name: "Process Benchmark"
-        run: jq "${JQ_QUERY}" raw-benchmarks.json | tee -a benchmark-data.json
-        env:
-          JQ_QUERY: |
-            [
-              .results[] |
-              [
-                {
-                  name: "\(.command) - Mean Time",
-                  unit: "Seconds",
-                  value: .mean,
-                },
-                {
-                  name: "\(.command) - Median Time",
-                  unit: "Seconds",
-                  value: .median,
-                },
-                {
-                  name: "\(.command) - User Time",
-                  unit: "Seconds",
-                  value: .user,
-                },
-                {
-                  name: "\(.command) - System Time",
-                  unit: "Seconds",
-                  value: .system,
-                },
-                {
-                  name: "\(.command) - Min Time",
-                  unit: "Seconds",
-                  value: .min,
-                },
-                {
-                  name: "\(.command) - Max Time",
-                  unit: "Seconds",
-                  value: .max,
-                }
-              ][]
-            ]
-
-      - name: "Download previous benchmark data"
-        uses: actions/cache@v5
+      - name: "Upload Benchmarks"
+        uses: actions/upload-artifact@v7
         with:
-          path: ./cache
-          key: ${{ runner.os }}-benchmark-${{ github.ref_name}}-${{ github.sha }}-${{ github.run_number }}-${{ github.run_attempt }}
-          restore-keys: |
-            ${{ runner.os }}-benchmark-main-
-            ${{ runner.os }}-benchmark-
-
-      - name: "Store benchmark result"
-        uses: benchmark-action/github-action-benchmark@v1
-        with:
-          tool: customSmallerIsBetter
-          output-file-path: benchmark-data.json
-          external-data-json-path: ./cache/benchmark-data.json
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          comment-on-alert: true
-          summary-always: true
-          fail-on-alert: true
+          name: benchmarks-${{ matrix.ref }}
+          path: benchmarks.json
+          if-no-files-found: error
