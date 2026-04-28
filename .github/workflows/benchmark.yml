@@ -3,6 +3,10 @@ run-name: "Run Benchmarks"
 permissions: {}
 on: push
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
 
   benchmarks:
@@ -103,6 +107,6 @@ jobs:
               +
               [
                 .[] |
-                "| \(.command) | \(.min) ( \( "+\(.min[0] - .min[1])" | sub("^+-", "-") ) ) | \(.max) | \(.mean) | \(.median) | \(.stddev) |"
+                "| \(.command) | \(.min) ( \( "+\(.min[0] - .min[1])" | gsub("^+-", "-") ) ) | \(.max) | \(.mean) | \(.median) | \(.stddev) |"
               ]
             )[]
