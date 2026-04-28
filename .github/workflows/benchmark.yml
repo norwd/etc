@@ -87,28 +87,28 @@ jobs:
                 command : .[0].command,
                 min: {
                   values: [ .[].min | . * 1000 | round | . / 1000 ],
-                  symbol: if .min[0] < .min[1] then "+" else "-" end,
-                  change: .min[1] - .min[0] | abs,
+                  symbol: (if .min[0] < .min[1] then "+" else "-" end),
+                  change: (.min[1] - .min[0] | abs),
                 },
                 max: {
                   values: [ .[].max | . * 1000 | round | . / 1000 ],
-                  symbol: if .max[0] < .max[1] then "+" else "-" end,
-                  change: .max[1] - .max[0] | abs,
+                  symbol: (if .max[0] < .max[1] then "+" else "-" end),
+                  change: (.max[1] - .max[0] | abs),
                 },
                 mean: {
                   values: [ .[].mean | . * 1000 | round | . / 1000 ],
-                  symbol: if .mean[0] < .mean[1] then "+" else "-" end,
-                  change: .mean[1] - .mean[0] | abs,
+                  symbol: (if .mean[0] < .mean[1] then "+" else "-" end),
+                  change: (.mean[1] - .mean[0] | abs),
                 },
                 median: {
                   values: [ .[].median | . * 1000 | round | . / 1000 ],
-                  symbol: if .median[0] < .median[1] then "+" else "-" end,
-                  change: .median[1] - .median[0] | abs,
+                  symbol: (if .median[0] < .median[1] then "+" else "-" end),
+                  change: (.median[1] - .median[0] | abs),
                 },
                 stddev: {
                   values: [ .[].stddev | . * 1000 | round | . / 1000 ],
-                  symbol: if .stddev[0] < .stddev[1] then "+" else "-" end,
-                  change: .stddev[1] - .stddev[0] | abs,
+                  symbol: (if .stddev[0] < .stddev[1] then "+" else "-" end),
+                  change: (.stddev[1] - .stddev[0] | abs),
                 },
               }
             ]
