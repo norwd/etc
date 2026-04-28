@@ -103,6 +103,6 @@ jobs:
               +
               [
                 .[] |
-                "| \(.command) | \(.min) ( \( ("+" + (.min[0] - .min[1])) | sub("^+-", "-") ) ) | \(.max) | \(.mean) | \(.median) | \(.stddev) |"
+                "| \(.command) | \(.min) ( \( "+\(.min[0] - .min[1])" | sub("^+-", "-") ) ) | \(.max) | \(.mean) | \(.median) | \(.stddev) |"
               ]
             )[]
