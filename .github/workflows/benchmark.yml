@@ -1,5 +1,6 @@
 name: "Run Benchmarks"
 run-name: "Run Benchmarks"
+permissions: {}
 on: push
 
 jobs:
@@ -102,6 +103,6 @@ jobs:
               +
               [
                 .[] |
-                "| \(.command) | \(.min) (\(.min[0] - .min[1])) | \(.max) | \(.mean) | \(.median) | \(.stddev) |"
+                "| \(.command) | \(.min) | \(.max) | \(.mean) | \(.median) | \(.stddev) |"
               ]
             )[]
