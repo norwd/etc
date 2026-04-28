@@ -87,7 +87,7 @@ jobs:
                 command : .[0].command,
                 min: {
                   values: [ .[].min | . * 1000 | round | . / 1000 ],
-                  change: (.min[1] - .min[0]),
+                  change: (.[1].min - .[0].min),
                 },
                 max     : [ .[].max    | . * 1000 | round | . / 1000 ],
                 mean    : [ .[].mean   | . * 1000 | round | . / 1000 ],
