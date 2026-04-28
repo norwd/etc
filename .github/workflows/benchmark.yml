@@ -77,8 +77,8 @@ jobs:
                 .[].results
               ] |
               transpose |
-              select(.[0].command == .[1].command) |
               .[] |
+              select(.[0].command == .[1].command) |
               {
                 command : .[0].command,
                 min     : [ .[].min    | . * 1000 | round | . / 1000 ],
