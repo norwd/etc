@@ -67,8 +67,8 @@ jobs:
         with:
           name: benchmarks-${{ github.sha }}.json
 
-      - name: "Compare Benchmarks"
-        run: jq --slurp "${JQ_QUERY}" benchmarks-main.json benchmarks-${{ github.sha }}.json
+      - name: "Process Benchmarks"
+        run: jq --slurp "${JQ_QUERY}" benchmarks-main.json benchmarks-${{ github.sha }}.json | tee -a benchmarks.json
         env:
           JQ_QUERY: |
             [
@@ -79,12 +79,22 @@ jobs:
               .[] |
               {
                 command : .[0].command,
-                mean    : [ .[].mean   ],
-                stddev  : [ .[].stddev ],
-                median  : [ .[].median ],
-                user    : [ .[].user   ],
-                system  : [ .[].system ],
-                min     : [ .[].min    ],
-                max     : [ .[].max    ],
+                min     : [ .[].min    | . * 1000 | round | . / 1000 ],
+                max     : [ .[].max    | . * 1000 | round | . / 1000 ],
+                mean    : [ .[].mean   | . * 1000 | round | . / 1000 ],
+                median  : [ .[].median | . * 1000 | round | . / 1000 ],
+                stddev  : [ .[].stddev | . * 1000 | round | . / 1000 ],
               }
             ]
+
+      - name: "Summarise Benchmarks"
+        run: jq "${JQ_QUERY}" benchmarks.json | tee -a "${GITHUB_STEP_SUMMARY}"
+        env:
+          JQ_QUERY: |
+            ("
+            | Command | Min | Max | Mean | Median | Standard Deviation |
+            |---------|-----|-----|------|--------|--------------------|
+            ") + (.[] |
+            "
+            | .command | .min | .max | .mean | .median | .stddev |
+            ")
