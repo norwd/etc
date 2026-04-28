@@ -88,7 +88,7 @@ jobs:
             ]
 
       - name: "Prepare Summary"
-        run: echo "" | tee -a "${GITHUB_STEP_SUMMARY}"
+        run: echo "${MARKDOWN}" | tee -a "${GITHUB_STEP_SUMMARY}"
         env:
           MARKDOWN: |-
             # Benchmarks Results
@@ -100,4 +100,4 @@ jobs:
         run: jq --raw-output "${JQ_QUERY}" benchmarks.json | tee -a "${GITHUB_STEP_SUMMARY}"
         env:
           JQ_QUERY: |
-            .[] | "| .command | .min | .max | .mean | .median | .stddev |\n"
+            .[] | "| \(.command) | \(.min) | \(.max) | \(.mean) | \(.median) | \(.stddev) |"
