@@ -51,8 +51,8 @@ jobs:
           if-no-files-found: error
           archive: false
 
-  check-benchmarks:
-    name: "Check Benchmarks"
+  compare-benchmarks:
+    name: "Compare Benchmarks"
     needs: benchmarks
     runs-on: ubuntu-slim
     steps:
@@ -67,4 +67,24 @@ jobs:
         with:
           name: benchmarks-${{ github.sha }}.json
 
-      - run: jq '.' benchmarks-main.json benchmarks-${{ github.sha }}.json
+      - name: "Compare Benchmarks"
+        run: jq --slurp "${JQ_QUERY}" benchmarks-main.json benchmarks-${{ github.sha }}.json
+        env:
+          JQ_QUERY: |
+            [
+              [
+                .[].results
+              ] |
+              transpose |
+              .[] |
+              {
+                command : .[0].command,
+                mean    : [ .[].mean   ],
+                stddev  : [ .[].stddev ],
+                median  : [ .[].median ],
+                user    : [ .[].user   ],
+                system  : [ .[].system ],
+                min     : [ .[].min    ],
+                max     : [ .[].max    ],
+              }
+            ]
