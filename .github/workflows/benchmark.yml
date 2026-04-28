@@ -102,6 +102,6 @@ jobs:
               +
               [
                 .[] |
-                "| \(.command) | \(.min) (\(.min[0] - .min(1))) | \(.max) | \(.mean) | \(.median) | \(.stddev) |"
+                "| \(.command) | \(.min) (\(.min[0] - .min[1])) | \(.max) | \(.mean) | \(.median) | \(.stddev) |"
               ]
             )[]
