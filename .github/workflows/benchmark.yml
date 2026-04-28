@@ -92,8 +92,10 @@ jobs:
         env:
           JQ_QUERY: |
             (
-            "| Command | Min | Max | Mean | Median | Standard Deviation |
-            |---|---|---|---|---|---|"
+            "# Benchmarks Remarks
+            | Command | Min | Max | Mean | Median | Standard Deviation |
+            |---|---|---|---|---|---|
+            "
             ) + (
-            .[] | "| .command | .min | .max | .mean | .median | .stddev |"
+            .[] | "| .command | .min | .max | .mean | .median | .stddev |\n"
             )
