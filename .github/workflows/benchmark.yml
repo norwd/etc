@@ -89,10 +89,22 @@ jobs:
                   values: [ .[].min | . * 1000 | round | . / 1000 ],
                   change: (.[1].min - .[0].min),
                 },
-                max     : [ .[].max    | . * 1000 | round | . / 1000 ],
-                mean    : [ .[].mean   | . * 1000 | round | . / 1000 ],
-                median  : [ .[].median | . * 1000 | round | . / 1000 ],
-                stddev  : [ .[].stddev | . * 1000 | round | . / 1000 ],
+                max: {
+                  values: [ .[].max | . * 1000 | round | . / 1000 ],
+                  change: (.[1].max - .[0].max),
+                },
+                mean: {
+                  values: [ .[].mean | . * 1000 | round | . / 1000 ],
+                  change: (.[1].mean - .[0].mean),
+                },
+                median: {
+                  values: [ .[].median | . * 1000 | round | . / 1000 ],
+                  change: (.[1].median - .[0].median),
+                },
+                stddev: {
+                  values: [ .[].stddev | . * 1000 | round | . / 1000 ],
+                  change: (.[1].stddev - .[0].stddev),
+                },
               }
             ]
 
@@ -110,7 +122,7 @@ jobs:
               +
               [
                 .[] |
-                "| \(.command) | \(.min.values) (\(if .min.change >= 0 then "+" else "" end)\(.min.change)) | \(.max) (\(if .max[0] < .max[1] then "+" else "" end)\(.max[1] - .max[0])) | \(.mean) (\(if .mean[0] < .mean[1] then "+" else "" end)\(.mean[1] - .mean[0])) | \(.median) (\(if .median[0] < .median[1] then "+" else "" end)\(.median[1] - .median[0])) | \(.stddev) (\(if .stddev[0] < .stddev[1] then "+" else "" end)\(.stddev[1] - .stddev[0])) |"
+                "| \(.command) | \(.min.values) (\(if .min.change >= 0 then "+" else "" end)\(.min.change)) | \(.max.values) (\(if .max.change >= 0 then "+" else "" end)\(.max.change)) | \(.mean.values) (\(if .mean.change >= 0 then "+" else "" end)\(.mean.change)) | \(.median.values) (\(if .median.change >= 0 then "+" else "" end)\(.median.change)) | \(.stddev.values) (\(if .stddev.change >= 0 then "+" else "" end)\(.stddev.change)) |"
               ]
             )[]
 
