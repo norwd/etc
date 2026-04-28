@@ -85,7 +85,10 @@ jobs:
               select(.[0].command == .[1].command) |
               {
                 command : .[0].command,
-                min     : [ .[].min    | . * 1000 | round | . / 1000 ],
+                min: {
+                  values: [ .[].min    | . * 1000 | round | . / 1000 ],
+                  change: .min[1] - .min[0],
+                },
                 max     : [ .[].max    | . * 1000 | round | . / 1000 ],
                 mean    : [ .[].mean   | . * 1000 | round | . / 1000 ],
                 median  : [ .[].median | . * 1000 | round | . / 1000 ],
@@ -107,7 +110,7 @@ jobs:
               +
               [
                 .[] |
-                "| \(.command) | \(.min) (\(if .min[0] < .min[1] then "+" else "" end)\(.min[1] - .min[0])) | \(.max) (\(if .max[0] < .max[1] then "+" else "" end)\(.max[1] - .max[0])) | \(.mean) (\(if .mean[0] < .mean[1] then "+" else "" end)\(.mean[1] - .mean[0])) | \(.median) (\(if .median[0] < .median[1] then "+" else "" end)\(.median[1] - .median[0])) | \(.stddev) (\(if .stddev[0] < .stddev[1] then "+" else "" end)\(.stddev[1] - .stddev[0])) |"
+                "| \(.command) | \(.min.values) (\(if .min.change >= 0 then "+" else "" end)\(.min.change)) | \(.max) (\(if .max[0] < .max[1] then "+" else "" end)\(.max[1] - .max[0])) | \(.mean) (\(if .mean[0] < .mean[1] then "+" else "" end)\(.mean[1] - .mean[0])) | \(.median) (\(if .median[0] < .median[1] then "+" else "" end)\(.median[1] - .median[0])) | \(.stddev) (\(if .stddev[0] < .stddev[1] then "+" else "" end)\(.stddev[1] - .stddev[0])) |"
               ]
             )[]
 
