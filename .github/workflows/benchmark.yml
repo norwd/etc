@@ -107,7 +107,7 @@ jobs:
               +
               [
                 .[] |
-                "| \(.command) | \(.min) (\(if .min[0] > .min[1] then "+" else empty end)\(.min[0] - .min[1])) | \(.max) (\(if .max[0] > .max[1] then "+" else empty end)\(.max[0] - .max[1])) | \(.mean) (\(if .mean[0] > .mean[1] then "+" else empty end)\(.mean[0] - .mean[1])) | \(.median) (\(if .median[0] > .median[1] then "+" else empty end)\(.median[0] - .median[1])) | \(.stddev) (\(if .stddev[0] > .stddev[1] then "+" else empty end)\(.stddev[0] - .stddev[1])) |"
+                "| \(.command) | \(.min) (\(if .min[0] > .min[1] then "+" else "" end)\(.min[0] - .min[1])) | \(.max) (\(if .max[0] > .max[1] then "+" else "" end)\(.max[0] - .max[1])) | \(.mean) (\(if .mean[0] > .mean[1] then "+" else "" end)\(.mean[0] - .mean[1])) | \(.median) (\(if .median[0] > .median[1] then "+" else "" end)\(.median[0] - .median[1])) | \(.stddev) (\(if .stddev[0] > .stddev[1] then "+" else "" end)\(.stddev[0] - .stddev[1])) |"
               ]
             )[]
 
