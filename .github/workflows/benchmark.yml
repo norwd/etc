@@ -1,11 +1,11 @@
-name: "Run Benchmark"
-run-name: "Run Benchmark"
+name: "Run Benchmarks"
+run-name: "Run Benchmarks"
 on: push
 
 jobs:
 
-  benchmark:
-    name: "Run Benchmark"
+  benchmarks:
+    name: "Run Benchmarks"
     runs-on: macos-latest
     strategy:
       matrix:
@@ -36,7 +36,7 @@ jobs:
           --min-runs 50
           --max-runs 100
           --time-unit millisecond
-          --export-json benchmarks.json
+          --export-json benchmarks-${{ matrix.ref }}.json
           --shell 'zsh -i -l'
           --setup 'sleep 0.25'
           --command-name 'Source Zshrc'           'source ~/.zshrc'
@@ -47,6 +47,24 @@ jobs:
       - name: "Upload Benchmarks"
         uses: actions/upload-artifact@v7
         with:
-          name: benchmarks-${{ matrix.ref }}
-          path: benchmarks.json
+          path: benchmarks-${{ matrix.ref }}.json
           if-no-files-found: error
+          archive: false
+
+  check-benchmarks:
+    name: "Check Benchmarks"
+    needs: benchmarks
+    runs-on: ubuntu-slim
+    steps:
+
+      - name: "Download Benchmarks (main)"
+        uses: actions/download-artifact@v8
+        with:
+          name: benchmarks-main.json
+
+      - name: "Download Benchmarks (${{ github.sha }})"
+        uses: actions/download-artifact@v8
+        with:
+          name: benchmarks-${{ github.sha }}.json
+
+      - run: jq '.' benchmarks-main.json benchmarks-${{ github.sha }}.json
