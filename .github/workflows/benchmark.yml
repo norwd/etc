@@ -107,6 +107,16 @@ jobs:
               +
               [
                 .[] |
-                "| \(.command) | \(.min) ( \( "+\(.min[0] - .min[1])" | gsub("^+-", "-") ) ) | \(.max) | \(.mean) | \(.median) | \(.stddev) |"
+                "| \(.command) | \(.min) ( \( "+\(.min[0] - .min[1])" ) ) | \(.max) | \(.mean) | \(.median) | \(.stddev) |"
               ]
             )[]
+
+      - name: "Validate Benchmarks"
+        run: jq --raw-output "${JQ_QUERY}"
+        env:
+          JQ_QUERY: |
+            .[] |
+            select() |
+            "
+            ::error file={name},line={line},endLine={endLine},title={title}::{message}
+            "
