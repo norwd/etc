@@ -85,11 +85,31 @@ jobs:
               select(.[0].command == .[1].command) |
               {
                 command : .[0].command,
-                min     : [ .[].min    | . * 1000 | round | . / 1000 ],
-                max     : [ .[].max    | . * 1000 | round | . / 1000 ],
-                mean    : [ .[].mean   | . * 1000 | round | . / 1000 ],
-                median  : [ .[].median | . * 1000 | round | . / 1000 ],
-                stddev  : [ .[].stddev | . * 1000 | round | . / 1000 ],
+                min: {
+                  values: [ .[].min | . * 1000 | round | . / 1000 ],
+                  symbol: if .min[0] < .min[1] then "+" else "-" end,
+                  change: .min[1] - .min[0] | abs,
+                },
+                max: {
+                  values: [ .[].max | . * 1000 | round | . / 1000 ],
+                  symbol: if .max[0] < .max[1] then "+" else "-" end,
+                  change: .max[1] - .max[0] | abs,
+                },
+                mean: {
+                  values: [ .[].mean | . * 1000 | round | . / 1000 ],
+                  symbol: if .mean[0] < .mean[1] then "+" else "-" end,
+                  change: .mean[1] - .mean[0] | abs,
+                },
+                median: {
+                  values: [ .[].median | . * 1000 | round | . / 1000 ],
+                  symbol: if .median[0] < .median[1] then "+" else "-" end,
+                  change: .median[1] - .median[0] | abs,
+                },
+                stddev: {
+                  values: [ .[].stddev | . * 1000 | round | . / 1000 ],
+                  symbol: if .stddev[0] < .stddev[1] then "+" else "-" end,
+                  change: .stddev[1] - .stddev[0] | abs,
+                },
               }
             ]
 
@@ -107,13 +127,21 @@ jobs:
               +
               [
                 .[] |
-                "| \(.command) | \(.min) (\(if .min[0] < .min[1] then "+" else "" end)\(.min[1] - .min[0])) | \(.max) (\(if .max[0] < .max[1] then "+" else "" end)\(.max[1] - .max[0])) | \(.mean) (\(if .mean[0] < .mean[1] then "+" else "" end)\(.mean[1] - .mean[0])) | \(.median) (\(if .median[0] < .median[1] then "+" else "" end)\(.median[1] - .median[0])) | \(.stddev) (\(if .stddev[0] < .stddev[1] then "+" else "" end)\(.stddev[1] - .stddev[0])) |"
+                "| \(.command) | \(.min.values) (\(.min.symbol)\(.min.change)) | \(.max.values) (\(.max.symbol)\(.max.change)) | \(.mean.values) (\(.mean.symbol)\(.mean.change)) | \(.median.values) (\(.median.symbol)\(.median.change)) | \(.stddev.values) (\(.stddev.symbol)\(.stddev.change)) |"
               ]
             )[]
 
+      - id: deltas
+        name: "Get Delta Benchmarks"
+        run: jq --raw-output "${JQ_QUERY}" benchmarks.json | tee -a "${GITHUB_STEP_SUMMARY}"
+        env:
+          JQ_QUERY: |
+            .[] |
+            "\()=\()"
+
       - if: false
         name: "Validate Benchmarks"
-        run: jq --raw-output "${JQ_QUERY}"
+        run: jq --raw-output "${JQ_QUERY}" benchmarks.json
         env:
           JQ_QUERY: |
             .[] |
