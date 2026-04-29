@@ -85,9 +85,10 @@ jobs:
             .[0].results[].command |= . + " - Old" |
             .[1].results[].command |= . + " - New" |
             .[1].results as $new_results |
-            .[0] | .results |= . + $new_results |
+            .[0] |
+            .results |= . + $new_results |
             .results |= sort_by(.command) |
-            . |= .results | reverse
+            .results |= reverse
 
       - name: "Process Benchmarks"
         run: jq --slurp "${JQ_QUERY}" benchmarks-main.json benchmarks-${{ github.sha }}.json | tee -a benchmarks.json
