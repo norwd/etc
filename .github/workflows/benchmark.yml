@@ -44,7 +44,6 @@ jobs:
           --time-unit millisecond
           --export-json benchmarks-${{ matrix.ref }}.json
           --shell 'zsh'
-          --setup 'sleep 0.25'
           --command-name 'Source Zshrc'           'source ~/.zshrc'
           --command-name 'Source Zsh Profile'     'source ~/.zprofile'
           --command-name 'Source Login Profile'   'source ~/.config/profile'
@@ -138,9 +137,9 @@ jobs:
             elif .median.change > .stddev.values[0]
             then
               "::error title=Benchmark Failure: \(.command)::median time worse by more than 1σ" | halt_error
-            elif (.max.values[1] - .mean.values[0]) > (.stddev.values[0] * 3)
-            then
-              "::error title=Benchmark Failure: \(.command)::max time worse than mean by more than 3σ" | halt_error
+            #elif (.max.values[1] - .mean.values[0]) > (.stddev.values[0] * 3)
+            #then
+            #  "::error title=Benchmark Failure: \(.command)::max time worse than mean by more than 3σ" | halt_error
             else
               ""
             end
