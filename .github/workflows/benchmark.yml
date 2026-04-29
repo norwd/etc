@@ -127,13 +127,13 @@ jobs:
             )[]
 
       - name: "Validate Benchmarks"
-        run: jq --raw-output "${JQ_QUERY}"
+        run: jq --raw-output "${JQ_QUERY}" benchmarks.json
         env:
           JQ_QUERY: |
             .[] |
             if .max.change > .stddev.values[0]
             then
-              halt_error
+              "::error title=Benchmark Failure \(.command)::max time worse by more than 1σ" | halt_error
             else
               ""
             end
