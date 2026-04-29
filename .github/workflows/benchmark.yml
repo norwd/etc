@@ -7,6 +7,9 @@ defaults:
   run:
     shell: bash
 
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
 
   benchmarks:
@@ -141,38 +144,34 @@ jobs:
         env:
           URL: https://raw.githubusercontent.com/sharkdp/hyperfine/refs/heads/master/scripts/plot_whisker.py
 
+      - name: "Install GH Image"
+        run: gh extension install drogers0/gh-image
+
       - name: "Create Graph (main)"
         run: python3 plot_whisker.py benchmarks-main.json --output plot_whisker_main.png
 
-      - id: upload-artifact-plot-whisker-main
-        name: "Upload Graph (main)"
-        uses: actions/upload-artifact@v7
-        with:
-          path: plot_whisker_main.png
-          if-no-files-found: error
-          archive: false
+      - name: "Upload Graph (main)"
+        run: gh image --repo "${GITHUB_REPOSITORY}" plot_whisker_main.png
+        env:
+          GH_SESSION_TOKEN: ${{ secrets.GH_SESSION_TOKEN }}
 
       - name: "Create Graph (${{ github.sha }})"
         run: python3 plot_whisker.py benchmarks-${{ github.sha }}.json --output plot_whisker_${{ github.sha }}.png
 
-      - id: upload-artifact-plot-whisker-sha
-        name: "Upload Graph (${{ github.sha }})"
-        uses: actions/upload-artifact@v7
-        with:
-          path: plot_whisker_${{ github.sha }}.png
-          if-no-files-found: error
-          archive: false
-
+      - name: "Upload Graph (${{ github.sha }})"
+        run: gh image --repo "${GITHUB_REPOSITORY}" plot_whisker_${{ github.sha }}.png
+        env:
+          GH_SESSION_TOKEN: ${{ secrets.GH_SESSION_TOKEN }}
       - name: "Summarise Graphs"
         run: |
           tee -a "${GITHUB_STEP_SUMMARY}" << EOF
           ## Original Benchmarks
 
-          ![plot_whisker_main.png](${{ steps.upload-artifact-plot-whisker-main.outputs.artifact-url }})
+          ![plot_whisker_main.png](...})
 
           ## Current Benchmarks
 
-          ![plot_whisker_${{ github.sha }}.png](${{ steps.upload-artifact-plot-whisker-main.outputs.artifact-url }})
+          ![plot_whisker_${{ github.sha }}.png](...)
           EOF
 
       - name: "Validate Benchmarks"
