@@ -131,7 +131,7 @@ jobs:
         run: brew install numpy
 
       - name: "Install MatPlotLib"
-        run: brew install python-matplotlib
+        run: pip install matplotlib # brew install python-matplotlib
 
       - name: "Install SciPy"
         run: brew install scipy
