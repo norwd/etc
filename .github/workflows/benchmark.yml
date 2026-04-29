@@ -133,7 +133,7 @@ jobs:
             .[] |
             if .max.change > .stddev.values[0]
             then
-              "::error title=Benchmark Failure - \(.command)::Maximum duration degredation exceeds 1σ (\(.stddev)), was \(.max[0]) but is \(.max[1])" | halt_error
+              halt_error
             else
               ""
             end
