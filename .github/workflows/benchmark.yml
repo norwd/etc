@@ -143,8 +143,8 @@ jobs:
 
       - name: "Create Graphs"
         run: |
-          plot_whisker.py 'benchmarks-main.json'              --output 'plot_whisker_main.png'
-          plot_whisker.py 'benchmarks-${{ github.sha }}.json' --output 'plot_whisker_${{ github.sha }}.png'
+          python plot_whisker.py 'benchmarks-main.json'              --output 'plot_whisker_main.png'
+          python plot_whisker.py 'benchmarks-${{ github.sha }}.json' --output 'plot_whisker_${{ github.sha }}.png'
 
           tee -a "${GITHUB_STEP_SUMMARY}" << EOF
           ## Original Benchmarks
