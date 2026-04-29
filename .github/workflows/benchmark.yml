@@ -159,7 +159,7 @@ jobs:
         name: "Upload Graph (${{ github.sha }})"
         uses: actions/upload-artifact@v7
         with:
-          path: plot_whisker_main.png
+          path: plot_whisker_${{ github.sha }}.png
           if-no-files-found: error
           archive: false
 
