@@ -60,7 +60,7 @@ jobs:
   compare-benchmarks:
     name: "Compare Benchmarks"
     needs: benchmarks
-    runs-on: ubuntu-slim
+    runs-on: macos-latest
     steps:
 
       - name: "Download Benchmarks (main)"
