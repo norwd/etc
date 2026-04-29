@@ -57,18 +57,6 @@ jobs:
           if-no-files-found: error
           archive: false
 
-      - name: "Install Python Dependencies"
-        run: pip3 install numpy matplotlib scipy
-
-      - name: "Install Statistic Script"
-        run: curl --create-dirs -O --output-dir "${DIR}" -sSL "${URL}"
-        env:
-          URL: https://raw.githubusercontent.com/sharkdp/hyperfine/refs/heads/master/scripts/plot_whisker.py
-          DIR: ${{ runner.temp }}
-
-      - name: "Run plot_whisker.py"
-        run: ${{ runner.temp }}/plot_whisker.py benchmarks-${{ matrix.ref }}.json
-
   compare-benchmarks:
     name: "Compare Benchmarks"
     needs: benchmarks
@@ -138,6 +126,32 @@ jobs:
                 "| \(.command) | \(.min.values) (\(if .min.change >= 0 then "+" else "" end)\(.min.change)) | \(.max.values) (\(if .max.change >= 0 then "+" else "" end)\(.max.change)) | \(.mean.values) (\(if .mean.change >= 0 then "+" else "" end)\(.mean.change)) | \(.median.values) (\(if .median.change >= 0 then "+" else "" end)\(.median.change)) | \(.stddev.values) (\(if .stddev.change >= 0 then "+" else "" end)\(.stddev.change)) |"
               ]
             )[]
+
+      - name: "Install Python Dependencies"
+        run: |
+          brew install numpy
+          brew install python-matplotlib
+          pip3 install scipy
+
+      - name: "Install Statistics Scripts"
+        run: curl -sSLO "${URL}"
+        env:
+          URL: https://raw.githubusercontent.com/sharkdp/hyperfine/refs/heads/master/scripts/plot_whisker.py
+
+      - name: "Create Graphs"
+        run: |
+          plot_whisker.py 'benchmarks-main.json'              --output 'plot_whisker_main.png'
+          plot_whisker.py 'benchmarks-${{ github.sha }}.json' --output 'plot_whisker_${{ github.sha }}.png'
+
+          tee -a "${GITHUB_STEP_SUMMARY}" << EOF
+          ## Original Benchmarks
+
+          <img src="data:image/png;base64,$(base64 -w 0 plot_whisker_main.png)" width="300">
+
+          ## Current Benchmarks
+
+          <img src="data:image/png;base64,$(base64 -w 0 plot_whisker_${{ github.sha }}.png)" width="300">
+          EOF
 
       - name: "Validate Benchmarks"
         run: jq --raw-output "${JQ_QUERY}" benchmarks.json
