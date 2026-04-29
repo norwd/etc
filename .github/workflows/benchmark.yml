@@ -12,35 +12,17 @@ env:
 
 jobs:
 
-  warm-up:
-    name: "Warm Up Runner"
-    runs-on: macos-latest
-    steps:
-
-      - name: "Clone"
-        run: git clone --bare "${{ github.server_url }}/${{ github.repository }}" ~/etc
-
-      - name: "Configure"
-        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
-
-      - name: "Checkout"
-        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force # "${GITHUB_REF}"
-
-      - name: "Install Hyperfine"
-        run: brew install hyperfine
-
-      - name: "Run Benchmark Warm Ups"
-        run: hyperfine --min-runs 5 --max-runs 10 'zsh -i -l -c exit'
-
   benchmarks:
     name: "Run Benchmarks"
-    needs: warm-up
     runs-on: macos-latest
     strategy:
+      max-parallel: 2
       matrix:
         ref:
-          - main
-          - ${{ github.sha }}
+          - ${{ github.ref }}      # throw away for warm up
+          - ${{ github.ref_name }} # throw away for warm up
+          - main                   # baseline reference
+          - ${{ github.sha }}      # changes to compare
 
     steps:
 
