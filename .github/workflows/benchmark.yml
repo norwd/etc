@@ -87,23 +87,23 @@ jobs:
                 command : .[0].command,
                 min: {
                   values: [ .[].min | . * 1000 | round | . / 1000 ],
-                  change: (.[1].min - .[0].min),
+                  change: (.[1].min - .[0].min | . * 1000 | round | . / 1000),
                 },
                 max: {
                   values: [ .[].max | . * 1000 | round | . / 1000 ],
-                  change: (.[1].max - .[0].max),
+                  change: (.[1].max - .[0].max | . * 1000 | round | . / 1000),
                 },
                 mean: {
                   values: [ .[].mean | . * 1000 | round | . / 1000 ],
-                  change: (.[1].mean - .[0].mean),
+                  change: (.[1].mean - .[0].mean | . * 1000 | round | . / 1000),
                 },
                 median: {
                   values: [ .[].median | . * 1000 | round | . / 1000 ],
-                  change: (.[1].median - .[0].median),
+                  change: (.[1].median - .[0].median | . * 1000 | round | . / 1000),
                 },
                 stddev: {
                   values: [ .[].stddev | . * 1000 | round | . / 1000 ],
-                  change: (.[1].stddev - .[0].stddev),
+                  change: (.[1].stddev - .[0].stddev | . * 1000 | round | . / 1000),
                 },
               }
             ]
@@ -126,13 +126,15 @@ jobs:
               ]
             )[]
 
-      - if: false
-        name: "Validate Benchmarks"
+      - name: "Validate Benchmarks"
         run: jq --raw-output "${JQ_QUERY}"
         env:
           JQ_QUERY: |
             .[] |
-            select() |
-            "
-            ::error file={name},line={line},endLine={endLine},title={title}::{message}
-            "
+            if .max.change > .stddev.values[0]
+            then
+              "::error title=Benchmark Failure::Maximum duration degredation exceeds 1σ"
+              halt_error
+            else
+              ""
+            end
