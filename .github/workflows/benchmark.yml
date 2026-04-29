@@ -152,7 +152,7 @@ jobs:
         run: curl -sSX POST "${ENDPOINT}" -F "file=@${FILENAME}" #| jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_OUTPUT}"
         env:
           FILENAME: plot_whisker_main.png
-          ENDPOINT: https://imagetourl.cloud/api/upload
+          ENDPOINT: https://x0.at/
           JQ_QUERY: '"url=\(.data.url)"'
 
       - name: "Create Graph (${{ github.sha }})"
@@ -163,7 +163,7 @@ jobs:
         run: curl -sSX POST "${ENDPOINT}" -F "file=@${FILENAME}" #| jq --raw-output "${JQ_QUERY}" | tee -a "${GITHUB_OUTPUT}"
         env:
           FILENAME: plot_whisker_${{ github.sha }}.png
-          ENDPOINT: https://imagetourl.cloud/api/upload
+          ENDPOINT: https://x0.at/
           JQ_QUERY: '"url=\(.data.url)"'
 
       - name: "Summarise Graphs"
