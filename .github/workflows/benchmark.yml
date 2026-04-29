@@ -57,6 +57,18 @@ jobs:
           if-no-files-found: error
           archive: false
 
+      - name: "Install Python Dependencies"
+        run: pip3 install numpy matplotlib scipy
+
+      - name: "Install Statistic Script"
+        run: curl --create-dirs -O --output-dir "${DIR}" -sSL "${URL}"
+        env:
+          URL: https://raw.githubusercontent.com/sharkdp/hyperfine/refs/heads/master/scripts/plot_whisker.py
+          DIR: ${{ runner.temp }}
+
+      - name: "Run plot_whisker.py"
+        run: ${{ runner.temp }}/plot_whisker.py benchmarks-${{ matrix.ref }}.json
+
   compare-benchmarks:
     name: "Compare Benchmarks"
     needs: benchmarks
