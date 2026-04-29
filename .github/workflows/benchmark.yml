@@ -16,13 +16,14 @@ jobs:
     name: "Run Benchmarks"
     runs-on: macos-latest
     strategy:
-      max-parallel: 2
+      max-parallel: 1
       matrix:
+        is_warmup:
+          - true
+          - false
         ref:
-          - ${{ github.ref }}      # throw away for warm up
-          - ${{ github.ref_name }} # throw away for warm up
-          - main                   # baseline reference
-          - ${{ github.sha }}      # changes to compare
+          - main
+          - ${{ github.sha }}
 
     steps:
 
@@ -44,9 +45,9 @@ jobs:
         run: >-
           hyperfine
           --style color
-          --warmup 25
-          --min-runs 50
-          --max-runs 100
+          --warmup ${{ case(matrix.is_warmup, 1, 5) }}
+          --min-runs ${{ case(matrix.is_warmup, 1, 5) }}
+          --max-runs ${{ case(matrix.is_warmup, 10, 100) }}
           --time-unit millisecond
           --export-json benchmarks-${{ matrix.ref }}.json
           --shell 'zsh'
@@ -55,7 +56,8 @@ jobs:
           --command-name 'Source Login Profile'   'source ~/.config/profile'
           --command-name 'Startup and Exit Zsh'   'zsh -i -l -c exit'
 
-      - name: "Upload Benchmarks"
+      - if: ${{ !matrix.is_warmup }}
+        name: "Upload Benchmarks"
         uses: actions/upload-artifact@v7
         with:
           path: benchmarks-${{ matrix.ref }}.json
