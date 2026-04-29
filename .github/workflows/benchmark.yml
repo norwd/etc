@@ -13,6 +13,7 @@ jobs:
     name: "Run Benchmarks"
     runs-on: macos-latest
     strategy:
+      max-parallel: 1
       matrix:
         ref:
           - main
@@ -131,7 +132,7 @@ jobs:
         env:
           JQ_QUERY: |
             .[] |
-            if (.max.values[1] - .mean[0]) > (.stddev.values[0] * 2)
+            if (.max.values[1] - .mean.values[0]) > (.stddev.values[0] * 2)
             then
               "::error title=Benchmark Failure: \(.command)::max time worse than mean by more than 2σ" | halt_error
             elif .mean.change > .stddev.values[0]
