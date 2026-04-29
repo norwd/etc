@@ -155,11 +155,11 @@ jobs:
           tee -a "${GITHUB_STEP_SUMMARY}" << EOF
           ## Original Benchmarks
 
-          ![plot_whisker_main.png]($(curl -x POST https://x0.at -F file=@plot_whisker_main.png))
+          ![plot_whisker_main.png]($(curl -X POST https://x0.at -F file=@plot_whisker_main.png))
 
           ## Current Benchmarks
 
-          ![plot_whisker_${{ github.sha }}.png]($(curl -x POST https://x0.at -F file=@plot_whisker_${{ github.sha }}.png))
+          ![plot_whisker_${{ github.sha }}.png]($(curl -X POST https://x0.at -F file=@plot_whisker_${{ github.sha }}.png))
           EOF
 
       - name: "Validate Benchmarks"
