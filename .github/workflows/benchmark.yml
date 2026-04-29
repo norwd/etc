@@ -152,11 +152,11 @@ jobs:
           tee -a "${GITHUB_STEP_SUMMARY}" << EOF
           ## Original Benchmarks
 
-          <img src="data:image/png;base64,$(base64 -w 0 plot_whisker_main.png)" width="300">
+          <img src="data:image/png;base64,$(base64 --input plot_whisker_main.png)" width="300">
 
           ## Current Benchmarks
 
-          <img src="data:image/png;base64,$(base64 -w 0 plot_whisker_${{ github.sha }}.png)" width="300">
+          <img src="data:image/png;base64,$(base64 --input plot_whisker_${{ github.sha }}.png)" width="300">
           EOF
 
       - name: "Validate Benchmarks"
