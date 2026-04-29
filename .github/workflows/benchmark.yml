@@ -19,8 +19,8 @@ jobs:
       max-parallel: 1
       matrix:
         ref:
-          - main
           - ${{ github.sha }}
+          - main
 
     steps:
 
