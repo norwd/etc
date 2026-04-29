@@ -18,6 +18,7 @@ jobs:
     strategy:
       matrix:
         ref:
+          - ${{ github.ref_name }} # throw away to warm up
           - ${{ github.sha }}
           - main
 
