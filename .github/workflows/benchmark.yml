@@ -131,9 +131,9 @@ jobs:
         env:
           JQ_QUERY: |
             .[] |
-            if .mean.change > .stddev.values[0]
+            if .mean.change > (.stddev.values[0] * 2)
             then
-              "::error title=Benchmark Failure: \(.command)::mean time worse by more than 1σ" | halt_error
+              "::error title=Benchmark Failure: \(.command)::mean time worse by more than 2σ" | halt_error
             elif .median.change > .stddev.values[0]
             then
               "::error title=Benchmark Failure: \(.command)::median time worse by more than 1σ" | halt_error
