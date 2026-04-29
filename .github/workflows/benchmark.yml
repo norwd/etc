@@ -129,7 +129,7 @@ jobs:
 
       - name: "Install Python Dependencies"
         run: |
-          brew install python
+          brew install python3
           brew install pipx
           brew install numpy
           brew install python-matplotlib
