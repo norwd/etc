@@ -127,11 +127,14 @@ jobs:
               ]
             )[]
 
-      - name: "Install Python Dependencies"
-        run: |
-          brew install numpy
-          python3 -m pip install python-matplotlib
-          brew install scipy
+      - name: "Install Numpy"
+        run: brew install numpy
+
+      - name: "Install MatPlotLib"
+        run: brew install python-matplotlib
+
+      - name: "Install SciPy"
+        run: brew install scipy
 
       - name: "Install Statistics Scripts"
         run: curl -sSLO "${URL}"
