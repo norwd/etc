@@ -133,7 +133,13 @@ jobs:
             .[] |
             if .max.change > .stddev.values[0]
             then
-              "::error title=Benchmark Failure \(.command)::max time worse by more than 1σ" | halt_error
+              "::error title=Benchmark Failure: \(.command)::max time worse by more than 1σ" | halt_error
+            elif .mean.change > .stddev.values[0]
+            then
+              "::error title=Benchmark Failure: \(.command)::mean time worse by more than 1σ" | halt_error
+            elif .median.change > .stddev.values[0]
+            then
+              "::error title=Benchmark Failure: \(.command)::median time worse by more than 1σ" | halt_error
             else
               ""
             end
