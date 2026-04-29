@@ -38,6 +38,7 @@ jobs:
       - name: "Run Benchmarks"
         run: >-
           hyperfine
+          --style color
           --warmup 25
           --min-runs 50
           --max-runs 100
