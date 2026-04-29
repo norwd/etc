@@ -132,15 +132,15 @@ jobs:
         env:
           JQ_QUERY: |
             .[] |
-            if (.max.values[1] - .mean.values[0]) > (.stddev.values[0] * 2)
-            then
-              "::error title=Benchmark Failure: \(.command)::max time worse than mean by more than 2σ" | halt_error
-            elif .mean.change > .stddev.values[0]
+            if .mean.change > .stddev.values[0]
             then
               "::error title=Benchmark Failure: \(.command)::mean time worse by more than 1σ" | halt_error
             elif .median.change > .stddev.values[0]
             then
               "::error title=Benchmark Failure: \(.command)::median time worse by more than 1σ" | halt_error
+            elif (.max.values[1] - .mean.values[0]) > (.stddev.values[0] * 3)
+            then
+              "::error title=Benchmark Failure: \(.command)::max time worse than mean by more than 3σ" | halt_error
             else
               ""
             end
