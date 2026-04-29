@@ -16,7 +16,6 @@ jobs:
     name: "Run Benchmarks"
     runs-on: macos-latest
     strategy:
-      max-parallel: 1
       matrix:
         ref:
           - ${{ github.sha }}
