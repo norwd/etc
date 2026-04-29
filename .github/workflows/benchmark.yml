@@ -76,6 +76,19 @@ jobs:
         with:
           name: benchmarks-${{ github.sha }}.json
 
+      - name: "Merge Benchmarks"
+        run: jq --slurp "${JQ_QUERY}" "${OLD_FILE}" "${NEW_FILE}" | tee -a benchmarks-merged.json
+        env:
+          OLD_FILE: benchmarks-main.json
+          NEW_FILE: benchmarks-${{ github.sha }}.json
+          JQ_QUERY: |
+            .[0].results[].command |= . + " - Old" |
+            .[1].results[].command |= . + " - New" |
+            .[1].results as $new_results |
+            .[0] | .results |= . + $new_results |
+            .results |= sort_by(.command) |
+            . |= .results | reverse
+
       - name: "Process Benchmarks"
         run: jq --slurp "${JQ_QUERY}" benchmarks-main.json benchmarks-${{ github.sha }}.json | tee -a benchmarks.json
         env:
@@ -144,22 +157,15 @@ jobs:
         env:
           URL: https://raw.githubusercontent.com/sharkdp/hyperfine/refs/heads/master/scripts/plot_whisker.py
 
-      - name: "Create Graph (main)"
-        run: python3 plot_whisker.py benchmarks-main.json --output plot_whisker_main.png
-
-      - name: "Create Graph (${{ github.sha }})"
-        run: python3 plot_whisker.py benchmarks-${{ github.sha }}.json --output plot_whisker_${{ github.sha }}.png
+      - name: "Create Graph (Box and Whisker)"
+        run: python3 plot_whisker.py benchmarks-merged.json --output plot_whisker.png
 
       - name: "Summarise Graphs"
         run: |
           tee -a "${GITHUB_STEP_SUMMARY}" << EOF
-          ## Original Benchmarks
+          ## Comparison
 
-          ![plot_whisker_main.png]($(curl -X POST https://x0.at -F file=@plot_whisker_main.png))
-
-          ## Current Benchmarks
-
-          ![plot_whisker_${{ github.sha }}.png]($(curl -X POST https://x0.at -F file=@plot_whisker_${{ github.sha }}.png))
+          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_whisker.png))
           EOF
 
       - name: "Validate Benchmarks"
