@@ -153,9 +153,9 @@ jobs:
         run: brew install scipy
 
       - name: "Install Statistics Scripts"
-        run: curl -sSLO "${URL}"
+        run: curl -sSLO "${BASE_URL}{plot_whisker.py,plot_benchmark_comparison.py,plot_histogram.py,plot_progression.py}"
         env:
-          URL: https://raw.githubusercontent.com/sharkdp/hyperfine/refs/heads/master/scripts/plot_whisker.py
+          BASE_URL: https://raw.githubusercontent.com/sharkdp/hyperfine/refs/heads/master/scripts/
 
       - name: "Create Graph (Box and Whisker)"
         run: python3 plot_whisker.py benchmarks-merged.json --output plot_whisker.png
