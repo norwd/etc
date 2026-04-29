@@ -1,7 +1,9 @@
 name: "Run Benchmarks"
 run-name: "Run Benchmarks"
-permissions: {}
 on: push
+
+permissions:
+  contents: write
 
 defaults:
   run:
@@ -162,6 +164,7 @@ jobs:
         run: gh image --repo "${GITHUB_REPOSITORY}" plot_whisker_${{ github.sha }}.png
         env:
           GH_SESSION_TOKEN: ${{ secrets.GH_SESSION_TOKEN }}
+
       - name: "Summarise Graphs"
         run: |
           tee -a "${GITHUB_STEP_SUMMARY}" << EOF
