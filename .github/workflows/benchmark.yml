@@ -1,9 +1,7 @@
 name: "Run Benchmarks"
 run-name: "Run Benchmarks"
+permissions: {}
 on: push
-
-permissions:
-  contents: write
 
 defaults:
   run:
@@ -146,24 +144,17 @@ jobs:
         env:
           URL: https://raw.githubusercontent.com/sharkdp/hyperfine/refs/heads/master/scripts/plot_whisker.py
 
-      - name: "Install GH Image"
-        run: gh extension install drogers0/gh-image
-
       - name: "Create Graph (main)"
         run: python3 plot_whisker.py benchmarks-main.json --output plot_whisker_main.png
 
       - name: "Upload Graph (main)"
-        run: gh image --repo "${GITHUB_REPOSITORY}" plot_whisker_main.png
-        env:
-          GH_SESSION_TOKEN: ${{ secrets.GH_SESSION_TOKEN }}
+        run: curl -X POST https://imagetourl.cloud/api/upload -F file=@plot_whisker_main.png
 
       - name: "Create Graph (${{ github.sha }})"
         run: python3 plot_whisker.py benchmarks-${{ github.sha }}.json --output plot_whisker_${{ github.sha }}.png
 
       - name: "Upload Graph (${{ github.sha }})"
-        run: gh image --repo "${GITHUB_REPOSITORY}" plot_whisker_${{ github.sha }}.png
-        env:
-          GH_SESSION_TOKEN: ${{ secrets.GH_SESSION_TOKEN }}
+        run: curl -X POST https://imagetourl.cloud/api/upload -F file=@plot_whisker_${{ github.sha }}.png
 
       - name: "Summarise Graphs"
         run: |
