@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for profile in ~/.config/profile.d/*.sh # zshellcheck disable=ZC1040
+for profile in "${XDG_CONFIG_HOME:-${HOME}/.config}/profile.d/"*.sh # zshellcheck disable=ZC1040
 do
 	if [ -r "${profile}" ]
 	then
