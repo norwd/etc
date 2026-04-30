@@ -5,7 +5,7 @@
 # shellcheck disable=SC3051 # (warning): In POSIX sh, 'source' in place of '.' is undefined.
 
 # Setup login shell
-source ~/.config/profile
+source "${XDG_CONFIG_HOME:-${HOME}/.config}/profile"
 
 # Setup zsh specific sub-configs
 for _zshrc_path in "${XDG_CONFIG_HOME:-${HOME}/.config}/zsh/"*.zsh
