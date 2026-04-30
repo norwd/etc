@@ -154,12 +154,27 @@ jobs:
       - name: "Create Graph (Box and Whisker)"
         run: python3 plot_whisker.py benchmarks-merged.json --output plot_whisker.png
 
+      - name: "Create Graph (Comparison)"
+        run: python3 plot_benchmark_comparison.py benchmarks-merged.json --output plot_benchmark_comparison.png
+
+      - name: "Create Graph (Histogram)"
+        run: python3 plot_histogram.py benchmarks-merged.json --output plot_histogram.png
+
+      - name: "Create Graph (Progression)"
+        run: python3 plot_progression.py benchmarks-merged.json --output plot_progression.png
+
       - name: "Summarise Graphs"
         run: |
           tee -a "${GITHUB_STEP_SUMMARY}" << EOF
           ## Comparison
 
           ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_whisker.png))
+
+          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_benchmark_comparison.png))
+
+          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_histogram.png))
+
+          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_progression.png))
           EOF
 
       - name: "Validate Benchmarks"
