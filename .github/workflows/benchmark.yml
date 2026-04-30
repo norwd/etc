@@ -18,9 +18,9 @@ env:
     --time-unit millisecond
     --export-json benchmarks.json
     --shell 'zsh'
-    --command-name 'Source Zshrc'           'source .zshrc'
-    --command-name 'Source Zsh Profile'     'source .zprofile'
-    --command-name 'Source Login Profile'   'source .config/profile'
+    --command-name 'Source Zshrc'           'source ./.zshrc'
+    --command-name 'Source Zsh Profile'     'source ./.zprofile'
+    --command-name 'Source Login Profile'   'source ./.config/profile'
     --command-name 'Startup and Exit Zsh'   'ZDOTDIR='.' zsh -i -l -c exit'
 
 jobs:
