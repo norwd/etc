@@ -46,7 +46,7 @@ jobs:
           hyperfine
           --style color
           --warmup ${{ case(matrix.is_warmup, 1, 5) }}
-          --min-runs ${{ case(matrix.is_warmup, 1, 5) }}
+          --min-runs ${{ case(matrix.is_warmup, 1, 50) }}
           --max-runs ${{ case(matrix.is_warmup, 10, 100) }}
           --time-unit millisecond
           --export-json benchmarks-${{ matrix.ref }}.json
