@@ -1,16 +1,16 @@
 #!/bin/sh
 
 # Where user-specific configurations should be written (analogous to /etc).
-export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
 
 # Where user-specific non-essential (cached) data should be written (analogous to /var/cache).
-export XDG_CACHE_HOME="${HOME}/.cache"
+export XDG_CACHE_HOME="${XDG_CONFIG_HOME:-${HOME}/.cache}"
 
 # Where user-specific data files should be written (analogous to /usr/share).
-export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_DATA_HOME="${XDG_CONFIG_HOME:-${HOME}/.local/share}"
 
 # Where user-specific state files should be written (analogous to /var/lib).
-export XDG_STATE_HOME="${HOME}/.local/state"
+export XDG_STATE_HOME="${XDG_CONFIG_HOME:-${HOME}/.local/state}"
 
 # Hack XDG support where not already automatic
 # See also: https://wiki.archlinux.org/title/XDG_Base_Directory
