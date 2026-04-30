@@ -15,13 +15,14 @@ env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   HYPERFINE_COMMAND: >-
     hyperfine
+    --style color
     --warmup 100
-    --min-runs 100
-    --max-runs 100
+    --min-runs 10
+    --max-runs 10
+    --cleanup 'sleep 10'
     --time-unit millisecond
     --export-json benchmarks.json
     --shell 'zsh'
-    --show-output
     --command-name 'Source Zshrc'           "source .zshrc"
     --command-name 'Source Login Profile'   "source .config/profile"
     --command-name 'Source Completion'      "source .config/zsh/010-completion.zsh"
