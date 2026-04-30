@@ -61,11 +61,15 @@ jobs:
 
       - name: "Run Benchmarks - Reference"
         working-directory: old
-        run: ${{ env.HYPERFINE_COMMAND }}
+        run: |
+          ls -laR
+          ${{ env.HYPERFINE_COMMAND }}
 
       - name: "Run Benchmarks - Current Changes"
         working-directory: new
-        run: ${{ env.HYPERFINE_COMMAND }}
+        run: |
+          ls -laR
+          ${{ env.HYPERFINE_COMMAND }}
 
       - name: "Merge Benchmarks"
         run: jq --slurp "${JQ_QUERY}" "${OLD_FILE}" "${NEW_FILE}" | tee -a benchmarks-merged.json
