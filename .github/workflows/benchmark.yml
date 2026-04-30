@@ -11,7 +11,6 @@ env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   HYPERFINE_COMMAND: >-
     hyperfine
-    --style color
     --warmup 5
     --min-runs 50
     --max-runs 100
