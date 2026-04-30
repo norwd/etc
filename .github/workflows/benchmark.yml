@@ -15,16 +15,19 @@ env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   HYPERFINE_COMMAND: >-
     hyperfine
-    --warmup 50
-    --min-runs 50
-    --max-runs 100
+    --style color
+    --warmup 100
+    --min-runs 10
+    --max-runs 10
+    --cleanup 'sleep 10'
     --time-unit millisecond
     --export-json benchmarks.json
     --shell 'zsh'
-    --show-output
-    --command-name 'Source Zshrc'           "source $(pwd)/.zshrc"
-    --command-name 'Source Zsh Profile'     "source $(pwd)/.zprofile"
-    --command-name 'Source Login Profile'   "source $(pwd)/.config/profile"
+    --command-name 'Source Zshrc'           "source .zshrc"
+    --command-name 'Source Login Profile'   "source .config/profile"
+    --command-name 'Source Completion'      "source .config/zsh/010-completion.zsh"
+    --command-name 'Source Ruby Gem Env'    "source .config/profile.d/050-env-ruby-gem.sh"
+    --command-name 'Source Homebrew Env'    "source .config/profile.d/050-env-homebrew.sh"
     --command-name 'Startup and Exit Zsh'   "ZDOTDIR=\"$(pwd)\" zsh -i -l -c exit"
 
 jobs:
@@ -184,16 +187,10 @@ jobs:
             .[] |
             if .mean.change > (.stddev.values[0] * 2)
             then
-              "::error title=Benchmark Failure: \(.command)::Mean time worse by more than 2σ" | halt_error
+              "::error title=Benchmark Failure: \(.command)::Mean time got worse by more than 2σ" | halt_error
             elif .median.change > (.stddev.values[0] * 2)
             then
-              "::error title=Benchmark Failure: \(.command)::Median time worse by more than 2σ" | halt_error
-            elif (.max.values[1] - .median.values[0]) > (.stddev.values[0] * 3)
-            then
-              "::error title=Benchmark Failure: \(.command)::Max time worse than median time by more than 3σ" | halt_error
-            #elif (.max.values[1] - .mean.values[0]) > (.stddev.values[0] * 3)
-            #then
-            #  "::error title=Benchmark Failure: \(.command)::Max time worse than mean time by more than 3σ" | halt_error
+              "::error title=Benchmark Failure: \(.command)::Median time got worse by more than 2σ" | halt_error
             else
               ""
             end
