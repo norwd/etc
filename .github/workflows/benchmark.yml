@@ -13,17 +13,16 @@ env:
 jobs:
 
   benchmarks:
-    name: "Run Benchmarks"
+    name: "${{ case(matrix.is_warmup, 'Warm Up', 'Run') }} Benchmarks"
     runs-on: macos-latest
     strategy:
       max-parallel: 1
       matrix:
-        is_warmup:
-          - true
-          - false
-        ref:
-          - main
-          - ${{ github.sha }}
+        ref: [main]
+        is_warmup: [true]
+        include:
+          - { is_warmup: false, ref: 'main'              }
+          - { is_warmup: false, ref: '${{ github.sha }}' }
 
     steps:
 
@@ -41,7 +40,7 @@ jobs:
       - name: "Install Hyperfine"
         run: brew install hyperfine
 
-      - name: "Run Benchmarks"
+      - name: "${{ case(matrix.is_warmup, 'Warm Up', 'Run') }} Benchmarks"
         run: >-
           hyperfine
           --style color
