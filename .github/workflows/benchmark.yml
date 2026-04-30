@@ -13,7 +13,7 @@ env:
 jobs:
 
   benchmarks:
-    name: "${{ case(matrix.is_warmup, 'Warm Up', 'Run') }} Benchmarks"
+    name: "${{ case(matrix.is_warmup, 'Warm Up', 'Run') }} Benchmarks (${{ matrix.ref }})"
     runs-on: macos-latest
     strategy:
       max-parallel: 1
