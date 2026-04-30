@@ -22,9 +22,15 @@ env:
     --export-json benchmarks.json
     --shell 'zsh'
     --show-output
-    --command-name 'Source Zshrc'           "source $(pwd)/.zshrc"
-    --command-name 'Source Zsh Profile'     "source $(pwd)/.zprofile"
-    --command-name 'Source Login Profile'   "source $(pwd)/.config/profile"
+    --command-name 'Source Zshrc'           "source .zshrc"
+    --command-name 'Source Zsh Profile'     "source .zprofile"
+    --command-name 'Source Login Profile'   "source .config/profile"
+    --command-name 'Source AutoSuggestions' "source .config/zsh/010-autosuggestions.zsh"
+    --command-name 'Source Completion'      "source .config/zsh/010-completion.zsh"
+    --command-name 'Source GPG TTY'         "source .config/zsh/090-gpg-tty.zsh"
+    --command-name 'Source Ruby Gem Env'    "source .config/profile.d/050-env-ruby-gem.sh"
+    --command-name 'Source Homebrew Env'    "source .config/profile.d/050-env-homebrew.sh"
+    --command-name 'Source Alias Setup'     "source .config/profile.d/100-aliases.sh"
     --command-name 'Startup and Exit Zsh'   "ZDOTDIR=\"$(pwd)\" zsh -i -l -c exit"
 
 jobs:
@@ -184,16 +190,13 @@ jobs:
             .[] |
             if .mean.change > (.stddev.values[0] * 2)
             then
-              "::error title=Benchmark Failure: \(.command)::Mean time worse by more than 2σ" | halt_error
+              "::error title=Benchmark Failure: \(.command)::Mean time got worse by more than 2σ" | halt_error
             elif .median.change > (.stddev.values[0] * 2)
             then
-              "::error title=Benchmark Failure: \(.command)::Median time worse by more than 2σ" | halt_error
-            elif (.max.values[1] - .median.values[0]) > (.stddev.values[0] * 3)
+              "::error title=Benchmark Failure: \(.command)::Median time got worse by more than 2σ" | halt_error
+            elif .max.change > (.stddev.values[0] * 3)
             then
-              "::error title=Benchmark Failure: \(.command)::Max time worse than median time by more than 3σ" | halt_error
-            #elif (.max.values[1] - .mean.values[0]) > (.stddev.values[0] * 3)
-            #then
-            #  "::error title=Benchmark Failure: \(.command)::Max time worse than mean time by more than 3σ" | halt_error
+              "::error title=Benchmark Failure: \(.command)::Max time got worse by more than 3σ" | halt_error
             else
               ""
             end
