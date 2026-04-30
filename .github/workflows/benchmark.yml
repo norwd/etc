@@ -62,10 +62,22 @@ jobs:
       - name: "Run Benchmarks - Reference"
         working-directory: old
         run: ${{ env.HYPERFINE_COMMAND }}
+        env:
+          XDG_CONFIG_HOME: ${{ github.workspace }}/old/.config
+          XDG_CACHE_HOME: ${{ github.workspace }}/old/.cache
+          XDG_DATA_HOME: ${{ github.workspace }}/old/.local/share
+          XDG_STATE_HOME: ${{ github.workspace }}/old/.local/state
+          XDG_BIN_HOME: ${{ github.workspace }}/old/.local/bin
 
       - name: "Run Benchmarks - Current Changes"
         working-directory: new
         run: ${{ env.HYPERFINE_COMMAND }}
+        env:
+          XDG_CONFIG_HOME: ${{ github.workspace }}/new/.config
+          XDG_CACHE_HOME: ${{ github.workspace }}/new/.cache
+          XDG_DATA_HOME: ${{ github.workspace }}/new/.local/share
+          XDG_STATE_HOME: ${{ github.workspace }}/new/.local/state
+          XDG_BIN_HOME: ${{ github.workspace }}/new/.local/bin
 
       - name: "Merge Benchmarks"
         run: jq --slurp "${JQ_QUERY}" "${OLD_FILE}" "${NEW_FILE}" | tee -a benchmarks-merged.json
@@ -165,6 +177,7 @@ jobs:
             end
 
   benchmarks:
+    if: false
     name: "${{ case(matrix.is_warmup, 'Warm Up', 'Run') }} Benchmarks (${{ matrix.ref }})"
     runs-on: macos-latest
     strategy:
