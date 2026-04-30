@@ -15,8 +15,8 @@ env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   HYPERFINE_COMMAND: >-
     hyperfine
-    --warmup 50
-    --min-runs 50
+    --warmup 100
+    --min-runs 100
     --max-runs 100
     --time-unit millisecond
     --export-json benchmarks.json
@@ -25,7 +25,6 @@ env:
     --command-name 'Source Zshrc'           "source .zshrc"
     --command-name 'Source Login Profile'   "source .config/profile"
     --command-name 'Source Completion'      "source .config/zsh/010-completion.zsh"
-    --command-name 'Source GPG TTY'         "source .config/zsh/090-gpg-tty.zsh"
     --command-name 'Source Ruby Gem Env'    "source .config/profile.d/050-env-ruby-gem.sh"
     --command-name 'Source Homebrew Env'    "source .config/profile.d/050-env-homebrew.sh"
     --command-name 'Startup and Exit Zsh'   "ZDOTDIR=\"$(pwd)\" zsh -i -l -c exit"
