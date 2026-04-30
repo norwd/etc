@@ -18,6 +18,7 @@ env:
     --time-unit millisecond
     --export-json benchmarks.json
     --shell 'zsh'
+    --show-output
     --command-name 'Source Zshrc'           "source $(pwd)/.zshrc"
     --command-name 'Source Zsh Profile'     "source $(pwd)/.zprofile"
     --command-name 'Source Login Profile'   "source $(pwd)/.config/profile"
