@@ -1,7 +1,16 @@
 name: "Run Benchmarks"
 run-name: "Run Benchmarks"
 permissions: {}
-on: push
+
+on:
+  push:
+  workflow_call:
+    inputs:
+      retry_count:
+        type: number
+        default: 2
+        required: false
+        description: How many retries could be attempted
 
 defaults:
   run:
@@ -180,7 +189,8 @@ jobs:
           ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_progression.png))
           EOF
 
-      - name: "Validate Benchmarks"
+      - id: validate
+        name: "Validate Benchmarks"
         run: jq --raw-output "${JQ_QUERY}" benchmarks.json
         env:
           JQ_QUERY: |
@@ -194,3 +204,13 @@ jobs:
             else
               ""
             end
+
+      - id: retry
+        if: failure() && steps.validate.outcome == 'failure' && inputs.retry_count > 0
+        name: "Retry Benchmarks"
+        run: echo "${INPUTS}" | jq "${JQ_QUERY}" | gh --repo "${REPO}" workflow run "${WORKFLOW}" --json | tee -a "${GITHUB_STEP_SUMMARY}"
+        env:
+          WORKFLOW: benchmark.yml # ${{ github.workflow }}
+          INPUTS: ${{ toJson(inputs) }}
+          REPO: ${{ github.repository }}
+          JQ_QUERY: '.retry_count = ((.retry_count | tostring | tonumber) - 1 | tostring)'
