@@ -206,11 +206,11 @@ jobs:
             end
 
       - id: retry
-        if: failure() && steps.validate.outcome == 'failure' && inputs.retry_count > 0
+        if: failure() && steps.validate.outcome == 'failure' && case(inputs != null, inputs.retry_count > 0, true)
         name: "Retry Benchmarks"
         run: echo "${INPUTS}" | jq "${JQ_QUERY}" | gh --repo "${REPO}" workflow run "${WORKFLOW}" --json | tee -a "${GITHUB_STEP_SUMMARY}"
         env:
           WORKFLOW: benchmark.yml # ${{ github.workflow }}
-          INPUTS: ${{ toJson(inputs) }}
+          INPUTS: ${{ toJson(inputs || fromJson('{}')) }}
           REPO: ${{ github.repository }}
-          JQ_QUERY: '.retry_count = ((.retry_count | tostring | tonumber) - 1 | tostring)'
+          JQ_QUERY: '.retry_count = (try (.retry_count | tostring | tonumber) - 1 | tostring) catch empty end'
