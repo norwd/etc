@@ -206,7 +206,7 @@ jobs:
             end
 
       - id: retry
-        if: failure() && steps.validate.outcome == 'failure' && case(inputs != null, inputs.retry_count > 0, true)
+        if: failure() && steps.validate.outcome == 'failure'
         name: "Retry Benchmarks"
         run: echo "${INPUTS}" | jq "${JQ_QUERY}" | gh --repo "${REPO}" workflow run "${WORKFLOW}" --json | tee -a "${GITHUB_STEP_SUMMARY}"
         env:
