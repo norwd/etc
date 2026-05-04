@@ -213,4 +213,4 @@ jobs:
           WORKFLOW: benchmark.yml # ${{ github.workflow }}
           INPUTS: ${{ toJson(inputs || fromJson('{}')) }}
           REPO: ${{ github.repository }}
-          JQ_QUERY: '.retry_count = (try (.retry_count | tostring | tonumber) - 1 | tostring) catch empty end'
+          JQ_QUERY: '.retry_count = (try (.retry_count | tostring | tonumber) - 1 | tostring catch empty end)'
