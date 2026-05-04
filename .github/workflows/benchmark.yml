@@ -10,7 +10,7 @@ on:
     inputs:
       retry_count:
         type: number
-        default: 2
+        default: 3
         required: false
         description: How many retries could be attempted
 
@@ -210,7 +210,7 @@ jobs:
       - id: retry
         if: failure() && steps.validate.outcome == 'failure'
         name: "Retry Benchmarks"
-        run: echo "${INPUTS}" | jq "${JQ_QUERY}" | gh --repo "${REPO}" workflow run "${WORKFLOW}" --json | tee -a "${GITHUB_STEP_SUMMARY}"
+        run: echo "${INPUTS}" | jq "${JQ_QUERY}" | gh --repo "${REPO}" workflow run "${WORKFLOW}" --ref "${GITHUB_REF}" --json | tee -a "${GITHUB_STEP_SUMMARY}"
         env:
           WORKFLOW: benchmark.yml # ${{ github.workflow }}
           INPUTS: ${{ toJson(inputs || fromJson('{}')) }}
