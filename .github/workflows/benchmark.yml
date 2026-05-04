@@ -1,6 +1,8 @@
 name: "Run Benchmarks"
 run-name: "Run Benchmarks"
-permissions: {}
+
+permissions:
+  actions: write
 
 on:
   push:
