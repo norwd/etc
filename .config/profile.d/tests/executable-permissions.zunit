@@ -1,7 +1,10 @@
 #!/usr/bin/env zunit
 
 @test 'Test profile.d/*.sh is executable' {
-  load ~/.config/profile
-
-  find "${XDG_CONFIG_HOME}/profile.d" -name '*.sh' | xargs -IFILE assert FILE is_executable
+	load ~/.config/profile
+	
+	for script in ${(f)$(find "${XDG_CONFIG_HOME}/profile.d" -name '*.sh')}
+	do
+		assert "${script}" is_executable
+	done
 }
