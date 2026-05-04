@@ -6,7 +6,7 @@ permissions:
 
 on:
   push:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       retry_count:
         type: number
