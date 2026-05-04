@@ -4,7 +4,6 @@ permissions: {}
 
 on:
   push:
-  workflow_dispatch:
 
 defaults:
   run:
@@ -35,7 +34,7 @@ env:
 
 jobs:
 
-  benchmarks-new:
+  benchmarks:
     name: "Run Benchmarks"
     runs-on: macos-latest
     steps:
