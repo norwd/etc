@@ -1,0 +1,10 @@
+#!/usr/bin/env zunit
+
+@test 'Test profile.d/*.sh is executable' {
+	load ~/.config/profile
+
+	for profile in "${XDG_CONFIG_HOME:-${HOME}/.config}/profile.d/"*.sh # zshellcheck disable=ZC1040
+	do
+		assert "${profile}" is_executable
+	done
+}
