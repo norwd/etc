@@ -1,0 +1,75 @@
+---
+
+name: "AutoFix Known Issues"
+run-name: "AutoFix Known Issues"
+
+on:
+  push:
+    branches-ignore: main
+
+concurrency:
+  group: ${{ github.workflow_ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+
+  autofix:
+    name: "${{ matrix.name }}"
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        include:
+
+          - name: "AutoFix Executable Bit in Shell Scripts"
+            command: |
+              find . -name '*.sh' -exec chmod +x {} \;
+              find . -name '*.profile' -exec chmod +x {} \;
+
+          - name: "AutoFix Executable Bit in Ksh Scripts"
+            command: |
+              find . -name '*.ksh' -exec chmod +x {} \;
+
+          - name: "AutoFix Executable Bit in Bash Scripts"
+            command: |
+              find . -name '*.bash' -exec chmod +x {} \;
+              find . -name '*.bash_profile' -exec chmod +x {} \;
+              find . -name '*.bash_logout' -exec chmod +x {} \;
+              find . -name '*.bashrc' -exec chmod +x {} \;
+              find . -name '*.bash_login' -exec chmod +x {} \;
+
+          - name: "AutoFix Executable Bit in Zsh Scripts"
+            command: |
+              find . -name '*.zsh' -exec chmod +x {} \;
+              find . -name '*.zshenv' -exec chmod +x {} \;
+              find . -name '*.zprofile' -exec chmod +x {} \;
+              find . -name '*.zshrc' -exec chmod +x {} \;
+              find . -name '*.zlogin' -exec chmod +x {} \;
+              find . -name '*.zlogout' -exec chmod +x {} \;
+
+          - name: "AutoFix Executable Bit in Zsh Tests"
+            command: |
+              find . -name '*.zunit' -exec chmod +x {} \;
+
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "${{ matrix.name }}"
+        run: ${{ matrix.command }}
+
+      - name: "Push"
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_options: '--no-verify --signoff'
+          commit_message: |
+            ${{ matrix.name }}
+
+            This is an automated commit, see `${{ github.workflow_ref }}`.
