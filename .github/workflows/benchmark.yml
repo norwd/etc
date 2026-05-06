@@ -38,12 +38,12 @@ jobs:
     name: "Run Benchmarks"
     runs-on: macos-latest    
     env:
-      ZDOTDIR: ${{ github.workspace }}/etc/
-      XDG_CONFIG_HOME: ${{ github.workspace }}/etc/.config/
-      XDG_CACHE_HOME: ${{ github.workspace }}/etc/.cache/
-      XDG_DATA_HOME: ${{ github.workspace }}/etc/.local/share/
-      XDG_STATE_HOME: ${{ github.workspace }}/etc/.local/state/
-      XDG_BIN_HOME: ${{ github.workspace }}/etc/.local/bin/
+      ZDOTDIR: ${{ github.workspace }}/
+      XDG_CONFIG_HOME: ${{ github.workspace }}/.config/
+      XDG_CACHE_HOME: ${{ github.workspace }}/.cache/
+      XDG_DATA_HOME: ${{ github.workspace }}/.local/share/
+      XDG_STATE_HOME: ${{ github.workspace }}/.local/state/
+      XDG_BIN_HOME: ${{ github.workspace }}/.local/bin/
 
     steps:
 
