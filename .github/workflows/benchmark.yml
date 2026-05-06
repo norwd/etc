@@ -15,17 +15,6 @@ concurrency:
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  HYPERFINE_COMMAND: >-
-    hyperfine
-    --style color
-    --warmup 100
-    --min-runs 10
-    --max-runs 10
-    --cleanup 'sleep 10'
-    --time-unit millisecond
-    --export-json benchmarks.json
-    --shell 'zsh'
-    --command-name "${BENCHMARK_NAME}" "${BENCHMARK_COMMAND}"
 
 jobs:
 
@@ -63,6 +52,16 @@ jobs:
     env:
       BENCHMARK_NAME: ${{ matrix.name }}
       BENCHMARK_COMMAND: ${{ matrix.command }}
+      HYPERFINE_COMMAND: >-
+        hyperfine
+        --warmup 100
+        --min-runs 10
+        --max-runs 10
+        --cleanup 'sleep 10'
+        --time-unit millisecond
+        --export-json benchmarks.json
+        --shell 'zsh'
+        --command-name "${BENCHMARK_NAME}" "${BENCHMARK_COMMAND}"
 
     steps:
 
@@ -97,7 +96,7 @@ jobs:
 
       - name: "Run Benchmarks - Reference"
         working-directory: old
-        run: ${{ env.HYPERFINE_COMMAND }}
+        run: ${{ env.HYPERFINE_COMMAND }} ${{ case(runner.debug == '1', '--show-output', '--style color') }}
         env:
           ZDOTDIR: ${{ github.workspace }}/old/
           XDG_CONFIG_HOME: ${{ github.workspace }}/old/.config/
@@ -108,7 +107,7 @@ jobs:
 
       - name: "Run Benchmarks - Current Changes"
         working-directory: new
-        run: ${{ env.HYPERFINE_COMMAND }}
+        run: ${{ env.HYPERFINE_COMMAND }} ${{ case(runner.debug == '1', '--show-output', '--style color') }}
         env:
           ZDOTDIR: ${{ github.workspace }}/new/
           XDG_CONFIG_HOME: ${{ github.workspace }}/new/.config/
@@ -209,11 +208,6 @@ jobs:
           <img src="$(curl -X POST https://x0.at -F file=@plot_histogram.png)" alt="plot_histogram.png" width="1000"/>
 
           <img src="$(curl -X POST https://x0.at -F file=@plot_progression.png)" alt="plot_progression.png" width="1000"/>
-
-          <!-- ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_whisker.png)) -->
-          <!-- ![plot_benchmark_comparison.png]($(curl -X POST https://x0.at -F file=@plot_benchmark_comparison.png)) -->
-          <!-- ![plot_histogram.png]($(curl -X POST https://x0.at -F file=@plot_histogram.png)) -->
-          <!-- ![plot_progression.png]($(curl -X POST https://x0.at -F file=@plot_progression.png)) -->
           EOF
 
       - name: "Validate Benchmarks"
