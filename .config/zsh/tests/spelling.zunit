@@ -1,28 +1,19 @@
 #!/usr/bin/env zunit
 
 @test 'Test CORRECT option' {
-	load "${HOME}/.zshenv" # ZDOTDIR is set here
-	load "${ZDOTDIR:-${HOME}}/.zprofile"
-	load "${ZDOTDIR:-${HOME}}/.zshrc"
-	load "${ZDOTDIR:-${HOME}}/.zlogin"
+	load "~/.config/zsh/zshrc.d/010-spelling.zsh"
 
 	assert "${options[correct]}" same_as "on"
 }
 
 @test 'Test CORRECT_ALL option' {
-	load "${HOME}/.zshenv" # ZDOTDIR is set here
-	load "${ZDOTDIR:-${HOME}}/.zprofile"
-	load "${ZDOTDIR:-${HOME}}/.zshrc"
-	load "${ZDOTDIR:-${HOME}}/.zlogin"
+	load "~/.config/zsh/zshrc.d/010-spelling.zsh"
 
 	assert "${options[correct_all]}" same_as "on"
 }
 
 @test 'Test DVORAK option' {
-	load "${HOME}/.zshenv" # ZDOTDIR is set here
-	load "${ZDOTDIR:-${HOME}}/.zprofile"
-	load "${ZDOTDIR:-${HOME}}/.zshrc"
-	load "${ZDOTDIR:-${HOME}}/.zlogin"
+	load "~/.config/zsh/zshrc.d/010-spelling.zsh"
 
 	assert "${options[dvorak]}" same_as "on"
 }
