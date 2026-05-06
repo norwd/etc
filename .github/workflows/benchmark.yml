@@ -202,13 +202,18 @@ jobs:
           tee -a "${GITHUB_STEP_SUMMARY}" << EOF
           ## Comparison
 
-          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_whisker.png))
+          <img src="plot_whisker.png" alt="plot_whisker.png" width="200"/>
 
-          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_benchmark_comparison.png))
+          <img src="plot_benchmark_comparison.png" alt="plot_benchmark_comparison.png" width="200"/>
 
-          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_histogram.png))
+          <img src="plot_histogram.png" alt="plot_histogram.png" width="200"/>
 
-          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_progression.png))
+          <img src="plot_progression.png" alt="plot_progression.png" width="200"/>
+
+          <!-- ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_whisker.png)) -->
+          <!-- ![plot_benchmark_comparison.png]($(curl -X POST https://x0.at -F file=@plot_benchmark_comparison.png)) -->
+          <!-- ![plot_histogram.png]($(curl -X POST https://x0.at -F file=@plot_histogram.png)) -->
+          <!-- ![plot_progression.png]($(curl -X POST https://x0.at -F file=@plot_progression.png)) -->
           EOF
 
       - name: "Validate Benchmarks"
