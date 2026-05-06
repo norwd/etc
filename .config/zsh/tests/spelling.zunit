@@ -1,0 +1,13 @@
+#!/usr/bin/env zunit
+
+@test 'Test CORRECT option' {
+	assert "${options[correct]}" same_as "on"
+}
+
+@test 'Test CORRECT_ALL option' {
+	assert "${options[correct_all]}" same_as "on"
+}
+
+@test 'Test DVORAK option' {
+	assert "${options[dvorak]}" same_as "on"
+}
