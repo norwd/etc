@@ -60,7 +60,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           ref: ${{ github.ref_name }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.AUTO_PUSH_ETC }}
 
       - name: "${{ matrix.name }}"
         run: ${{ matrix.command }}
@@ -68,7 +68,6 @@ jobs:
       - name: "Push"
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
-          commit_options: '--no-verify --signoff'
           commit_message: |
             ${{ matrix.name }}
 
