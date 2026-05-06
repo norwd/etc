@@ -25,18 +25,45 @@ env:
     --time-unit millisecond
     --export-json benchmarks.json
     --shell 'zsh'
-    --command-name 'Source Zshrc'           "source .zshrc"
-    --command-name 'Source Login Profile'   "source .config/profile"
-    --command-name 'Source Completion'      "source .config/zsh/010-completion.zsh"
-    --command-name 'Source Ruby Gem Env'    "source .config/profile.d/050-env-ruby-gem.sh"
-    --command-name 'Source Homebrew Env'    "source .config/profile.d/050-env-homebrew.sh"
-    --command-name 'Startup and Exit Zsh'   "ZDOTDIR=\"$(pwd)\" zsh -i -l -c exit"
+    --command-name "${HYPERFINE_NAME}" "${HYPERFINE_COMMAND}"
 
 jobs:
 
   benchmarks:
     name: "Run Benchmarks"
     runs-on: macos-latest
+    strategy:
+      matrix:
+        include:
+
+          - name: "Source Zshrc"
+            command: |
+              source .zshrc
+
+          - name: "Source Login Profile"
+            command: |
+              source .config/profile
+
+          - name: "Source Completion"
+            command: |
+              source .config/zsh/010-completion.zsh
+
+          - name: "Source Ruby Gem Env"
+            command: |
+              source .config/profile.d/050-env-ruby-gem.sh
+
+          - name: "Source Homebrew Env"
+            command: |
+              source .config/profile.d/050-env-homebrew.sh
+
+          - name: "Startup and Exit Zsh"
+            command: |
+              ZDOTDIR="$(pwd)" zsh -i -l -c exit
+
+    env:
+      HYPERFINE_NAME: ${{ matrix.name }}
+      HYPERFINE_COMMAND: ${{ matrix.command }}
+
     steps:
 
       - name: "Install Hyperfine"
@@ -72,21 +99,23 @@ jobs:
         working-directory: old
         run: ${{ env.HYPERFINE_COMMAND }}
         env:
-          XDG_CONFIG_HOME: ${{ github.workspace }}/old/.config
-          XDG_CACHE_HOME: ${{ github.workspace }}/old/.cache
-          XDG_DATA_HOME: ${{ github.workspace }}/old/.local/share
-          XDG_STATE_HOME: ${{ github.workspace }}/old/.local/state
-          XDG_BIN_HOME: ${{ github.workspace }}/old/.local/bin
+          ZDOTDIR: ${{ github.workspace }}/old/
+          XDG_CONFIG_HOME: ${{ github.workspace }}/old/.config/
+          XDG_CACHE_HOME: ${{ github.workspace }}/old/.cache/
+          XDG_DATA_HOME: ${{ github.workspace }}/old/.local/share/
+          XDG_STATE_HOME: ${{ github.workspace }}/old/.local/state/
+          XDG_BIN_HOME: ${{ github.workspace }}/old/.local/bin/
 
       - name: "Run Benchmarks - Current Changes"
         working-directory: new
         run: ${{ env.HYPERFINE_COMMAND }}
         env:
-          XDG_CONFIG_HOME: ${{ github.workspace }}/new/.config
-          XDG_CACHE_HOME: ${{ github.workspace }}/new/.cache
-          XDG_DATA_HOME: ${{ github.workspace }}/new/.local/share
-          XDG_STATE_HOME: ${{ github.workspace }}/new/.local/state
-          XDG_BIN_HOME: ${{ github.workspace }}/new/.local/bin
+          ZDOTDIR: ${{ github.workspace }}/new/
+          XDG_CONFIG_HOME: ${{ github.workspace }}/new/.config/
+          XDG_CACHE_HOME: ${{ github.workspace }}/new/.cache/
+          XDG_DATA_HOME: ${{ github.workspace }}/new/.local/share/
+          XDG_STATE_HOME: ${{ github.workspace }}/new/.local/state/
+          XDG_BIN_HOME: ${{ github.workspace }}/new/.local/bin/
 
       - name: "Merge Benchmarks"
         run: jq --slurp "${JQ_QUERY}" "${OLD_FILE}" "${NEW_FILE}" | tee -a benchmarks-merged.json
