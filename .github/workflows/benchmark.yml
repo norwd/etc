@@ -36,17 +36,21 @@ jobs:
 
   benchmarks-new:
     name: "Run Benchmarks"
-    runs-on: macos-latest
+    runs-on: macos-latest    
+    env:
+      ZDOTDIR: ${{ github.workspace }}/etc/
+      XDG_CONFIG_HOME: ${{ github.workspace }}/etc/.config/
+      XDG_CACHE_HOME: ${{ github.workspace }}/etc/.cache/
+      XDG_DATA_HOME: ${{ github.workspace }}/etc/.local/share/
+      XDG_STATE_HOME: ${{ github.workspace }}/etc/.local/state/
+      XDG_BIN_HOME: ${{ github.workspace }}/etc/.local/bin/
+
     steps:
 
-      - name: "Clone"
-        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
-
-      - name: "Configure"
-        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
-
       - name: "Checkout"
-        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force "${GITHUB_REF}"
+        uses: actions/checkout@v6
+        with:
+          path: etc
 
       - name: "Create Benchmarks"
         run: |
@@ -68,6 +72,7 @@ jobs:
           benchmark-config: 'hyperfine.json'
 
   benchmarks:
+    if: false
     name: "Run Benchmarks"
     runs-on: macos-latest
     steps:
