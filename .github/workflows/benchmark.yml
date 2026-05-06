@@ -25,12 +25,12 @@ env:
     --time-unit millisecond
     --export-json benchmarks.json
     --shell 'zsh'
-    --command-name "${HYPERFINE_NAME}" "${HYPERFINE_COMMAND}"
+    --command-name "${BENCHMARK_NAME}" "${BENCHMARK_COMMAND}"
 
 jobs:
 
   benchmarks:
-    name: "Run Benchmarks"
+    name: "Run Benchmark - ${{ matrix.name }}"
     runs-on: macos-latest
     strategy:
       matrix:
@@ -61,8 +61,8 @@ jobs:
               ZDOTDIR="$(pwd)" zsh -i -l -c exit
 
     env:
-      HYPERFINE_NAME: ${{ matrix.name }}
-      HYPERFINE_COMMAND: ${{ matrix.command }}
+      BENCHMARK_NAME: ${{ matrix.name }}
+      BENCHMARK_COMMAND: ${{ matrix.command }}
 
     steps:
 
