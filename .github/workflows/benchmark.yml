@@ -34,6 +34,39 @@ env:
 
 jobs:
 
+  benchmarks-new:
+    name: "Run Benchmarks"
+    runs-on: macos-latest
+    steps:
+
+      - name: "Clone"
+        run: git clone --bare ${{ github.server_url }}/${{ github.repository }} ~/etc
+
+      - name: "Configure"
+        run: git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+
+      - name: "Checkout"
+        run: git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout --force "${GITHUB_REF}"
+
+      - name: "Create Benchmarks"
+        run: |
+          tee hyperfine.json << EOF
+          [
+            { "name": "Source Zshrc",         "command": "source .zshrc" },
+            { "name": "Source Login Profile", "command": "source .config/profile" },
+            { "name": "Source Completion",    "command": "source .config/zsh/010-completion.zsh" },
+            { "name": "Source Ruby Gem Env",  "command": "source .config/profile.d/050-env-ruby-gem.sh" },
+            { "name": "Source Homebrew Env",  "command": "source .config/profile.d/050-env-homebrew.sh" },
+            { "name": "Startup and Exit Zsh", "command": "ZDOTDIR=\"$(pwd)\" zsh -i -l -c exit" }
+          ]
+          EOF
+
+      - name: "Run Benchmarks"
+        uses: blacha/hyperfine-action@v1
+        with:
+          master-branch: 'main'
+          benchmark-config: 'hyperfine.json'
+
   benchmarks:
     name: "Run Benchmarks"
     runs-on: macos-latest
