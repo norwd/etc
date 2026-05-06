@@ -4,3 +4,8 @@
 	assert "${ZDOTDIR}" is_dir
 	assert "${ZDOTDIR}" same_as "${XDG_CONFIG_HOME:-${HOME}/.config}/zsh/"
 }
+
+@test 'Test SHELL_SESSIONS_DISABLE' {
+	assert "${SHELL_SESSIONS_DISABLE}" equals 1
+	assert "${SHELL_SESSIONS_DISABLE}" same_as "1"
+}
