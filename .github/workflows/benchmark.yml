@@ -202,13 +202,13 @@ jobs:
           tee -a "${GITHUB_STEP_SUMMARY}" << EOF
           ## Comparison
 
-          <img src="$(curl -X POST https://x0.at -F file=@plot_whisker.png)" alt="plot_whisker.png" width="200"/>
+          <img src="$(curl -X POST https://x0.at -F file=@plot_whisker.png)" alt="plot_whisker.png" width="1000"/>
 
-          <img src="$(curl -X POST https://x0.at -F file=@plot_benchmark_comparison.png)" alt="plot_benchmark_comparison.png" width="200"/>
+          <img src="$(curl -X POST https://x0.at -F file=@plot_benchmark_comparison.png)" alt="plot_benchmark_comparison.png" width="1000"/>
 
-          <img src="$(curl -X POST https://x0.at -F file=@plot_histogram.png)" alt="plot_histogram.png" width="200"/>
+          <img src="$(curl -X POST https://x0.at -F file=@plot_histogram.png)" alt="plot_histogram.png" width="1000"/>
 
-          <img src="$(curl -X POST https://x0.at -F file=@plot_progression.png)" alt="plot_progression.png" width="200"/>
+          <img src="$(curl -X POST https://x0.at -F file=@plot_progression.png)" alt="plot_progression.png" width="1000"/>
 
           <!-- ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_whisker.png)) -->
           <!-- ![plot_benchmark_comparison.png]($(curl -X POST https://x0.at -F file=@plot_benchmark_comparison.png)) -->
