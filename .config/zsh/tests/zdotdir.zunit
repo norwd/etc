@@ -1,0 +1,6 @@
+#!/usr/bin/env zunit
+
+@test 'Test ZDOTDIR' {
+	assert "${ZDOTDIR}" is_dir
+	assert "${ZDOTDIR}" same_as "${XDG_CONFIG_HOME:-${HOME}/.config}/zsh/"
+}
