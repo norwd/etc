@@ -49,8 +49,6 @@ jobs:
 
       - name: "Checkout"
         uses: actions/checkout@v6
-        with:
-          path: etc
 
       - name: "Create Benchmarks"
         run: |
