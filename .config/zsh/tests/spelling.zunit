@@ -1,7 +1,7 @@
 #!/usr/bin/env zunit
 
 @test 'Test CORRECT option' {
-	load "${HOME}.zshenv" # ZDOTDIR is set here
+	load "${HOME}/.zshenv" # ZDOTDIR is set here
 	load "${ZDOTDIR:-${HOME}}/.zprofile"
 	load "${ZDOTDIR:-${HOME}}/.zshrc"
 	load "${ZDOTDIR:-${HOME}}/.zlogin"
@@ -10,7 +10,7 @@
 }
 
 @test 'Test CORRECT_ALL option' {
-	load "${HOME}.zshenv" # ZDOTDIR is set here
+	load "${HOME}/.zshenv" # ZDOTDIR is set here
 	load "${ZDOTDIR:-${HOME}}/.zprofile"
 	load "${ZDOTDIR:-${HOME}}/.zshrc"
 	load "${ZDOTDIR:-${HOME}}/.zlogin"
@@ -19,7 +19,7 @@
 }
 
 @test 'Test DVORAK option' {
-	load "${HOME}.zshenv" # ZDOTDIR is set here
+	load "${HOME}/.zshenv" # ZDOTDIR is set here
 	load "${ZDOTDIR:-${HOME}}/.zprofile"
 	load "${ZDOTDIR:-${HOME}}/.zshrc"
 	load "${ZDOTDIR:-${HOME}}/.zlogin"
