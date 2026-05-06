@@ -33,9 +33,9 @@ jobs:
             command: |
               source .config/profile
 
-          - name: "Source Completion"
-            command: |
-              source .config/zsh/010-completion.zsh
+          #- name: "Source Completion"
+          #  command: |
+          #    source .config/zsh/zshrc.d/010-completion.zsh
 
           - name: "Source Ruby Gem Env"
             command: |
