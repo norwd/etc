@@ -1,6 +1,5 @@
 #!/usr/bin/env zsh
 
-
 if ! functions command_not_found_handler >/dev/null && [[ -x "$(command -v pkgfile)" ]]
 then
 	# shellcheck source=/dev/null
