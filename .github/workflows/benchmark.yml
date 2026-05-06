@@ -25,18 +25,45 @@ env:
     --time-unit millisecond
     --export-json benchmarks.json
     --shell 'zsh'
-    --command-name 'Source Zshrc'           "source .zshrc"
-    --command-name 'Source Login Profile'   "source .config/profile"
-    --command-name 'Source Completion'      "source .config/zsh/010-completion.zsh"
-    --command-name 'Source Ruby Gem Env'    "source .config/profile.d/050-env-ruby-gem.sh"
-    --command-name 'Source Homebrew Env'    "source .config/profile.d/050-env-homebrew.sh"
-    --command-name 'Startup and Exit Zsh'   "ZDOTDIR=\"$(pwd)\" zsh -i -l -c exit"
+    --command-name "${BENCHMARK_NAME}" "${BENCHMARK_COMMAND}"
 
 jobs:
 
   benchmarks:
-    name: "Run Benchmarks"
+    name: "Run Benchmark - ${{ matrix.name }}"
     runs-on: macos-latest
+    strategy:
+      matrix:
+        include:
+
+          - name: "Source Zshrc"
+            command: |
+              source .zshrc
+
+          - name: "Source Login Profile"
+            command: |
+              source .config/profile
+
+          - name: "Source Completion"
+            command: |
+              source .config/zsh/010-completion.zsh
+
+          - name: "Source Ruby Gem Env"
+            command: |
+              source .config/profile.d/050-env-ruby-gem.sh
+
+          - name: "Source Homebrew Env"
+            command: |
+              source .config/profile.d/050-env-homebrew.sh
+
+          - name: "Startup and Exit Zsh"
+            command: |
+              ZDOTDIR="$(pwd)" zsh -i -l -c exit
+
+    env:
+      BENCHMARK_NAME: ${{ matrix.name }}
+      BENCHMARK_COMMAND: ${{ matrix.command }}
+
     steps:
 
       - name: "Install Hyperfine"
@@ -72,21 +99,23 @@ jobs:
         working-directory: old
         run: ${{ env.HYPERFINE_COMMAND }}
         env:
-          XDG_CONFIG_HOME: ${{ github.workspace }}/old/.config
-          XDG_CACHE_HOME: ${{ github.workspace }}/old/.cache
-          XDG_DATA_HOME: ${{ github.workspace }}/old/.local/share
-          XDG_STATE_HOME: ${{ github.workspace }}/old/.local/state
-          XDG_BIN_HOME: ${{ github.workspace }}/old/.local/bin
+          ZDOTDIR: ${{ github.workspace }}/old/
+          XDG_CONFIG_HOME: ${{ github.workspace }}/old/.config/
+          XDG_CACHE_HOME: ${{ github.workspace }}/old/.cache/
+          XDG_DATA_HOME: ${{ github.workspace }}/old/.local/share/
+          XDG_STATE_HOME: ${{ github.workspace }}/old/.local/state/
+          XDG_BIN_HOME: ${{ github.workspace }}/old/.local/bin/
 
       - name: "Run Benchmarks - Current Changes"
         working-directory: new
         run: ${{ env.HYPERFINE_COMMAND }}
         env:
-          XDG_CONFIG_HOME: ${{ github.workspace }}/new/.config
-          XDG_CACHE_HOME: ${{ github.workspace }}/new/.cache
-          XDG_DATA_HOME: ${{ github.workspace }}/new/.local/share
-          XDG_STATE_HOME: ${{ github.workspace }}/new/.local/state
-          XDG_BIN_HOME: ${{ github.workspace }}/new/.local/bin
+          ZDOTDIR: ${{ github.workspace }}/new/
+          XDG_CONFIG_HOME: ${{ github.workspace }}/new/.config/
+          XDG_CACHE_HOME: ${{ github.workspace }}/new/.cache/
+          XDG_DATA_HOME: ${{ github.workspace }}/new/.local/share/
+          XDG_STATE_HOME: ${{ github.workspace }}/new/.local/state/
+          XDG_BIN_HOME: ${{ github.workspace }}/new/.local/bin/
 
       - name: "Merge Benchmarks"
         run: jq --slurp "${JQ_QUERY}" "${OLD_FILE}" "${NEW_FILE}" | tee -a benchmarks-merged.json
@@ -173,13 +202,18 @@ jobs:
           tee -a "${GITHUB_STEP_SUMMARY}" << EOF
           ## Comparison
 
-          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_whisker.png))
+          <img src="$(curl -X POST https://x0.at -F file=@plot_whisker.png)" alt="plot_whisker.png" width="1000"/>
 
-          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_benchmark_comparison.png))
+          <img src="$(curl -X POST https://x0.at -F file=@plot_benchmark_comparison.png)" alt="plot_benchmark_comparison.png" width="1000"/>
 
-          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_histogram.png))
+          <img src="$(curl -X POST https://x0.at -F file=@plot_histogram.png)" alt="plot_histogram.png" width="1000"/>
 
-          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_progression.png))
+          <img src="$(curl -X POST https://x0.at -F file=@plot_progression.png)" alt="plot_progression.png" width="1000"/>
+
+          <!-- ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_whisker.png)) -->
+          <!-- ![plot_benchmark_comparison.png]($(curl -X POST https://x0.at -F file=@plot_benchmark_comparison.png)) -->
+          <!-- ![plot_histogram.png]($(curl -X POST https://x0.at -F file=@plot_histogram.png)) -->
+          <!-- ![plot_progression.png]($(curl -X POST https://x0.at -F file=@plot_progression.png)) -->
           EOF
 
       - name: "Validate Benchmarks"
