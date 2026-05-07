@@ -52,6 +52,7 @@ jobs:
     env:
       HYPERFINE_COMMAND: >-
         hyperfine
+        --show-output
         --warmup 100
         --min-runs 10
         --max-runs 10
