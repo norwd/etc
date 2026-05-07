@@ -50,8 +50,6 @@ jobs:
               ZDOTDIR="$(pwd)" zsh -i -l -c exit
 
     env:
-      BENCHMARK_NAME: ${{ matrix.name }}
-      BENCHMARK_COMMAND: ${{ matrix.command }}
       HYPERFINE_COMMAND: >-
         hyperfine
         --warmup 100
@@ -61,7 +59,7 @@ jobs:
         --time-unit millisecond
         --export-json benchmarks.json
         --shell 'zsh'
-        --command-name "${BENCHMARK_NAME}" "${BENCHMARK_COMMAND}"
+        --command-name "${{ matrix.name }}" "${{ matrix.command }}"
 
     steps:
 
@@ -82,7 +80,7 @@ jobs:
 
       - name: "Run Benchmarks - Reference"
         working-directory: old
-        run: ${{ env.HYPERFINE_COMMAND }} ${{ case(runner.debug == '1', '--show-output', '--style color') }}
+        run: ${{ env.HYPERFINE_COMMAND }}
         env:
           ZDOTDIR: ${{ github.workspace }}/old/
           XDG_CONFIG_HOME: ${{ github.workspace }}/old/.config/
@@ -93,7 +91,7 @@ jobs:
 
       - name: "Run Benchmarks - Current Changes"
         working-directory: new
-        run: ${{ env.HYPERFINE_COMMAND }} ${{ case(runner.debug == '1', '--show-output', '--style color') }}
+        run: ${{ env.HYPERFINE_COMMAND }}
         env:
           ZDOTDIR: ${{ github.workspace }}/new/
           XDG_CONFIG_HOME: ${{ github.workspace }}/new/.config/
