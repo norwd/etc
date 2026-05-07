@@ -8,10 +8,6 @@ on:
   push:
   schedule: [ cron: '33 9 * * 2' ]
 
-defaults:
-  run:
-    shell: zsh -i -l {0}
-
 jobs:
   zunit:
     name: "Run ZUnit"
