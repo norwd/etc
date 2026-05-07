@@ -25,9 +25,9 @@ jobs:
       matrix:
         include:
 
-          - name: "Source Zshrc"
-            command: |
-              source .zshrc
+          #- name: "Source Zshrc"
+          #  command: |
+          #    source .config/zsh/.zshrc
 
           - name: "Source Login Profile"
             command: |
