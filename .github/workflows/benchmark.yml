@@ -25,17 +25,17 @@ jobs:
       matrix:
         include:
 
-          #- name: "Source Zshrc"
-          #  command: |
-          #    source .config/zsh/.zshrc
+          - name: "Source Zshrc"
+            command: |
+              source .config/zsh/.zshrc
 
           - name: "Source Login Profile"
             command: |
               source .config/profile
 
-          #- name: "Source Completion"
-          #  command: |
-          #    source .config/zsh/zshrc.d/010-completion.zsh
+          - name: "Source Completion"
+            command: |
+              source .config/zsh/zshrc.d/010-completion.zsh
 
           - name: "Source Ruby Gem Env"
             command: |
@@ -52,7 +52,7 @@ jobs:
     env:
       HYPERFINE_COMMAND: >-
         hyperfine
-        --show-output
+        --style color
         --warmup 100
         --min-runs 10
         --max-runs 10
