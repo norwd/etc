@@ -6,6 +6,8 @@
 }
 
 @test 'Test SHELL_SESSIONS_DISABLE' {
+	load ~/.config/zsh/.zprofile
+
 	assert "${SHELL_SESSIONS_DISABLE}" equals 1
 	assert "${SHELL_SESSIONS_DISABLE}" same_as "1"
 }
