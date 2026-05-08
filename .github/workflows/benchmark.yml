@@ -1,7 +1,9 @@
 name: "Run Benchmarks"
 run-name: "Run Benchmarks"
 permissions: {}
-on: push
+
+on:
+  push:
 
 defaults:
   run:
@@ -13,43 +15,57 @@ concurrency:
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  HYPERFINE_COMMAND: >-
-    hyperfine
-    --warmup 50
-    --min-runs 50
-    --max-runs 100
-    --time-unit millisecond
-    --export-json benchmarks.json
-    --shell 'zsh'
-    --show-output
-    --command-name 'Source Zshrc'           "source $(pwd)/.zshrc"
-    --command-name 'Source Zsh Profile'     "source $(pwd)/.zprofile"
-    --command-name 'Source Login Profile'   "source $(pwd)/.config/profile"
-    --command-name 'Startup and Exit Zsh'   "ZDOTDIR=\"$(pwd)\" zsh -i -l -c exit"
 
 jobs:
 
-  benchmarks-new:
-    name: "Run Benchmarks"
+  benchmarks:
+    name: "Run Benchmark - ${{ matrix.name }}"
     runs-on: macos-latest
+    strategy:
+      matrix:
+        include:
+
+          - name: "Source Zshrc"
+            command: |
+              source .config/zsh/.zshrc
+
+          - name: "Source Login Profile"
+            command: |
+              source .config/profile
+
+          - name: "Source Completion"
+            command: |
+              source .config/zsh/zshrc.d/010-completion.zsh
+
+          - name: "Source Ruby Gem Env"
+            command: |
+              source .config/profile.d/050-env-ruby-gem.sh
+
+          - name: "Source Homebrew Env"
+            command: |
+              source .config/profile.d/050-env-homebrew.sh
+
+          - name: "Startup and Exit Zsh"
+            command: |
+              ZDOTDIR="$(pwd)" zsh -i -l -c exit
+
+    env:
+      HYPERFINE_COMMAND: >-
+        hyperfine
+        --style color
+        --warmup 100
+        --min-runs 10
+        --max-runs 10
+        --cleanup 'sleep 10'
+        --time-unit millisecond
+        --export-json benchmarks.json
+        --shell 'zsh'
+        --command-name "${{ matrix.name }}" "${{ matrix.command }}"
+
     steps:
 
       - name: "Install Hyperfine"
         run: brew install hyperfine
-
-      - name: "Install Numpy"
-        run: brew install numpy
-
-      - name: "Install MatPlotLib"
-        run: brew install python-matplotlib
-
-      - name: "Install SciPy"
-        run: brew install scipy
-
-      - name: "Install Statistics Scripts"
-        run: curl -sSLO "${BASE_URL}{plot_whisker.py,plot_benchmark_comparison.py,plot_histogram.py,plot_progression.py}"
-        env:
-          BASE_URL: https://raw.githubusercontent.com/sharkdp/hyperfine/refs/heads/master/scripts/
 
       - name: "Checkout Reference"
         uses: actions/checkout@v6
@@ -67,21 +83,23 @@ jobs:
         working-directory: old
         run: ${{ env.HYPERFINE_COMMAND }}
         env:
-          XDG_CONFIG_HOME: ${{ github.workspace }}/old/.config
-          XDG_CACHE_HOME: ${{ github.workspace }}/old/.cache
-          XDG_DATA_HOME: ${{ github.workspace }}/old/.local/share
-          XDG_STATE_HOME: ${{ github.workspace }}/old/.local/state
-          XDG_BIN_HOME: ${{ github.workspace }}/old/.local/bin
+          ZDOTDIR: ${{ github.workspace }}/old/
+          XDG_CONFIG_HOME: ${{ github.workspace }}/old/.config/
+          XDG_CACHE_HOME: ${{ github.workspace }}/old/.cache/
+          XDG_DATA_HOME: ${{ github.workspace }}/old/.local/share/
+          XDG_STATE_HOME: ${{ github.workspace }}/old/.local/state/
+          XDG_BIN_HOME: ${{ github.workspace }}/old/.local/bin/
 
       - name: "Run Benchmarks - Current Changes"
         working-directory: new
         run: ${{ env.HYPERFINE_COMMAND }}
         env:
-          XDG_CONFIG_HOME: ${{ github.workspace }}/new/.config
-          XDG_CACHE_HOME: ${{ github.workspace }}/new/.cache
-          XDG_DATA_HOME: ${{ github.workspace }}/new/.local/share
-          XDG_STATE_HOME: ${{ github.workspace }}/new/.local/state
-          XDG_BIN_HOME: ${{ github.workspace }}/new/.local/bin
+          ZDOTDIR: ${{ github.workspace }}/new/
+          XDG_CONFIG_HOME: ${{ github.workspace }}/new/.config/
+          XDG_CACHE_HOME: ${{ github.workspace }}/new/.cache/
+          XDG_DATA_HOME: ${{ github.workspace }}/new/.local/share/
+          XDG_STATE_HOME: ${{ github.workspace }}/new/.local/state/
+          XDG_BIN_HOME: ${{ github.workspace }}/new/.local/bin/
 
       - name: "Merge Benchmarks"
         run: jq --slurp "${JQ_QUERY}" "${OLD_FILE}" "${NEW_FILE}" | tee -a benchmarks-merged.json
@@ -133,7 +151,42 @@ jobs:
               }
             ]
 
-      - name: "Summarise Benchmarks"
+      - id: validate
+        name: "Validate Benchmarks"
+        run: jq --raw-output "${JQ_QUERY}" benchmarks.json
+        env:
+          JQ_QUERY: |
+            .[] |
+            if .mean.change > (.stddev.values[0] * 2)
+            then
+              "::error title=Benchmark Failure: \(.command)::Mean time got worse by more than 2σ" | halt_error
+            elif .median.change > (.stddev.values[0] * 2)
+            then
+              "::error title=Benchmark Failure: \(.command)::Median time got worse by more than 2σ" | halt_error
+            else
+              ""
+            end
+
+      - if: failure() && steps.validate.outcome == 'failure'
+        name: "Install Numpy"
+        run: brew install numpy
+
+      - if: failure() && steps.validate.outcome == 'failure'
+        name: "Install MatPlotLib"
+        run: brew install python-matplotlib
+
+      - if: failure() && steps.validate.outcome == 'failure'
+        name: "Install SciPy"
+        run: brew install scipy
+
+      - if: failure() && steps.validate.outcome == 'failure'
+        name: "Install Statistics Scripts"
+        run: curl -sSLO "${BASE_URL}{plot_whisker.py,plot_benchmark_comparison.py,plot_histogram.py,plot_progression.py,welch_ttest.py}"
+        env:
+          BASE_URL: https://raw.githubusercontent.com/sharkdp/hyperfine/refs/heads/master/scripts/
+
+      - if: failure() && steps.validate.outcome == 'failure'
+        name: "Summarise Benchmarks"
         run: jq --raw-output "${JQ_QUERY}" benchmarks.json | tee -a "${GITHUB_STEP_SUMMARY}"
         env:
           JQ_QUERY: |
@@ -151,46 +204,37 @@ jobs:
               ]
             )[]
 
-      - name: "Create Graph (Box and Whisker)"
-        run: python3 plot_whisker.py benchmarks-merged.json --output plot_whisker.png
+      - if: failure() && steps.validate.outcome == 'failure'
+        name: "Create Graph (Box and Whisker)"
+        run: python3 plot_whisker.py --title "Benchmark Whisker Plot" --output plot_whisker.png benchmarks-merged.json
 
-      - name: "Create Graph (Comparison)"
-        run: python3 plot_benchmark_comparison.py benchmarks-merged.json --output plot_benchmark_comparison.png
+      - if: failure() && steps.validate.outcome == 'failure'
+        name: "Create Graph (Comparison)"
+        run: python3 plot_benchmark_comparison.py --title "Benchmark Comparison" --output plot_benchmark_comparison.png benchmarks-merged.json
 
-      - name: "Create Graph (Histogram)"
-        run: python3 plot_histogram.py benchmarks-merged.json --output plot_histogram.png
+      - if: failure() && steps.validate.outcome == 'failure'
+        name: "Create Graph (Histogram)"
+        run: python3 plot_histogram.py --title "Benchmark Histogram" --output plot_histogram.png benchmarks-merged.json
 
-      - name: "Create Graph (Progression)"
-        run: python3 plot_progression.py benchmarks-merged.json --output plot_progression.png
+      - if: failure() && steps.validate.outcome == 'failure'
+        name: "Create Graph (Progression)"
+        run: python3 plot_progression.py --title "Benchmark Progression" --output plot_progression.png benchmarks-merged.json
 
-      - name: "Summarise Graphs"
+      - if: failure() && steps.validate.outcome == 'failure'
+        name: "Summarise Graphs"
         run: |
           tee -a "${GITHUB_STEP_SUMMARY}" << EOF
           ## Comparison
 
-          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_whisker.png))
+          <p float="left">
+          <img src="$(curl -X POST https://x0.at -F file=@plot_whisker.png)" alt="plot_whisker.png" width="1000"/>
+          <img src="$(curl -X POST https://x0.at -F file=@plot_benchmark_comparison.png)" alt="plot_benchmark_comparison.png" width="1000"/>
+          <img src="$(curl -X POST https://x0.at -F file=@plot_histogram.png)" alt="plot_histogram.png" width="1000"/>
+          <img src="$(curl -X POST https://x0.at -F file=@plot_progression.png)" alt="plot_progression.png" width="1000"/>
+          </p>
 
-          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_benchmark_comparison.png))
-
-          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_histogram.png))
-
-          ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_progression.png))
+          <!-- ![plot_whisker.png]($(curl -X POST https://x0.at -F file=@plot_whisker.png)) -->
+          <!-- ![plot_benchmark_comparison.png]($(curl -X POST https://x0.at -F file=@plot_benchmark_comparison.png)) -->
+          <!-- ![plot_histogram.png]($(curl -X POST https://x0.at -F file=@plot_histogram.png)) -->
+          <!-- ![plot_progression.png]($(curl -X POST https://x0.at -F file=@plot_progression.png)) -->
           EOF
-
-      - name: "Validate Benchmarks"
-        run: jq --raw-output "${JQ_QUERY}" benchmarks.json
-        env:
-          JQ_QUERY: |
-            .[] |
-            if .mean.change > (.stddev.values[0] * 2)
-            then
-              "::error title=Benchmark Failure: \(.command)::mean time worse by more than 2σ" | halt_error
-            elif .median.change > (.stddev.values[0] * 2)
-            then
-              "::error title=Benchmark Failure: \(.command)::median time worse by more than 2σ" | halt_error
-            #elif (.max.values[1] - .mean.values[0]) > (.stddev.values[0] * 3)
-            #then
-            #  "::error title=Benchmark Failure: \(.command)::max time worse than mean by more than 3σ" | halt_error
-            else
-              ""
-            end

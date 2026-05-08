@@ -1,0 +1,96 @@
+---
+
+name: "AutoFix Known Issues"
+run-name: "AutoFix Known Issues"
+
+on:
+  push:
+    branches-ignore: main
+
+concurrency:
+  group: ${{ github.workflow_ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+
+  autofix:
+    name: "${{ matrix.name }}"
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        include:
+
+          - name: "AutoFix Executable Bit in Shell Scripts"
+            command: |
+              find . -name '*.sh' -exec chmod +x {} \;
+              find . -name '*.profile' -exec chmod +x {} \;
+
+          - name: "AutoFix Executable Bit in Ksh Scripts"
+            command: |
+              find . -name '*.ksh' -exec chmod +x {} \;
+
+          - name: "AutoFix Executable Bit in Bash Scripts"
+            command: |
+              find . -name '*.bash' -exec chmod +x {} \;
+              find . -name '*.bash_profile' -exec chmod +x {} \;
+              find . -name '*.bash_logout' -exec chmod +x {} \;
+              find . -name '*.bashrc' -exec chmod +x {} \;
+              find . -name '*.bash_login' -exec chmod +x {} \;
+
+          - name: "AutoFix Executable Bit in Zsh Scripts"
+            command: |
+              find . -name '*.zsh' -exec chmod +x {} \;
+              find . -name '*.zshenv' -exec chmod +x {} \;
+              find . -name '*.zprofile' -exec chmod +x {} \;
+              find . -name '*.zshrc' -exec chmod +x {} \;
+              find . -name '*.zlogin' -exec chmod +x {} \;
+              find . -name '*.zlogout' -exec chmod +x {} \;
+
+          - name: "AutoFix Executable Bit in Zsh Tests"
+            command: |
+              find . -name '*.zunit' -exec chmod +x {} \;
+
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+          token: ${{ secrets.AUTO_PUSH_ETC || secrets.GITHUB_TOKEN }}
+
+      - name: "${{ matrix.name }}"
+        run: ${{ matrix.command }}
+
+      - id: verify-changed-files
+        name: "Verify Changed Files"
+        uses: tj-actions/verify-changed-files@v20
+        with:
+          fail-if-changed: ${{ github.secret_source == 'Dependabot' }}
+          fail-message: |
+            Dependabot PRs should never trigger autofixes
+
+      - if: steps.verify-changed-files.outputs.files_changed == 'true'
+        name: "Setup GPG Keys"
+        uses: crazy-max/ghaction-import-gpg@v7
+        with:
+          git_commit_gpgsign: true
+          git_user_signingkey: true
+          passphrase: ${{ secrets.AUTO_COMMIT_GPG_PASSPHRASE_ETC }}
+          gpg_private_key: ${{ secrets.AUTO_COMMIT_GPG_PRIVATE_KEY_ETC }}
+
+      - if: steps.verify-changed-files.outputs.files_changed == 'true'
+        name: "Push"
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_author: norwd <106889957+norwd@users.noreply.github.com>
+          commit_user_name: norwd
+          commit_user_email: 106889957+norwd@users.noreply.github.com
+          commit_options: -s -S
+          commit_message: |
+            ${{ matrix.name }}
+
+            This is an automated commit, see `${{ github.workflow_ref }}`.
