@@ -145,8 +145,8 @@ jobs:
                   change: (.[1].median - .[0].median | . * 1000 | round | . / 1000),
                 },
                 stddev: {
-                  values: [ .[].stddev | . * 1000 | round | . / 1000 ],
-                  change: (.[1].stddev - .[0].stddev | . * 1000 | round | . / 1000),
+                  values: [ .[].stddev | ([ . , 0.001 ] | max) | . * 1000 | round | . / 1000 ],
+                  change: (([ .[1].stddev , 0.001 ] | max) - ([ .[0].stddev , 0.001 ] | max) | . * 1000 | round | . / 1000),
                 },
               }
             ]
