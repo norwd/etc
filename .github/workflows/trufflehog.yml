@@ -2,6 +2,7 @@
 
 name: "Run TruffleHog"
 run-name: "Run TruffleHog"
+permissions: {}
 on: push
 
 jobs:
