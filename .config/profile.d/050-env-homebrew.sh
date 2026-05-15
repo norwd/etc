@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck source=/dev/null
 
 if [ -x "$(command -v brew)" ]
 then
