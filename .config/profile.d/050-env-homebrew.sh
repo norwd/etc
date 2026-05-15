@@ -10,6 +10,11 @@ then
 		brew shellenv > "${_brew_shellenv_cache_file}"
 	fi
 
+	if [ ! -x "${_brew_shellenv_cache_file}" ]
+	then
+		chmod +x "${_brew_shellenv_cache_file}"
+	fi
+
 	. "${_brew_shellenv_cache_file}"
 
 	if [ -x "$(command -v bat)" ]
