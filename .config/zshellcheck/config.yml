@@ -4,5 +4,6 @@ disabled_katas:
   - ZC1075 # Unquoted array access is subject to globbing. Quote it.
   - ZC1080 # Glob will error if no matches found. Append `(N)` to make it nullglob.
   - ZC1186 # Use `unset -v name` for variables or `unset -f name` for functions. Bare `unset` is ambiguous about what is being removed.
+  - ZC1188 # Use `path+=(dir)` instead of `export PATH=$PATH:dir`. Zsh ties the `path` array to `$PATH` for cleaner manipulation.
   - ZC1909 # Warn on kexec -l / -e — jumps to an alternate kernel, bypasses bootloader and Secure Boot
   - ZC1928 # Warn on setopt SHARE_HISTORY — every session writes its history into every sibling session
