@@ -1,3 +1,3 @@
 #!/usr/bin/env zsh
 
-setopt AUTO_CD # zshellcheck disable=ZC1787
+setopt AUTO_CD
