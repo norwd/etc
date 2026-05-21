@@ -2,7 +2,7 @@
 
 if [ -x "$(command -v brew)" ]
 then
-	eval "$(brew shellenv)" # zshellcheck disable=ZC1046
+	eval "$(brew shellenv)"
 
 	if [ -x "$(command -v bat)" ]
 	then
