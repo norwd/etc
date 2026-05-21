@@ -10,14 +10,14 @@ then
 	if [ ! -f "${_brew_shellenv_cache_file}" ] || [ -n "$(find "${_brew_shellenv_cache_path}" -name "${_brew_shellenv_cache_base}" -mtime +1)" ]
 	then
 		brew shellenv > "${_brew_shellenv_cache_file}"
-	fi
 
-	if [ ! -x "${_brew_shellenv_cache_file}" ]
-	then
-		chmod +x "${_brew_shellenv_cache_file}"
-	fi
+		if [ ! -x "${_brew_shellenv_cache_file}" ]
+		then
+			chmod +x "${_brew_shellenv_cache_file}"
+		fi
 
-	. "${_brew_shellenv_cache_file}"
+		. "${_brew_shellenv_cache_file}"
+	fi
 
 	if [ -x "$(command -v bat)" ]
 	then
