@@ -1,5 +1,4 @@
 #!/bin/sh
-# zshellcheck disable=ZC1049
 
 # Dotfiles
 alias dotfiles='/usr/bin/git --git-dir="${HOME}/etc/" --work-tree="${HOME}"'
