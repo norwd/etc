@@ -53,9 +53,9 @@ jobs:
       HYPERFINE_COMMAND: >-
         hyperfine
         --style color
-        --warmup 100
-        --min-runs 10
-        --max-runs 10
+        --warmup 10
+        --min-runs 50
+        --max-runs 100
         --cleanup 'sleep 10'
         --time-unit millisecond
         --export-json benchmarks.json
