@@ -1,25 +1,28 @@
 [user]
 	name = Y. Meyer-Norwood
-	email = 106889957+norwd@users.noreply.github.com
 
 # Set `user.signingkey` in `signingkey.gitconfig`
 # ```shell
 # git config --file ~/.config/git/signingkey.gitconfig user.signingkey <gpg-key-id>
 # ```
 [include]
-	path = ~/.config/git/signingkey.gitconfig
+	path = ./signingkey.gitconfig
+
+[includeIf "hasconfig:remote.*.url:git@codeberg.org:**"]
+	path = ./codeberg.gitconfig
+
+[includeIf "hasconfig:remote.*.url:https://codeberg.org/**"]
+	path = ./codeberg.gitconfig
+
+[includeIf "hasconfig:remote.*.url:git@github.com:**"]
+	path = ./github.gitconfig
+
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+	path = ./github.gitconfig
 
 [credential]
 	helper =
 	helper = git-credential-manager
-
-[credential "https://github.com"]
-	helper =
-	helper = !gh auth git-credential
-
-[credential "https://gist.github.com"]
-	helper =
-	helper = !gh auth git-credential
 
 [commit]
 	gpgsign = true

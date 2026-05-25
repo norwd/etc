@@ -1,0 +1,18 @@
+[user]
+	email = 106889957+norwd@users.noreply.github.com
+
+# Set `user.signingkey` in `github.signingkey.gitconfig`
+# ```shell
+# git config --file ~/.config/git/github.signingkey.gitconfig user.signingkey <gpg-key-id>
+# ```
+[include]
+	path = ~/.config/git/github.signingkey.gitconfig
+
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential
+
