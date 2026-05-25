@@ -10,19 +10,19 @@
 # git config --file ~/.config/git/signingkey.gitconfig user.signingkey <gpg-key-id>
 # ```
 [include]
-	path = ./signingkey.gitconfig
+	path = ~/.config/git/signingkey.gitconfig
 
 [includeIf "hasconfig:remote.*.url:git@codeberg.org:**"]
-	path = ./codeberg.gitconfig
+	path = ~/.config/git/codeberg.gitconfig
 
 [includeIf "hasconfig:remote.*.url:https://codeberg.org/**"]
-	path = ./codeberg.gitconfig
+	path = ~/.config/git/codeberg.gitconfig
 
 [includeIf "hasconfig:remote.*.url:git@github.com:**"]
-	path = ./github.gitconfig
+	path = ~/.config/git/github.gitconfig
 
 [includeIf "hasconfig:remote.*.url:https://github.com/**"]
-	path = ./github.gitconfig
+	path = ~/.config/git/github.gitconfig
 
 [commit]
 	gpgsign = true
