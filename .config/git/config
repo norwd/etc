@@ -13,16 +13,16 @@
 	path = ./signingkey.gitconfig
 
 [includeIf "hasconfig:remote.*.url:git@codeberg.org:**"]
-	path = ./codeberg.gitconfig
+	path = ~/.config/git/codeberg.gitconfig
 
 [includeIf "hasconfig:remote.*.url:https://codeberg.org/**"]
-	path = ./codeberg.gitconfig
+	path = ~/.config/git/codeberg.gitconfig
 
 [includeIf "hasconfig:remote.*.url:git@github.com:**"]
-	path = ./github.gitconfig
+	path = ~/.config/git/github.gitconfig
 
 [includeIf "hasconfig:remote.*.url:https://github.com/**"]
-	path = ./github.gitconfig
+	path = ~/.config/git/github.gitconfig
 
 [commit]
 	gpgsign = true
