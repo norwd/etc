@@ -10,7 +10,7 @@
 # git config --file ~/.config/git/signingkey.gitconfig user.signingkey <gpg-key-id>
 # ```
 [include]
-	path = ~/.config/git/signingkey.gitconfig
+	path = ./signingkey.gitconfig
 
 [includeIf "hasconfig:remote.*.url:git@codeberg.org:**"]
 	path = ~/.config/git/codeberg.gitconfig
