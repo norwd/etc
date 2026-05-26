@@ -18,9 +18,6 @@
 	rebase = false
 	autoSetupRemote = true
 
-[alias]
-	yolo = !git commit --no-gpg-sign --no-signoff --all --message \"$(curl --silent programmingexcuses.com | pandoc --from=html --to=plain)\"
-
 [include]
 	path = ./config.d/signingkey ; git config --file ~/.config/git/config.d/signingkey user.signingkey <gpg-key-id>
 
