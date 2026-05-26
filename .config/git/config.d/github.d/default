@@ -1,7 +1,7 @@
 [user]
 	email = 106889957+norwd@users.noreply.github.com
 
-# Set `user.signingkey` in `github.signingkey.gitconfig`
+# Set `user.signingkey`
 # ```shell
 # git config --file ~/.config/git/config.d/github.d/signingkey user.signingkey <gpg-key-id>
 # ```
