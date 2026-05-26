@@ -3,8 +3,8 @@
 
 # Set `user.signingkey` in `codeberg.signingkey.gitconfig`
 # ```shell
-# git config --file ~/.config/git/codeberg.signingkey.gitconfig user.signingkey <gpg-key-id>
+# git config --file ~/.config/git/config.d/codeberg.d/signingkey user.signingkey <gpg-key-id>
 # ```
 [include]
-	path = ~/.config/git/codeberg.signingkey.gitconfig
+	path = signingkey
 

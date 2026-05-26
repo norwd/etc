@@ -3,10 +3,10 @@
 
 # Set `user.signingkey` in `github.signingkey.gitconfig`
 # ```shell
-# git config --file ~/.config/git/github.signingkey.gitconfig user.signingkey <gpg-key-id>
+# git config --file ~/.config/git/config.d/github.d/signingkey user.signingkey <gpg-key-id>
 # ```
 [include]
-	path = ~/.config/git/github.signingkey.gitconfig
+	path = signingkey
 
 [credential "https://github.com"]
 	helper =
