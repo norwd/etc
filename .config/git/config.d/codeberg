@@ -1,0 +1,14 @@
+[includeIf "hasconfig:remote.*.url:codeberg.org/**"] path = codeberg.d/default
+[includeIf "hasconfig:remote.*.url:codeberg.org/*/*"] path = codeberg.d/default
+[includeIf "hasconfig:remote.*.url:git@codeberg.org/**"] path = codeberg.d/default
+[includeIf "hasconfig:remote.*.url:git@codeberg.org/*/*"] path = codeberg.d/default
+[includeIf "hasconfig:remote.*.url:git@codeberg.org:**"] path = codeberg.d/default
+[includeIf "hasconfig:remote.*.url:git@codeberg.org:*/*"] path = codeberg.d/default
+[includeIf "hasconfig:remote.*.url:ssh://git@codeberg.org/**"] path = codeberg.d/default
+[includeIf "hasconfig:remote.*.url:ssh://git@codeberg.org/*/*"] path = codeberg.d/default
+[includeIf "hasconfig:remote.*.url:ssh://git@codeberg.org:**"] path = codeberg.d/default
+[includeIf "hasconfig:remote.*.url:ssh://git@codeberg.org:*/*"] path = codeberg.d/default
+[includeIf "hasconfig:remote.*.url:http://codeberg.org/**"] path = codeberg.d/default
+[includeIf "hasconfig:remote.*.url:http://codeberg.org/*/*"] path = codeberg.d/default
+[includeIf "hasconfig:remote.*.url:https://codeberg.org/**"] path = codeberg.d/default
+[includeIf "hasconfig:remote.*.url:https://codeberg.org/*/*"] path = codeberg.d/default
