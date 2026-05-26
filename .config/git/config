@@ -12,13 +12,13 @@
 [include]
 	path = ./signingkey.gitconfig
 
-[includeIf "hasconfig:remote.*.url:git@codeberg.org:**"]
+[includeIf "hasconfig:remote.*.url:ssh://git@codeberg.org/**"]
 	path = ~/.config/git/codeberg.gitconfig
 
 [includeIf "hasconfig:remote.*.url:https://codeberg.org/**"]
 	path = ~/.config/git/codeberg.gitconfig
 
-[includeIf "hasconfig:remote.*.url:git@github.com:**"]
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/**"]
 	path = ~/.config/git/github.gitconfig
 
 [includeIf "hasconfig:remote.*.url:https://github.com/**"]
