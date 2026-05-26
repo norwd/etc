@@ -5,25 +5,6 @@
 	helper =
 	helper = git-credential-manager
 
-# Set `user.signingkey` in `signingkey.gitconfig`
-# ```shell
-# git config --file ~/.config/git/signingkey.gitconfig user.signingkey <gpg-key-id>
-# ```
-[include]
-	path = ./signingkey.gitconfig
-
-[includeIf "hasconfig:remote.*.url:ssh://git@codeberg.org/**"]
-	path = ~/.config/git/codeberg.gitconfig
-
-[includeIf "hasconfig:remote.*.url:https://codeberg.org/**"]
-	path = ~/.config/git/codeberg.gitconfig
-
-[includeIf "hasconfig:remote.*.url:ssh://git@github.com/**"]
-	path = ~/.config/git/github.gitconfig
-
-[includeIf "hasconfig:remote.*.url:https://github.com/**"]
-	path = ~/.config/git/github.gitconfig
-
 [commit]
 	gpgsign = true
 
@@ -39,3 +20,15 @@
 
 [alias]
 	yolo = !git commit --no-gpg-sign --no-signoff --all --message \"$(curl --silent programmingexcuses.com | pandoc --from=html --to=plain)\"
+
+[include]
+	path = ./config.d/signingkey ; git config --file ~/.config/git/config.d/signingkey user.signingkey <gpg-key-id>
+
+[include]
+	path = ./config.d/github
+
+[include]
+	path = ./config.d/codeberg
+
+[include]
+	path = ./config.d/aliases
