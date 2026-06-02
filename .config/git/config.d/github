@@ -1,0 +1,14 @@
+[includeIf "hasconfig:remote.*.url:github.com/**"] path = github.d/default
+[includeIf "hasconfig:remote.*.url:github.com/*/*"] path = github.d/default
+[includeIf "hasconfig:remote.*.url:git@github.com/**"] path = github.d/default
+[includeIf "hasconfig:remote.*.url:git@github.com/*/*"] path = github.d/default
+[includeIf "hasconfig:remote.*.url:git@github.com:**"] path = github.d/default
+[includeIf "hasconfig:remote.*.url:git@github.com:*/*"] path = github.d/default
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/**"] path = github.d/default
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/*/*"] path = github.d/default
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com:**"] path = github.d/default
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com:*/*"] path = github.d/default
+[includeIf "hasconfig:remote.*.url:http://github.com/**"] path = github.d/default
+[includeIf "hasconfig:remote.*.url:http://github.com/*/*"] path = github.d/default
+[includeIf "hasconfig:remote.*.url:https://github.com/**"] path = github.d/default
+[includeIf "hasconfig:remote.*.url:https://github.com/*/*"] path = github.d/default

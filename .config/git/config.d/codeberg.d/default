@@ -1,0 +1,10 @@
+[user]
+	email = norwd@noreply.codeberg.org
+
+# Set `user.signingkey`
+# ```shell
+# git config --file ~/.config/git/config.d/codeberg.d/signingkey user.signingkey <gpg-key-id>
+# ```
+[include]
+	path = signingkey
+

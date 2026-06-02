@@ -1,0 +1,22 @@
+---
+
+name: "Run TruffleHog"
+run-name: "Run TruffleHog"
+permissions: {}
+on: push
+
+jobs:
+  trufflehog:
+    name: "Run TruffleHog"
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: "Run TruffleHog"
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --results=verified,unknown

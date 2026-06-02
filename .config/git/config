@@ -1,25 +1,9 @@
 [user]
 	name = Y. Meyer-Norwood
-	email = 106889957+norwd@users.noreply.github.com
-
-# Set `user.signingkey` in `signingkey.gitconfig`
-# ```shell
-# git config --file ~/.config/git/signingkey.gitconfig user.signingkey <gpg-key-id>
-# ```
-[include]
-	path = ~/.config/git/signingkey.gitconfig
 
 [credential]
 	helper =
 	helper = git-credential-manager
-
-[credential "https://github.com"]
-	helper =
-	helper = !gh auth git-credential
-
-[credential "https://gist.github.com"]
-	helper =
-	helper = !gh auth git-credential
 
 [commit]
 	gpgsign = true
@@ -34,5 +18,14 @@
 	rebase = false
 	autoSetupRemote = true
 
-[alias]
-	yolo = !git commit --no-gpg-sign --no-signoff --all --message \"$(curl --silent programmingexcuses.com | pandoc --from=html --to=plain)\"
+[include]
+	path = ./config.d/signingkey ; git config --file ~/.config/git/config.d/signingkey user.signingkey <gpg-key-id>
+
+[include]
+	path = ./config.d/github
+
+[include]
+	path = ./config.d/codeberg
+
+[include]
+	path = ./config.d/aliases

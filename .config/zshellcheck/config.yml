@@ -1,7 +1,15 @@
 disabled_katas:
   - ZC1010 # Use `[[ ... ]]` instead of `[ ... ]` or `test`. `[[` is safer and more powerful.
+  - ZC1046 # Avoid `eval`. It allows execution of arbitrary code and is hard to debug.
+  - ZC1049 # Prefer functions over aliases. Aliases are expanded at parse time and can behave unexpectedly in scripts.
   - ZC1075 # Unquoted array access is subject to globbing. Quote it.
   - ZC1080 # Glob will error if no matches found. Append `(N)` to make it nullglob.
+  - ZC1098 # Use the `(q)` flag (or `(qq)`, `(q-)`) when using variables in `eval` to prevent injection.
+  - ZC1104 # Use the `path` array instead of manually manipulating the `$PATH` string.
   - ZC1186 # Use `unset -v name` for variables or `unset -f name` for functions. Bare `unset` is ambiguous about what is being removed.
+  - ZC1188 # Use `path+=(dir)` instead of `export PATH=$PATH:dir`. Zsh ties the `path` array to `$PATH` for cleaner manipulation.
+  - ZC1330 # Avoid `$INPUTRC` in Zsh — Zsh uses `bindkey` and ZLE, not readline. `INPUTRC` is Bash-specific.
+  - ZC1787 # `setopt AUTO_CD` turns any bare directory name into a silent `cd`. A typo or a user-controlled value reshapes `$PWD`; keep this in `~/.zshrc`, not in scripts.
+  - ZC1789 # `setopt CORRECT` enables `CORRECT` — Zsh spellcheck silently rewrites tokens that look mistyped. In a script that corrupts file paths and steals stdin for the correction prompt. Keep in `~/.zshrc`.
   - ZC1909 # Warn on kexec -l / -e — jumps to an alternate kernel, bypasses bootloader and Secure Boot
   - ZC1928 # Warn on setopt SHARE_HISTORY — every session writes its history into every sibling session
