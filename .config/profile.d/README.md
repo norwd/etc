@@ -1,4 +1,4 @@
-# ~/.config/profile.d/
+# `XDG_CONFIG_HOME/profile.d/`
 
 This is my user-local equivalent to `/etc/profile.d/`,
 these are invoked through `$XDG_CONFIG_HOME/profile` (analogous to `/etc/profile`).
