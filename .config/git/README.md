@@ -1,4 +1,4 @@
-# XDG_CONFIG_HOME/git/
+# `XDG_CONFIG_HOME/git/`
 
 Git naitively supports the XDG base directory standard[^git-config-file-paths],
 which allows this directory to contain all the git files that would otherwise be in `~`.
