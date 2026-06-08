@@ -33,12 +33,14 @@ While not currently provided,
 this strategy also allows `$HOME/.profile` to be linked to `$XDG_CONFIG_HOME/profile`.
 This has mixed benfits depending on the desired login shell:
 * `bash` - Only works in `--posix` mode, doesn't source Bash specific config files if specified.
-* `dash` - Only execs `.profile` once on login, no subsequent invokations.
-  This can be worked around by setting `export ENV="$XDG_CONFIG_HOME/profile"` _in_ `$XDG_CONFIG_HOME/profile`...
+* `dash` - Only execs `.profile` once on login, no subsequent invokations.[^dash-env-profile-hack]
+* `ksh` - Works correctly.
+* `zsh` - Ignores `.profile`[^zsh-env-profile-hack].
+
+[^dash-env-profile-hack]: This can be worked around by setting `export ENV="$XDG_CONFIG_HOME/profile"` _in_ `$XDG_CONFIG_HOME/profile`...
   which obviously comes with caveats.
-* `ksh` - Works correctly
-* `zsh` - Ignores `.profile`,
-  can be faked with `ENV` similarly to `dash`,
+
+[^zsh-env-profile-hack]: Can be faked with `ENV` similarly to `dash`,
   but if set, _only `ENV`_ is read, `ZDOTDIR` is then ignored.
 
 ## `zsh/`
