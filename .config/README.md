@@ -16,7 +16,7 @@ Most of these subdirectories are either undocumented,
 or are simply too self expanitory and/or bog-standard to bother,
 however, some notable cusomisations are my various shell rc files.
 
-## ~/.config/profile.d/
+## `XDG_CONFIG_HOME/profile.d/`
 
 Since I treat `XDG_CONFIG_HOME` as an analogy of `/etc`,
 I've replicated `/etc/profile`[^etc-profile] and `/etc/profile.d/` in `XDG_CONFIG_HOME`.
@@ -43,7 +43,7 @@ This has mixed benfits depending on the desired login shell:
 [^zsh-env-profile-hack]: Can be faked with `ENV` similarly to `dash`,
   but if set, _only `ENV`_ is read, `ZDOTDIR` is then ignored.
 
-## ~/.config/zsh/
+## `XDG_CONFIG_HOME/zsh/`
 
 This is what `ZDOTDIR` is set to, allowing `.zshrc`, `.zprofile`, etc... to be kept out of `$HOME`.
 The standard way to bootstrap this is to `export ZDOTDIR="$XDG_CONFIG_HOME/zsh/"` in `/etc/zshenv`,
