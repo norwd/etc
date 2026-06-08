@@ -13,7 +13,7 @@ While not strictly enforced, I've settled on a loose convention of
 I've also loosely used `xx5-*.sh` as a shorthand for subfiles.
 Anything sharing a prefix number is assumed to be of equivalent priority and can
 _in principle_
-be sourced in an order.
+be sourced in any order.
 
 [^shellcheck]: The `$XDG_CONFIG_HOME/profile.d/*.sh` scripts are strictly POSIX `sh(1)`.
   This neutrality allows the scripts to be called in both Zsh or Dash startup files.
