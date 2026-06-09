@@ -1,0 +1,22 @@
+---
+
+name: "Run Reuse"
+run-name: "Run Reuse"
+permissions: {}
+on: push
+
+jobs:
+
+  reuse:
+    name: "Run Reuse"
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - name: "Install"
+        run: sudo apt install reuse
+
+      - name: "Lint"
+        run: reuse lint
