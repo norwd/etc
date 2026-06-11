@@ -1,3 +1,8 @@
+#
+# Copyright (C) 2026 Y. Meyer-Norwood
+# This file is distributed under the Hippocratic License 3.0 (HL3-CL-ECO-LAW-MIL-SV)
+#
+
 # name:    add-default-case
 # desc:    Suggest adding a default case in `case` statements
 # example: case $? in 0) echo 'Success';; esac

@@ -1,3 +1,8 @@
+#
+# Copyright (C) 2026 Y. Meyer-Norwood
+# This file is distributed under the Hippocratic License 3.0 (HL3-CL-ECO-LAW-MIL-SV)
+#
+
 disabled_katas:
   - ZC1010 # Use `[[ ... ]]` instead of `[ ... ]` or `test`. `[[` is safer and more powerful.
   - ZC1046 # Avoid `eval`. It allows execution of arbitrary code and is hard to debug.
