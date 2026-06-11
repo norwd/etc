@@ -1,6 +1,11 @@
 #!/bin/sh
 # shellcheck source=/dev/null
 
+#
+# Copyright (C) 2026 Y. Meyer-Norwood
+# This file is distributed under the Hippocratic License 3.0 (HL3-CL-ECO-LAW-MIL-SV)
+#
+
 if [ -x "$(command -v brew)" ]
 then
 	_brew_shellenv_cache_file="${XDG_CONFIG_HOME:-${HOME}/.config}/profile.d/051-env-homebrew-shellenv-cache.sh"
