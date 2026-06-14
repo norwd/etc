@@ -1,0 +1,71 @@
+#
+# SPDX-FileCopyrightText: 2026 Y. Meyer-Norwood <norwd@noreply.codeberg.org>
+# SPDX-FileCopyrightText: 2026 Y. Meyer-Norwood <106889957+norwd@users.noreply.github.com>
+# SPDX-License-Identifier: Hippocratic-3.0-CL-ECO-LAW-MIL-SV.txt
+#
+
+---
+
+name: "Run Reuse"
+run-name: "Run Reuse"
+permissions: {}
+on: push
+
+jobs:
+
+  reuse:
+    name: "Run Reuse"
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - name: "Install"
+        run: sudo apt install reuse
+
+      - id: reuse-lint
+        name: "Lint"
+        run: reuse lint --json | tee reuse.json
+
+      - if: always()
+        name: "Assert No Licenses Are Missing"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.non_compliant.missing_licenses | to_entries | length == 0'
+
+      - if: always()
+        name: "Assert No Licenses Are Unused"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.non_compliant.unused_licenses | length == 0'
+
+      - if: always()
+        name: "Assert No Licenses Are Deprecated"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.non_compliant.deprecated_licenses | length == 0'
+
+      - if: always()
+        name: "Assert No Licenses Are Unknown"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.non_compliant.bad_licenses | to_entries | length == 0'
+
+      - if: always()
+        name: "Assert No Files Are Missing Copyright Info"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.non_compliant.missing_copyright_info | length == 0'
+
+      - if: always()
+        name: "Assert No Files Are Missing Licensing Info"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.non_compliant.missing_licensing_info | length == 0'
+
+      - if: always()
+        name: "Assert Compliance"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.summary.compliant'
