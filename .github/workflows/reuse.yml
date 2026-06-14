@@ -26,4 +26,19 @@ jobs:
 
       - id: reuse-lint
         name: "Lint"
-        run: reuse lint --json
+        run: reuse lint --json | tee reuse.json
+
+      - name: "Assert No Files Are Missing Copyright Info"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.non_compliant.missing_copyright_info | length'
+
+      - name: "Assert No Files Are Missing Licensing Info"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.non_compliant.missing_licensing_info | length'
+
+      - name: "Assert Compliance"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.summary.compliant'
