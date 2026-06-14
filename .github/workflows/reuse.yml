@@ -28,17 +28,20 @@ jobs:
         name: "Lint"
         run: reuse lint --json | tee reuse.json
 
-      - name: "Assert No Files Are Missing Copyright Info"
+      - if: always()
+        name: "Assert No Files Are Missing Copyright Info"
         run: jq --exit-status "${JQ_QUERY}" reuse.json
         env:
-          JQ_QUERY: '.non_compliant.missing_copyright_info | length'
+          JQ_QUERY: '.non_compliant.missing_copyright_info | length == 0'
 
-      - name: "Assert No Files Are Missing Licensing Info"
+      - if: always()
+        name: "Assert No Files Are Missing Licensing Info"
         run: jq --exit-status "${JQ_QUERY}" reuse.json
         env:
-          JQ_QUERY: '.non_compliant.missing_licensing_info | length'
+          JQ_QUERY: '.non_compliant.missing_licensing_info | length == 0'
 
-      - name: "Assert Compliance"
+      - if: always()
+        name: "Assert Compliance"
         run: jq --exit-status "${JQ_QUERY}" reuse.json
         env:
           JQ_QUERY: '.summary.compliant'
