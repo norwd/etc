@@ -6,20 +6,28 @@
 
 ---
 
-name: "Run ActionLint"
-run-name: "Run ActionLint"
+name: "Run Reuse"
+run-name: "Run Reuse"
 permissions: {}
 on: push
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
 
-  actionlint:
-    name: "Run ActionLint"
+  reuse:
+    name: "Run Reuse"
     runs-on: ubuntu-latest
     steps:
 
       - name: "Checkout"
         uses: actions/checkout@v6
 
-      - name: "Run ActionLint"
-        uses: norwd/actionlint@main
+      - name: "Install"
+        run: sudo apt install reuse
+
+      - id: reuse-lint
+        name: "Lint"
+        run: reuse lint | tee -a "${GITHUB_STEP_SUMMARY}"

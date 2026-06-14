@@ -1,8 +1,9 @@
 #!/bin/sh
 
 #
-# Copyright (C) 2026 Y. Meyer-Norwood
-# This file is distributed under the Hippocratic License 3.0 (HL3-CL-ECO-LAW-MIL-SV)
+# SPDX-FileCopyrightText: 2026 Y. Meyer-Norwood <norwd@noreply.codeberg.org>
+# SPDX-FileCopyrightText: 2026 Y. Meyer-Norwood <106889957+norwd@users.noreply.github.com>
+# SPDX-License-Identifier: LicenseRef-Hippocratic-3.0-CL-ECO-LAW-MIL-SV
 #
 
 # Where user-specific configurations should be written (analogous to /etc).
