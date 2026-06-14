@@ -1,5 +1,10 @@
 #!/bin/sh
 
+#
+# Copyright (C) 2026 Y. Meyer-Norwood
+# This file is distributed under the Hippocratic License 3.0 (HL3-CL-ECO-LAW-MIL-SV)
+#
+
 # Where user-specific configurations should be written (analogous to /etc).
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
 

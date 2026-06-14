@@ -1,3 +1,10 @@
+#!/bin/sh
+
+#
+# Copyright (C) 2026 Y. Meyer-Norwood
+# This file is distributed under the Hippocratic License 3.0 (HL3-CL-ECO-LAW-MIL-SV)
+#
+
 export XDG_DESKTOP_DIR="${HOME}/Desktop"
 export XDG_DOCUMENTS_DIR="${HOME}/Documents" # TODO: merge with XDG_DESKTOP_DIR
 export XDG_DOWNLOAD_DIR="${HOME}/Downloads"
