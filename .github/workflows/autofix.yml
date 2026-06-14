@@ -61,8 +61,8 @@ jobs:
 
           - name: "Migrate Licensing Headers"
             command: |
-              find . -name '*' -not -path .github/workflows -exec sed -i 's/Copyright (C) 2026 Y. Meyer-Norwood/SPDX-FileCopyrightText: 2026 Y. Meyer-Norwood <106889957+norwd@users.noreply.github.com>/g' {} \;
-              find . -name '*' -not -path .github/workflows -exec sed -i 's/This file is distributed under the Hippocratic License 3.0 (HL3-CL-ECO-LAW-MIL-SV)/SPDX-License-Identifier: HL3-CL-ECO-LAW-MIL-SV/g' {} \;
+              find . -name '*' -not -name '*.yml' -exec sed -i 's/Copyright (C) 2026 Y. Meyer-Norwood/SPDX-FileCopyrightText: 2026 Y. Meyer-Norwood <106889957+norwd@users.noreply.github.com>/g' {} \;
+              find . -name '*' -not -name '*.yml' -exec sed -i 's/This file is distributed under the Hippocratic License 3.0 (HL3-CL-ECO-LAW-MIL-SV)/SPDX-License-Identifier: HL3-CL-ECO-LAW-MIL-SV/g' {} \;
 
     steps:
 
