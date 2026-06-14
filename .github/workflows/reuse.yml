@@ -50,7 +50,7 @@ jobs:
         name: "Assert No Licenses Are Unknown"
         run: jq --exit-status "${JQ_QUERY}" reuse.json
         env:
-          JQ_QUERY: '.non_compliant.bad_licenses | to_entries | select (.key != "Hippocratic-3.0-CL-ECO-LAW-MIL-SV") | length == 0'
+          JQ_QUERY: '.non_compliant.bad_licenses | to_entries | length == 0'
 
       - if: always()
         name: "Assert No Files Are Missing Copyright Info"
@@ -64,8 +64,8 @@ jobs:
         env:
           JQ_QUERY: '.non_compliant.missing_licensing_info | length == 0'
 
-      # - if: always()
-      #   name: "Assert Compliance"
-      #   run: jq --exit-status "${JQ_QUERY}" reuse.json
-      #   env:
-      #     JQ_QUERY: '.summary.compliant'
+      - if: always()
+        name: "Assert Compliance"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.summary.compliant'
