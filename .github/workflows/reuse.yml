@@ -29,6 +29,30 @@ jobs:
         run: reuse lint --json | tee reuse.json
 
       - if: always()
+        name: "Assert No Licenses Are Missing"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.non_compliant.missing_licenses | to_entries | length == 0'
+
+      - if: always()
+        name: "Assert No Licenses Are Unused"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.non_compliant.unused_licenses | length == 0'
+
+      - if: always()
+        name: "Assert No Licenses Are Deprecated"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.non_compliant.deprecated_licenses | length == 0'
+
+      - if: always()
+        name: "Assert No Licenses Are Unknown"
+        run: jq --exit-status "${JQ_QUERY}" reuse.json
+        env:
+          JQ_QUERY: '.non_compliant.bad_licenses | to_entries | length == 0'
+
+      - if: always()
         name: "Assert No Files Are Missing Copyright Info"
         run: jq --exit-status "${JQ_QUERY}" reuse.json
         env:
