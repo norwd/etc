@@ -37,6 +37,8 @@ jobs:
             chmod 700 ~/.ssh/
             chmod 600 ~/.ssh/id_ed25519
             chmod 600 ~/.ssh/id_ed25519.pub
+            dos2unix ~/.ssh/id_ed25519
+            dos2unix ~/.ssh/id_ed25519.pub
 
         - name: "Clone Source"
           run: git clone --bare git@github.com:${{ github.repository }}.git repo
