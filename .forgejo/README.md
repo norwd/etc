@@ -16,7 +16,7 @@ althought it is not Arch-specific, I also use this on MacOS.
 ### Installation
 
 ```shell
-git clone --bare https://github.com/norwd/etc ~/etc
+git clone --bare ssh://git@codeberg.org/norwd/etc.git ~/etc
 git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
 git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout # re-run if necessary
 ```
