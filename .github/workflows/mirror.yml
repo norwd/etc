@@ -25,38 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-        - name: "Checkout"
-          uses: actions/checkout@v3
-          with:
-            fetch-depth: 0
-
-        # SPDX-SnippetBegin
-        # SPDX-License-Identifier: Apache-2.0
-        # SPDX-SnippetCopyrightText: 2019 Spencer Phillip Young <oss-maintainer-inquiries@spyoung.com>
-        # SPDX-SnippetCopyrightText: 2026 Y. Meyer-Norwood <norwd@noreply.codeberg.org>
-        # SPDX-SnippetCopyrightText: 2026 Y. Meyer-Norwood <106889957+norwd@users.noreply.github.com>
-        - name: "Configure SSH"
-          run: |
-            mkdir -p ~/.ssh
-            chmod 700 ~/.ssh
-            echo "${GIT_SSH_PRIVATE_KEY}" > ~/.ssh/id_ed25519
-            echo "${GIT_SSH_PUBLIC_KEY}" > ~/.ssh/id_ed25519.pub
-            chmod 600 ~/.ssh/id_ed25519.pub
-            chmod 600 ~/.ssh/id_ed25519
-          env:
-            GIT_SSH_PUBLIC_KEY: ${{ secrets.CODEBERG_SSH_PUBLIC_KEY }}
-            GIT_SSH_PRIVATE_KEY: ${{ secrets.CODEBERG_SSH_PRIVATE_KEY }}
-
-        - name: "Configure Git"
-          run: |
-            git config --global --add safe.directory "${{ github.workspace }}"
-            git config --global credential.username "git"
-            git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-
         - name: "Push to Mirror"
           run: |
-            git remote add "mirror" "${REMOTE}"
-            git push -u --verbose "mirror" "${{ github.ref }}"
-          env:
-            REMOTE: "ssh://git@codeberg.org/norwd/etc.git"
-        # SPDX-SnippetEnd
+            git clone --bare git@github.com:${{ github.repository }}.git repo
+            cd repo
+            git push --mirror ssh://git@codeberg.org/${{ github.repository }}.git
