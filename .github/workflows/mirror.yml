@@ -12,8 +12,8 @@ permissions: {}
 
 on:
   push:
-    paths: [.github/workflows/mirror.yml] # Remove before merging
-    # branches: [main] # Uncomment before merging
+    # paths: [.github/workflows/mirror.yml] # Comment out before merging
+    branches: [main] # Uncomment before merging
 
 defaults:
   run:
