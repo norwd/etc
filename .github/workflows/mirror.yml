@@ -28,17 +28,11 @@ jobs:
         - name: "Configure SSH"
           run: |
             mkdir -p ~/.ssh/
-            cat > ~/.ssh/id_ed25519 << EOF
-            ${{ secrets.CODEBERG_SSH_PRIVATE_KEY }}
-            EOF
-            cat > ~/.ssh/id_ed25519.pub << EOF
-            ${{ secrets.CODEBERG_SSH_PUBLIC_KEY }}
-            EOF
+            echo "${{ secrets.CODEBERG_SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+            echo "${{ secrets.CODEBERG_SSH_PUBLIC_KEY }}" > ~/.ssh/id_ed25519.pub
             chmod 700 ~/.ssh/
             chmod 600 ~/.ssh/id_ed25519
             chmod 600 ~/.ssh/id_ed25519.pub
-            sed -i 's/\r//g' ~/.ssh/id_ed25519
-            sed -i 's/\r//g' ~/.ssh/id_ed25519.pub
 
         - name: "Clone Source"
           run: git clone --bare git@github.com:${{ github.repository }}.git repo
