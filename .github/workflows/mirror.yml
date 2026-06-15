@@ -32,6 +32,7 @@ jobs:
         - name: "Push to Mirror"
           uses: yesolutions/mirror-action@master
           with:
-            REMOTE: 'ssh://git@codeberg.org/norwd/etc.git'
+            REMOTE: "ssh://git@codeberg.org/norwd/etc.git"
             GIT_SSH_PRIVATE_KEY: ${{ secrets.CODEBERG_SSH_PRIVATE_KEY }}
             GIT_SSH_NO_VERIFY_HOST: "true"
+            GIT_PUSH_ARGS: ""
