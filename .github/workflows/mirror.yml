@@ -33,8 +33,8 @@ jobs:
             chmod 700 ~/.ssh/
             chmod 600 ~/.ssh/id_ed25519
             chmod 600 ~/.ssh/id_ed25519.pub
-            ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts  
-            ssh-keyscan -t ed25519 codeberg.org >> ~/.ssh/known_hosts  
+            ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts
+            ssh-keyscan -t ed25519 codeberg.org >> ~/.ssh/known_hosts
 
         - name: "Clone Source"
           run: git clone --bare git@github.com:${{ github.repository }}.git repo
