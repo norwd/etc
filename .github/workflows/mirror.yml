@@ -29,11 +29,72 @@ jobs:
           with:
             fetch-depth: 0
 
+        # SPDX-SnippetBegin
+        # SPDX-License-Identifier: Apache-2.0
+        # SPDX-SnippetCopyrightText: 2019 Spencer Phillip Young <oss-maintainer-inquiries@spyoung.com>
+        # SPDX-SnippetCopyrightText: 2026 Y. Meyer-Norwood <norwd@noreply.codeberg.org>
+        # SPDX-SnippetCopyrightText: 2026 Y. Meyer-Norwood <106889957+norwd@users.noreply.github.com>
         - name: "Push to Mirror"
-          uses: yesolutions/mirror-action@master
-          with:
+          run: |
+            #!/usr/bin/env bash
+            set -e
+
+            GIT_USERNAME=${GIT_USERNAME:-"git"}
+            REMOTE=${REMOTE:-"$*"}
+            REMOTE_NAME=${REMOTE_NAME:-"mirror"}
+            GIT_SSH_PRIVATE_KEY=${GIT_SSH_PRIVATE_KEY}
+            GIT_SSH_PUBLIC_KEY=${GIT_SSH_PUBLIC_KEY}
+            GIT_REF=${GIT_REF}
+            GIT_PUSH_ARGS=${GIT_PUSH_ARGS:-"--tags --force --prune"}
+            GIT_SSH_NO_VERIFY_HOST=${GIT_SSH_NO_VERIFY_HOST}
+            GIT_SSH_KNOWN_HOSTS=${GIT_SSH_KNOWN_HOSTS}
+            HAS_CHECKED_OUT="$(git rev-parse --is-inside-work-tree 2>/dev/null || /bin/true)"
+
+            git config --global --add safe.directory /github/workspace
+            git config --global credential.username "${GIT_USERNAME}"
+
+            if [[ "${GIT_SSH_PRIVATE_KEY}" != "" ]]; then
+                mkdir -p ~/.ssh
+                chmod 700 ~/.ssh
+                echo "${GIT_SSH_PRIVATE_KEY}" > ~/.ssh/id_ed25519
+                if [[ "${GIT_SSH_PUBLIC_KEY}" != "" ]]; then
+                    echo "${GIT_SSH_PUBLIC_KEY}" > ~/.ssh/id_ed25519.pub
+                    chmod 600 ~/.ssh/id_ed25519.pub
+                fi
+                chmod 600 ~/.ssh/id_ed25519
+                if [[ "${GIT_SSH_KNOWN_HOSTS}" != "" ]]; then
+                  echo "${GIT_SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
+                  git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -o UserKnownHostsFile=~/.ssh/known_hosts"
+                else
+                  if [[ "${GIT_SSH_NO_VERIFY_HOST}" != "true" ]]; then
+                    echo "WARNING: no known_hosts set and host verification is enabled (the default)"
+                    echo "WARNING: this job will fail due to host verification issues"
+                    echo "Please either provide the GIT_SSH_KNOWN_HOSTS or GIT_SSH_NO_VERIFY_HOST inputs"
+                    exit 1
+                  else
+                    git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+                  fi
+                fi
+            else
+                git config --global core.askPass /cred-helper.sh
+                git config --global credential.helper cache
+            fi
+
+            git remote add ${REMOTE_NAME} "${REMOTE}"
+            if [[ "${PUSH_ALL_REFS}" != "false" ]]; then
+                eval git push ${GIT_PUSH_ARGS} ${REMOTE_NAME} "\"refs/remotes/origin/*:refs/heads/*\""
+            else
+                if [[ "${HAS_CHECKED_OUT}" != "true" ]]; then
+                    echo "FATAL: You must upgrade to using actions inputs instead of args: to push a single branch" > /dev/stderr
+                    exit 1
+                else
+                    eval git push -u ${GIT_PUSH_ARGS} ${REMOTE_NAME} "${GIT_REF}"
+                fi
+            fi
+          env:
             REMOTE: "ssh://git@codeberg.org/norwd/etc.git"
             GIT_SSH_PUBLIC_KEY: ${{ secrets.CODEBERG_SSH_PUBLIC_KEY }}
             GIT_SSH_PRIVATE_KEY: ${{ secrets.CODEBERG_SSH_PRIVATE_KEY }}
             GIT_SSH_NO_VERIFY_HOST: "true"
-            GIT_PUSH_ARGS: ""
+            GIT_PUSH_ARGS: "--verbose"
+        # SPDX-SnippetEnd
