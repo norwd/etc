@@ -1,0 +1,37 @@
+#
+# SPDX-FileCopyrightText: 2026 Y. Meyer-Norwood <norwd@noreply.codeberg.org>
+# SPDX-FileCopyrightText: 2026 Y. Meyer-Norwood <106889957+norwd@users.noreply.github.com>
+# SPDX-License-Identifier: LicenseRef-Hippocratic-3.0-CL-ECO-LAW-MIL-SV
+#
+
+---
+
+name: "Push to Mirror"
+run-name: "Push to Mirror"
+permissions: {}
+
+on:
+  push:
+    paths: [.github/workflows/mirror.yml] # Remove before merging
+    # branches: [main] # Uncomment before merging
+
+defaults:
+  run:
+    shell: bash
+jobs:
+  push-to-mirror:
+    name: "Push to Mirror"
+    runs-on: ubuntu-latest
+    steps:
+
+        - name: "Checkout"
+          uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+
+        - name: "Push to Mirror"
+          uses: yesolutions/mirror-action@master
+          with:
+            REMOTE: 'ssh://git@codeberg.org/norwd/etc.git'
+            GIT_SSH_PRIVATE_KEY: ${{ secrets.CODEBERG_SSH_PRIVATE_KEY }}
+            GIT_SSH_NO_VERIFY_HOST: "true"
