@@ -25,9 +25,12 @@ if [ -x "$(command -v fastfetch)" ] ; then alias neofetch='fastfetch --config ne
 # Drop in replacement for grep is more complex
 if [ -x "$(command -v ug)" ]
 then
+	# SPDX-SnippetBegin
+	# SPDX-License-Identifier: BSD-3-Clause
+	# SPDX-SnippetCopyrightText: Genivia Inc <contact@genivia.com>
+	# SPDX-SnippetCopyrightText: 2021-2025 Robert A. van Engelen <engelen@acm.org>
 	# Taken from ugrep example aliases
 	# https://github.com/Genivia/ugrep#short-and-quick-command-aliases
-	# https://github.com/Genivia/ugrep/blob/c701fb8/LICENSE.txt
 	alias uq='ug -Q'                         # interactive TUI search (uses .ugrep config)
 	alias uz='ug -z'                         # compressed files and archives search (uses .ugrep config)
 	alias ux='ug -U --hexdump'               # binary pattern search (uses .ugrep config)
@@ -40,6 +43,7 @@ then
 	alias zfgrep='ug -zF'                    # find string(s) in compressed files and/or archives
 	alias xdump='ugrep -X ""'                # hexdump files without searching (don't use .ugrep config)
 	alias zmore='ugrep+ -z -I -+ --pager ""' # view compressed, archived and regular files (don't use .ugrep config)
+	# SPDX-SnippetEnd
 fi
 
 # Fuzz
