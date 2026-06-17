@@ -75,24 +75,17 @@ either as `vim` or sometimes as `vi`.
 
 In adition to the reqired dependencies,
 there are some other tools that these dotfiles make use of or configure.
-These are listed bellow, along with installation instructions.
 None of these are escential, but all are highly recommended.
-Unlike other dotfile repos, these are not automatiaclly installed.
+Unlike other dotfile repos, these are not automatically installed.
 This is because not all tools will be used on all installations,
 there's no need to bring arcoss all the development tools onto a media machine,
 similarly, there's no need to install media tools onto a development machine.
-Instead, I organise tools and external software using GitHub[^giveupgithub] Star Lists.
 Any of the repos in these lists can be mixed and matched with these dotfiles.
 
-[^giveupgithub]: This is not ideal;
-  GitHub is a proprietary, trade-secret system that is not Free and Open Souce Software (FOSS).
-  I am deeply concerned about using a proprietary system like GitHub to develop I FOSS projects.
-  I am in the process of migrating away from GitHub and will at some point in the near future manage these somewhere else.
+The majority of these have not yet given up GitHub[^giveupgithub],
+so I maintain CodeBerg mirrors of repositories that I frequently use.
+See the https://codeberg.org/norwd-forks organisation for *some* of the non-required dependencies that I use with this repo.
+
+[^giveupgithub]: GitHub is a proprietary, trade-secret system that is not Free and Open Souce Software (FOSS).
+  I am deeply concerned about using a proprietary system like GitHub to develop my FOSS projects.
   ([See Software Freedom Conservancy's *Give Up  GitHub* site for details](https://GiveUpGitHub.org).)
-
-
-* https://github.com/stars/norwd/lists/vim
-* https://github.com/stars/norwd/lists/macos
-* https://github.com/stars/norwd/lists/fonts
-* https://github.com/stars/norwd/lists/terminal
-* https://github.com/stars/norwd/lists/colourschemes
