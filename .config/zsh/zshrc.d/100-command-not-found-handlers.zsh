@@ -22,7 +22,6 @@ then
 			if read -r -q "?zsh: command not found, install ${cmd} with apt-get [nyae]? "
 			then
 				printf '\nzsh: installing %s...\n' "${cmd}"
-				# shellcheck disable=SC3028
 				$([[ "$UID" == 0 ]] || echo sudo) apt-get install "${cmd}"
 				return 0
 			else
