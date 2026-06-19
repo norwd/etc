@@ -8,6 +8,10 @@
 #
 
 for profile in "${XDG_CONFIG_HOME:-${HOME}/.config}/profile.d/"*.sh # zshellcheck disable=ZC1040
-do [ -r "${profile}" ] && . "${profile}"
+do
+  if [ -r "${profile}" ] # zshellcheck disable=ZC1010
+  then
+    . "${profile}"
+  fi
 done
 unset profile

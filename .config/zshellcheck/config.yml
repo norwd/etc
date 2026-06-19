@@ -6,6 +6,7 @@
 
 disabled_katas:
   - ZC1010 # Use `[[ ... ]]` instead of `[ ... ]` or `test`. `[[` is safer and more powerful.
+  - ZC1037 # Use `print -r --` instead of `echo`. `echo` behaviour varies with options and escape handling; `print -r --` is the reliable Zsh builtin.
   - ZC1046 # Avoid `eval`. It allows execution of arbitrary code and is hard to debug.
   - ZC1049 # Prefer functions over aliases. Aliases are expanded at parse time and can behave unexpectedly in scripts.
   - ZC1075 # Unquoted array access is subject to globbing. Quote it.

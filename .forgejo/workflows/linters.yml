@@ -1,0 +1,68 @@
+#
+# SPDX-FileCopyrightText: 2026 Y. Meyer-Norwood <norwd@noreply.codeberg.org>
+# SPDX-FileCopyrightText: 2026 Y. Meyer-Norwood <106889957+norwd@users.noreply.github.com>
+# SPDX-License-Identifier: LicenseRef-Hippocratic-3.0-CL-ECO-LAW-MIL-SV
+#
+
+---
+
+name: "Run Linters"
+on: push
+concurrency:
+  group: ${{ forgejo.workflow_ref }}
+  cancel-in-progress: true
+
+jobs:
+  linters:
+    name: "Run Linters"
+    runs-on: codeberg-small-lazy
+    timeout-minutes: 10
+    steps:
+
+      - name: "Install Dependencies"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y reuse zsh
+
+          curl -fsSLo- "https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz" | sudo tar xvJ -C /usr/bin --overwrite --strip-components=1 shellcheck-latest/shellcheck
+          curl -fsSLo- "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/v3.7.0/editorconfig-checker-linux-amd64.tar.gz" | sudo tar xvz -C /usr/bin editorconfig-checker
+          curl -fsSLo- "https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh" | sh -v -s -- -b /usr/local/bin
+          curl -fsSLo- "https://astral.sh/ruff/install.sh" | sh -v
+
+          git clone "https://github.com/afadesigns/zshellcheck" "${RUNNER_TEMP}/zshellcheck"
+          (cd "${RUNNER_TEMP}/zshellcheck"; ./install.sh)
+
+          git clone https://github.com/molovo/revolver "${RUNNER_TEMP}/revolver"
+          (cd "${RUNNER_TEMP}/revolver"; chmod u+x revolver; cp revolver /usr/local/bin)
+
+          git clone https://github.com/zunit-zsh/zunit "${RUNNER_TEMP}/zunit"
+          (cd "${RUNNER_TEMP}/zunit"; ./build.zsh; cp zunit /usr/local/bin)
+
+          git clone --bare --branch "${FORGEJO_REF_NAME}" --single-branch "${FORGEJO_SERVER_URL}/${FORGEJO_REPOSITORY}" ~/etc
+          git --git-dir="${HOME}/etc/" config --local status.showUntrackedFiles no
+          git --git-dir="${HOME}/etc/" --work-tree="${HOME}" checkout
+
+      - name: "Checkout (for linting)"
+        uses: actions/checkout@v6
+
+      - name: "Run Linters"
+        run: |
+          reuse lint
+          ruff check --verbose
+          editorconfig-checker --verbose
+          find . -type f -name "*.zunit" -exec zunit --verbose --tap '{}' +
+          trufflehog git "${FORGEJO_SERVER_URL}/${FORGEJO_REPOSITORY}" --results="verified,unknown" --concurrency="$(nproc)" --no-update --fail
+
+          for _file in $(git ls-files | xargs -IFILE file FILE | grep script | sed 's/:.*//')
+          do
+            for _severity in style info warning error
+            do
+              for _shell in sh ksh bash
+              do
+                shellcheck --shell="${_shell}" --severity "${_severity}" "${_file}"
+              done
+              zshellcheck --severity "${_severity}" "${_file}"
+            done
+          done
+
+...
